@@ -100,9 +100,7 @@
           <nuxt-link to="/admin/login" class="hover:text-yellow-three"
             >Log in</nuxt-link
           >
-          <button class="btn rounded-md border-blue-two border-2">
-            <nuxt-link to="/admin/login">Log in</nuxt-link>
-          </button>
+          
           <button @click="goToBeneficiaries" class="btn bg-yellow-three">
             Be a Spark Beneficiary
           </button>

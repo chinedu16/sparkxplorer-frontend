@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="max-w-screen-2xl mt-12 space-x-4 w-full mx-auto">
+  <div class="px-5">
+    <div class="max-w-screen-2xl mt-12 space-x-4 w-full mx-auto ">
       <span>Account</span>
       <span>/</span>
       <span>Laptop</span>
@@ -91,7 +91,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const showOverlay = ref(true);
+const showOverlay = ref(false);
 
 const closeOverlay = () => {
   showOverlay.value = false;

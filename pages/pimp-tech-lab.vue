@@ -2,7 +2,7 @@
   <div>
     <div class="h-20 bg-blue-three relative">
       <div
-        class="h-20 absolute left-0 -bottom-7 rounded-r-2xl px-20 text-2xl font-bold flex justify-center items-center bg-yellow-three w-fit"
+        class="h-14 lg:h-20 absolute left-0 -bottom-7 rounded-r-2xl px-10 md:px-20 lg:text-2xl font-bold flex justify-center items-center bg-yellow-three w-fit"
       >
       Pimp my TechLab
       </div>
@@ -13,9 +13,9 @@
         <div class="">
           <div class="flex items-center px-5 justify-center">
             <div class="max-w-screen-2xl w-full mx-auto">
-              <div class="flex justify-between">
-                <div class="w-4/6">
-                  <p class="text-xl mt-5">
+              <div class="lg:flex justify-between">
+                <div class="lg:w-4/6">
+                  <p class="text-sm lg:text-xl mt-5">
                     Product nameStream 11MicroprocessorIntel® Celeron(up to 2.5
                     GHz with Intel® Turbo Boost Technology, 6 MB L3 cache, 4
                     cores)ChipsetIntel® Integrated SoCMemory, standard2 GB
@@ -40,16 +40,16 @@
                     featuresAudio by ; Dual speakers; HP Audio Boost 1.0
                   </p>
                 </div>
-                <div class="w-2/6">
+                <div class="lg:w-2/6 mt-10 lg:mt-0">
                   <div class="relative flex justify-end">
                     <img
                       src="@/assets/images/illustrations/launch-one.png"
                       alt=""
                       srcset=""
-                      class="z-10 w-4/5 h-full relative"
+                      class="z-10 lg:w-4/5 h-full relative"
                     />
                     <div
-                      class="bg-black z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
+                      class="bg-black hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
                     ></div>
                   </div>
                 </div>
@@ -58,16 +58,16 @@
           </div>
         </div>
       </div>
-      <div class="max-w-screen-2xl mt-5 w-full mx-auto">
-        <h4 class="font-semibold text-2xl">Available Schools</h4>
-        <div class="mt-10  grid grid-cols-2 gap-6">
+      <div class="max-w-screen-2xl mt-10 lg:mt-5 w-full mx-auto px-5">
+        <h4 class="font-semibold text-lg lg:text-2xl">Available Schools</h4>
+        <div class="mt-10 grid lg:grid-cols-2 gap-6">
           <div>
             <img class="h-96 w-full object-cover" src="../assets/images/illustrations/team-1.png" alt="" />
-            <div class="py-6 shadow-hero px-11">
+            <div class="py-6 shadow-hero px-5 lg:px-11">
               <h4 class="text-xl font-bold text-blue-three">
                 Glowfied International School
               </h4>
-              <div class="space-y-3">
+              <div class="text-sm lg:text-base space-y-3">
                 <div>Location: Dalax, United USA</div>
                 <div
                   >Glowfield school is an institution designed to provide
@@ -95,11 +95,11 @@
           </div>
           <div>
             <img class="h-96 w-full object-cover" src="../assets/images/illustrations/team-1.png" alt="" />
-            <div class="py-6 shadow-hero px-11">
+            <div class="py-6 shadow-hero px-5 lg:px-11">
               <h4 class="text-xl font-bold text-blue-three">
                 Glowfied International School
               </h4>
-              <div class="space-y-3">
+              <div class="text-sm lg:text-base space-y-3">
                 <div>Location: Dalax, United USA</div>
                 <div
                   >Glowfield school is an institution designed to provide

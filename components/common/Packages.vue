@@ -62,7 +62,7 @@
           <div class="max-w-screen-2xl w-full mx-auto">
             <div class="lg:flex justify-between lg:space-x-20 items-center">
               <div class="lg:w-3/6 mb-10 lg:mb-0">
-                <div class="relative flex justify-center lg:justify-end">
+                <div class="relative flex justify-center lg:justify-start">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
@@ -153,7 +153,7 @@
           <div class="max-w-screen-2xl w-full mx-auto">
             <div class="lg:flex justify-between lg:space-x-20 items-center">
               <div class="lg:w-3/6 mb-10 lg:mb-0">
-                <div class="relative flex justify-center lg:justify-end">
+                <div class="relative flex justify-center lg:justify-start">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
