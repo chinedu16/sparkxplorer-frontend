@@ -1,15 +1,15 @@
 <template>
   <div>
     <div
-      style="padding: 40px"
-      class="text-white mt-7 text-2xl font-semibold w-fit py-7 rounded-r-2xl bg-blue-three"
+      
+      class="text-white mt-7 text-lg bg-blue-three font-semibold lg:font-bold w-fit rounded-r-lg lg:text-xl py-4 lg:py-8 px-10 lg:px-14"
     >
       Be a Spark Beneficiary
     </div>
 
-    <div class="mt-10 max-w-screen-2xl w-9/12 mx-auto">
-      <div class="border shadow-button rounded-lg px-20 py-10">
-        <h4 class="text-3xl text-blue-two font-semibold">Fill out this form</h4>
+    <div class="mt-10 max-w-screen-2xl lg:w-9/12 mx-auto px-5 ">
+      <div class="border shadow-button rounded-lg px-5 lg:px-20 py-10">
+        <h4 class="lg:text-3xl text-blue-two font-semibold">Fill out this form</h4>
         <div class="mt-10 space-y-4">
           <input
             type="text"
@@ -49,7 +49,7 @@
         <div class="mt-20">
           <button
             @click="handleSubmit"
-            class="w-full h-16 uppercase text-white bg-blue-three btn"
+            class="w-full h-10 lg:h-16 uppercase text-white bg-blue-three px-10  font-semibold lg:font-bold"
           >
             Submit
           </button>

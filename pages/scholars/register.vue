@@ -2,7 +2,7 @@
   <div>
     <div class="h-20 bg-green-two relative">
       <div
-        class="h-20 absolute left-0 -bottom-7 rounded-r-2xl px-20 text-2xl font-bold flex justify-center items-center bg-yellow-three w-fit"
+        class="h-14 lg:h-20 absolute left-0 -bottom-7 rounded-r-2xl px-10 md:px-20 lg:text-2xl font-bold flex justify-center items-center bg-yellow-three w-fit"
       >
         Spark Scholars Registration Form
       </div>
@@ -18,9 +18,9 @@
     >
       <div class="mt-10">
         <div class="max-w-screen-2xl mt-5 w-full mx-auto">
-          <h4 class="font-semibold text-2xl">Fill out this form</h4>
+          <h4 class="px-5 md:px-10 font-semibold lg:text-2xl">Fill out this form</h4>
 
-          <div class="px-10 mt-10 space-y-5">
+          <div class="px-5 md:px-10 mt-10 space-y-5">
             <div
               class="border rounded space-y-7 p-6"
               v-for="(domain, index) in dynamicValidateForm.child"
@@ -96,7 +96,7 @@
             </div>
 
             <div class="flex justify-center">
-              <el-form-item class="w-1/5">
+              <el-form-item class="md:w-1/5">
                 <el-button
                   @click="addDomain"
                   :style="{
@@ -115,13 +115,13 @@
       </div>
 
       <div
-        class="bg-gray-one text-white px-20 w-fit my-6 h-14 rounded-r-2xl flex items-center justify-center"
+        class="bg-gray-one text-white px-10 md:px-20 w-fit my-6 h-14 rounded-r-2xl flex items-center justify-center"
       >
         Parent/Guardian Information:
       </div>
 
       <div class="max-w-screen-2xl mt-5 w-full mx-auto">
-        <div class="px-10 mt-3 space-y-7">
+        <div class="px-5 md:px-10 mt-3 space-y-7">
           <el-form-item
             prop="fullname"
             :rules="[
@@ -191,12 +191,12 @@
       </div>
 
       <div
-        class="bg-gray-one text-white px-20 w-fit my-6 h-14 rounded-r-2xl flex items-center justify-center"
+        class="bg-gray-one text-white px-10 md:px-20 w-fit my-6 h-14 rounded-r-2xl flex items-center justify-center"
       >
         Additional Information
       </div>
       <div class="max-w-screen-2xl mt-5 w-full mx-auto">
-        <div class="px-10 mt-3 space-y-5">
+        <div class="px-5 md:px-10 mt-3 space-y-7">
           <el-form-item
             prop="contactMethod"
             :rules="[
@@ -260,14 +260,14 @@
             ]"
             label="Consent and Agreement"
           >
-            <el-checkbox v-model="dynamicValidateForm.agree" size="large">
+            <el-checkbox class="tandc mt-5" v-model="dynamicValidateForm.agree" size="large">
               I agree to the terms and conditions of the Spark Scholars program.
               I consent to my child’s participation in the Spark Scholars
               program
             </el-checkbox>
           </el-form-item>
         </div>
-        <div class="mt-20 px-10">
+        <div class="mt-20 px-5 md:px-10">
           <el-button
             :loading="loading"
             @click.prevent="submitForm(formRef)"
@@ -311,7 +311,6 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
-import { storeToRefs } from "pinia";
 import { useSparkStore } from "~/store/spark";
 
 const sparkStore = useSparkStore();
@@ -426,6 +425,12 @@ const resetForm = (formEl: FormInstance | undefined) => {
 };
 </script>
 
-<style scoped>
+<style>
 /* Add your styles here */
+
+.tandc .el-checkbox__label {
+  /* display: none !important; */
+  white-space: normal;
+  line-height: 21px;
+}
 </style>
