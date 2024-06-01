@@ -20,7 +20,7 @@ const heroSlides = ref([
     btn1Text: "Sponsor",
     btn1Url: "/pimp-tech-lab",
     btn2Text: "Become a Spark Champion",
-    btn2Url: "/sponsor",
+    btn2Url: "/",
   },
   {
     id: 3,
@@ -29,9 +29,9 @@ const heroSlides = ref([
       "This is A 3-month IT Fundamentals training program for 50 students per cohort, including 5 laptops for the best IT participants.",
     imgUrl: "/hero-image-3.png",
     btn1Text: "Sponsor",
-    btn1Url: "/sponsor",
+    btn1Url: "/",
     btn2Text: "Become a Spark Champion",
-    btn2Url: "/sponsor",
+    btn2Url: "/",
   },
 ]);
 </script>

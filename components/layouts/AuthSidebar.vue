@@ -89,7 +89,7 @@
         <span>Contact Us</span>
       </nuxt-link>
       <nuxt-link
-        to="/logout"
+        to="/"
         class="hover:text-white text-white flex items-center space-x-3"
       >
         <el-icon>

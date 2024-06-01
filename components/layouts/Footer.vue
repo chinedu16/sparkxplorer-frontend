@@ -54,7 +54,7 @@
             <div>© Copyright 2024, All Rights Reserved</div>
             <div class="mt-10 md:mt-0 space-x-7">
               <nuxt-link to="/">Privacy Policy</nuxt-link>
-              <nuxt-link to="/blog">Terms & Conditions</nuxt-link>
+              <nuxt-link to="/">Terms & Conditions</nuxt-link>
             </div>
           </div>
         </div>

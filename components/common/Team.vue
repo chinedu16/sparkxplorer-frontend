@@ -24,7 +24,7 @@
                 </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -58,7 +58,7 @@
                 </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -92,7 +92,7 @@
                 </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -126,7 +126,7 @@
                 </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
