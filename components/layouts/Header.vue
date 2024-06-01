@@ -24,7 +24,7 @@
               </div>
               <div class="bg-yellow-two h-10 px-10 flex items-center space-x-7">
                 <img
-                  src="@/assets/images/icons/instagram-black.svg"
+                  src="../../assets/images/icons/instagram-social.svg"
                   alt="Instagram"
                 />
                 <img

@@ -23,7 +23,7 @@
                 class="flex items-center justify-center w-14 h-14 rounded-full bg-yellow-three"
               >
                 <img
-                  src="@/assets/images/icons/instagram-black.svg"
+                  src="../../assets/images/icons/instagram-social.svg"
                   alt=""
                   srcset=""
                 />
