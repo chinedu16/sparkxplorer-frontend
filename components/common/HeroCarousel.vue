@@ -20,7 +20,7 @@ const heroSlides = ref([
     btn1Text: "Sponsor",
     btn1Url: "/pimp-tech-lab",
     btn2Text: "Become a Spark Champion",
-    btn2Url: "/sponsor",
+    btn2Url: "/",
   },
   {
     id: 3,
@@ -29,9 +29,9 @@ const heroSlides = ref([
       "This is A 3-month IT Fundamentals training program for 50 students per cohort, including 5 laptops for the best IT participants.",
     imgUrl: "/hero-image-3.png",
     btn1Text: "Sponsor",
-    btn1Url: "/sponsor",
+    btn1Url: "/",
     btn2Text: "Become a Spark Champion",
-    btn2Url: "/sponsor",
+    btn2Url: "/",
   },
 ]);
 </script>
@@ -62,48 +62,48 @@ const heroSlides = ref([
       <SwiperSlide
         v-for="(slide, idx) in heroSlides"
         :key="idx"
-        class="bg-blue-three flex-col text-white"
+        class="bg-blue-three px-5 flex-col text-white"
       >
         <div
-          class="flex items-center max-w-screen-2xl mx-auto w-full justify-between space-x-20"
+          class="lg:flex items-center max-w-screen-2xl mx-auto w-full justify-between lg:space-x-20"
         >
-          <div class="w-1/2">
-            <h1 class="text-5xl" style="text-shadow: 2px 6px 4px #00000040">
+          <div class="lg:w-1/2">
+            <h1 class="text-2xl lg:text-5xl" style="text-shadow: 2px 6px 4px #00000040">
               {{ slide.title }}
             </h1>
-            <p class="mt-6 font-normal text-xl">{{ slide.subtitle }}</p>
-            <div class="space-x-5">
+            <p class="mt-6 font-normal lg:text-xl">{{ slide.subtitle }}</p>
+            <div class="lg:space-x-5 mt-7 lg:flex items-center md:space-x-3 space-y-4">
               <button
-                class="btn shadow-button rounded-md bg-blue-two border-blue-two h-16 border-2 mt-5"
+                class="px-10 text-sm lg:text-lg shadow-button rounded-md bg-blue-two border-blue-two h-10 lg:h-16 border-2"
               >
                 <nuxt-link :to="slide.btn1Url">{{ slide.btn1Text }}</nuxt-link>
               </button>
               <button
-                class="btn shadow-button text-blue-two rounded-md bg-yellow-three h-16"
+                class="px-10 text-sm lg:text-lg shadow-button text-blue-two  h-10 lg:h-16 rounded-md bg-yellow-three"
               >
                 <nuxt-link :to="slide.btn2Url">{{ slide.btn2Text }}</nuxt-link>
               </button>
             </div>
           </div>
-          <div class="w-1/2">
-            <img class="w-full" :src="slide.imgUrl" alt="" />
+          <div class="md:3/6 lg:w-1/2 mt-10 lg:mt-0">
+            <img class="w-full md:w-3/6 lg:w-full" :src="slide.imgUrl" alt="" />
           </div>
         </div>
         <div class="max-w-screen-2xl flex space-x-20 mx-auto w-full">
           <div>
             <img class="w-7 h-7" src="@/assets/images/icons/champions-white.svg" alt="" />
-            <h4 class="mt-1 text-3xl">200+</h4>
-            <p class="font-extralight ">Spark Champions</p>
+            <h4 class="mt-1 lg:text-3xl">200+</h4>
+            <p class="font-extralight text-sm lg:text-base">Spark Champions</p>
           </div>
           <div>
             <img class="w-7 h-7" src="@/assets/images/icons/user-white.svg" alt="" />
-            <h4 class="mt-1 text-3xl">350+</h4>
-            <p class="font-extralight ">Spark Beneficiaries </p>
+            <h4 class="mt-1 lg:text-3xl">350+</h4>
+            <p class="font-extralight text-sm lg:text-base">Spark Beneficiaries </p>
           </div>
           <div>
             <img class="w-7 h-7" src="@/assets/images/icons/laptop-white.svg" alt="" />
-            <h4 class="mt-1 text-3xl">500+</h4>
-            <p class="font-extralight ">Laptop Ordered</p>
+            <h4 class="mt-1 lg:text-3xl">500+</h4>
+            <p class="font-extralight text-sm lg:text-base">Laptop Ordered</p>
           </div>
         </div>
       </SwiperSlide>

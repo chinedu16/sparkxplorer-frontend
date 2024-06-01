@@ -9,3 +9,7 @@
 .form-input {
     @apply border border-gray-300 px-4 py-2 mb-4 w-full;
   }
+
+.el-date-editor.el-input, .el-date-editor.el-input__wrapper {
+  width: 100% !important; 
+}

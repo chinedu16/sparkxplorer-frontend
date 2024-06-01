@@ -4,23 +4,27 @@
       <div class="flex items-center px-5 justify-center">
         <div class="max-w-screen-2xl w-full mx-auto">
           <div class="">
-            <h2 class="text-blue-three text-3xl font-semibold">Our Team</h2>
+            <h2 class="text-blue-three text-xl lg:text-3xl font-semibold">
+              Our Team
+            </h2>
 
-            <div class="mt-12 grid grid-cols-4 gap-5">
+            <div class="mt-12 grid lg:grid-cols-4 gap-5">
               <div class="bg-white rounded-md p-3 shadow-card">
                 <img
                   class="w-full"
                   src="@/assets/images/illustrations/team-1.png"
                   alt=""
                 />
-                <h2 class="text-blue-three text-3xl font-semibold mt-2">
+                <h2 class="text-blue-three lg:text-3xl font-semibold mt-2">
                   Kester Omoragbon
                 </h2>
 
-                <p class="text-gray-one">Digital Marketing specialist</p>
+                <p class="text-gray-one text-sm lg:text-base">
+                  Digital Marketing specialist
+                </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -45,14 +49,16 @@
                   src="@/assets/images/illustrations/team-1.png"
                   alt=""
                 />
-                <h2 class="text-blue-three text-3xl font-semibold mt-2">
+                <h2 class="text-blue-three lg:text-3xl font-semibold mt-2">
                   Kester Omoragbon
                 </h2>
 
-                <p class="text-gray-one">Digital Marketing specialist</p>
+                <p class="text-gray-one text-sm lg:text-base">
+                  Digital Marketing specialist
+                </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -77,14 +83,16 @@
                   src="@/assets/images/illustrations/team-1.png"
                   alt=""
                 />
-                <h2 class="text-blue-three text-3xl font-semibold mt-2">
+                <h2 class="text-blue-three lg:text-3xl font-semibold mt-2">
                   Kester Omoragbon
                 </h2>
 
-                <p class="text-gray-one">Digital Marketing specialist</p>
+                <p class="text-gray-one text-sm lg:text-base">
+                  Digital Marketing specialist
+                </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"
@@ -109,14 +117,16 @@
                   src="@/assets/images/illustrations/team-1.png"
                   alt=""
                 />
-                <h2 class="text-blue-three text-3xl font-semibold mt-2">
+                <h2 class="text-blue-three lg:text-3xl font-semibold mt-2">
                   Kester Omoragbon
                 </h2>
 
-                <p class="text-gray-one">Digital Marketing specialist</p>
+                <p class="text-gray-one text-sm lg:text-base">
+                  Digital Marketing specialist
+                </p>
                 <div class="mt-6 space-x-5 flex">
                   <img
-                    src="@/assets/images/icons/instagram-black.svg"
+                    src="../../assets/images/icons/instagram-social.svg"
                     alt=""
                     srcset=""
                     class="w-6 h-6"

@@ -15,6 +15,11 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useHead({
+  title: "Admin - Spark Brigde",
+  meta: [{ name: "description", content: "Equipping a young mind with the tools to innovate." }],
+});
+</script>
 
 <style scoped></style>

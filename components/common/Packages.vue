@@ -2,19 +2,19 @@
   <div>
     <div class="bg-blue-one relative">
       <div
-        class="bg-blue-three text-white font-bold w-fit rounded-r-lg text-xl py-8 px-14"
+        class="bg-blue-three text-white font-semibold lg:font-bold w-fit rounded-r-lg lg:text-xl py-4 lg:py-8 px-10 lg:px-14"
       >
         Explore our Packages
       </div>
-      <div class="py-28">
+      <div class="py-20 lg:py-28">
         <div class="flex items-center px-5 justify-center">
           <div class="max-w-screen-2xl w-full mx-auto">
-            <div class="flex justify-between space-x-20 items-center">
-              <div class="w-3/6">
-                <h2 class="text-4xl text-blue-three font-bold">
+            <div class="lg:flex justify-between lg:space-x-20 items-center">
+              <div class="lg:w-3/6">
+                <h2 class="text-xl lg:text-4xl text-blue-three font-bold">
                   Spark Chromebook
                 </h2>
-                <p class="text-xl mt-5">
+                <p class="text-sm lg:text-xl mt-5">
                   A bag for less privileged kids in secondary schools. This cost
                   includes shipment, repairs, and a protective bag. Sponsors in
                   turn will recieve a heartfelt thank you letter from
@@ -22,31 +22,31 @@
                   contact details of the beneficiaries for a personal touch and
                   recognition on the platform's website.
                 </p>
-                <div class="mt-4 text-xl font-bold">
+                <div class="mt-4 lg:text-xl font-bold">
                   <span>Price: </span>
-                  <span class="text-3xl">$65</span>
+                  <span class="text-xl lg:text-3xl">$65</span>
                 </div>
                 <div class="mt-7 space-x-5">
-                  <button class="btn h-16 rounded-md text-white bg-blue-three">
+                  <button class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 rounded-md text-white bg-blue-three">
                     <nuxt-link to="/product">Order</nuxt-link>
                   </button>
                   <button
-                    class="btn h-16 border-blue-three text-blue-three rounded-md border"
+                    class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 border-blue-three text-blue-three rounded-md border"
                   >
                     <nuxt-link to="/beneficiaries">Be a Beneficiary</nuxt-link>
                   </button>
                 </div>
               </div>
-              <div class="w-3/6">
-                <div class="relative flex justify-end">
+              <div class="mt-10 lg:mt-0 lg:w-3/6">
+                <div class="relative flex justify-center lg:justify-end">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
                     srcset=""
-                    class="z-10 w-4/5 h-full relative"
+                    class="z-10 lg:w-4/5 h-full relative"
                   />
                   <div
-                    class="bg-blue-three z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
+                    class="bg-blue-three hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
                   ></div>
                 </div>
               </div>
@@ -57,27 +57,27 @@
     </div>
 
     <div class="bg-pink-one">
-      <div class="py-28">
+      <div class="py-20 lg:py-28">
         <div class="flex items-center px-5 justify-center">
           <div class="max-w-screen-2xl w-full mx-auto">
-            <div class="flex justify-between space-x-20 items-center">
-              <div class="w-3/6">
-                <div class="relative">
+            <div class="lg:flex justify-between lg:space-x-20 items-center">
+              <div class="lg:w-3/6 mb-10 lg:mb-0">
+                <div class="relative flex justify-center lg:justify-start">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
                     srcset=""
-                    class="z-10 w-4/5 h-full relative"
+                    class="z-10 lg:w-4/5 h-full relative"
                   />
                   <div
-                    class="bg-pink-two z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -left-4"
+                    class="bg-pink-two hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -left-4"
                   ></div>
                 </div>
               </div>
 
-              <div class="w-3/6">
-                <h2 class="text-4xl text-pink-two font-bold">Spark Laptop</h2>
-                <p class="text-xl mt-5">
+              <div class="lg:w-3/6">
+                <h2 class="text-xl lg:text-4xl text-pink-two font-bold">Spark Laptop</h2>
+                <p class="text-sm lg:text-xl mt-5">
                   $125, a gently used laptop with a bag for privileged
                   undergraduate students. Price include shipment, repairs, and a
                   protective bag. Sponsors in turn will receive a heartfelt
@@ -86,16 +86,17 @@
                   for a personal touch and recognition on the platform's
                   website.
                 </p>
-                <div class="mt-4 text-xl font-bold">
+                
+                <div class="mt-4 lg:text-xl font-bold">
                   <span>Price: </span>
-                  <span class="text-3xl">$125</span>
+                  <span class="text-xl lg:text-3xl">$125</span>
                 </div>
                 <div class="mt-7 space-x-5">
-                  <button class="btn h-16 rounded-md text-white bg-pink-two">
+                  <button class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 rounded-md text-white bg-pink-two">
                     <nuxt-link to="/product">Order</nuxt-link>
                   </button>
                   <button
-                    class="btn h-16 border-pink-two text-pink-two rounded-md border"
+                    class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 border-pink-two text-pink-two rounded-md border"
                   >
                     <nuxt-link to="/beneficiaries">Be a Beneficiary</nuxt-link>
                   </button>
@@ -108,35 +109,35 @@
     </div>
 
     <div class="bg-yellow-one">
-      <div class="py-28">
+      <div class="py-20 lg:py-28">
         <div class="flex items-center px-5 justify-center">
           <div class="max-w-screen-2xl w-full mx-auto">
-            <div class="flex justify-between space-x-20 items-center">
-              <div class="w-3/6">
-                <h2 class="text-4xl text-orange-one font-bold">
+            <div class="lg:flex justify-between lg:space-x-20 items-center">
+              <div class="lg:w-3/6">
+                <h2 class="text-xl lg:text-4xl text-orange-one font-bold">
                   Spark Amplify
                 </h2>
-                <p class="text-xl mt-5">
+                <p class="text-sm lg:text-xl mt-5">
                   Users can amplify their impact by giving out used IT gadgets
                   to spark beneficiaries.
                 </p>
 
                 <div class="mt-7 space-x-5">
-                  <button class="btn h-16 rounded-md text-white bg-orange-one">
+                  <button class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 rounded-md text-white bg-orange-one">
                     <nuxt-link to="/amplified">Amplify</nuxt-link>
                   </button>
                 </div>
               </div>
-              <div class="w-3/6">
-                <div class="relative flex justify-end">
+              <div class="lg:w-3/6 mt-10 lgmt-0">
+                <div class="relative flex justify-center lg:justify-end">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
                     srcset=""
-                    class="z-10 w-4/5 h-full relative"
+                    class="z-10 lg:w-4/5 h-full relative"
                   />
                   <div
-                    class="bg-orange-one z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
+                    class="bg-orange-one hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
                   ></div>
                 </div>
               </div>
@@ -147,29 +148,29 @@
     </div>
 
     <div class="bg-green-one">
-      <div class="py-28">
+      <div class="py-20 lg:py-28">
         <div class="flex items-center px-5 justify-center">
           <div class="max-w-screen-2xl w-full mx-auto">
-            <div class="flex justify-between space-x-20 items-center">
-              <div class="w-3/6">
-                <div class="relative">
+            <div class="lg:flex justify-between lg:space-x-20 items-center">
+              <div class="lg:w-3/6 mb-10 lg:mb-0">
+                <div class="relative flex justify-center lg:justify-start">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
                     srcset=""
-                    class="z-10 w-4/5 h-full relative"
+                    class="z-10 lg:w-4/5 h-full relative"
                   />
                   <div
-                    class="bg-green-two z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -left-4"
+                    class="bg-green-two hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -left-4"
                   ></div>
                 </div>
               </div>
 
-              <div class="w-3/6">
-                <h2 class="text-4xl text-green-two font-bold">
+              <div class="lg:w-3/6">
+                <h2 class="text-xl lg:text-4xl text-green-two font-bold">
                   Spark Scholars
                 </h2>
-                <p class="text-xl mt-5">
+                <p class="text-sm lg:text-xl mt-5">
                   Spark Scholars is a new free after-school practice initiative
                   targeting students within the African community and beyond in
                   the US. The program utilizes the IXL(www.ixl.com) platform for
@@ -181,7 +182,7 @@
                 </p>
 
                 <div class="mt-7 space-x-5">
-                  <button class="btn h-16 rounded-md text-white bg-green-two">
+                  <button class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 rounded-md text-white bg-green-two">
                     <nuxt-link to="/scholars">Learn More</nuxt-link>
                   </button>
                 </div>
@@ -193,13 +194,13 @@
     </div>
 
     <div class="bg-white relative">
-      <div class="py-28">
+      <div class="py-20 lg:py-28">
         <div class="flex items-center px-5 justify-center">
           <div class="max-w-screen-2xl w-full mx-auto">
-            <div class="flex justify-between space-x-20 items-center">
-              <div class="w-3/6">
-                <h2 class="text-4xl text-black font-bold">Pimp My Tech Lab</h2>
-                <p class="text-xl mt-5">
+            <div class="lg:flex justify-between lg:space-x-20 items-center">
+              <div class="lg:w-3/6">
+                <h2 class="text-xl lg:text-4xl text-black font-bold">Pimp My Tech Lab</h2>
+                <p class="text-sm lg:text-xl mt-5">
                   A complete tech lab setup for less    privileged schools,
                   equipping these schools with 50 computers, projectors, PA
                   systems, furniture and a power generator. Sponsors in turn
@@ -210,26 +211,26 @@
                 </p>
 
                 <div class="mt-7 space-x-5">
-                  <button class="btn h-16 rounded-md text-white bg-black">
+                  <button class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 rounded-md text-white bg-black">
                     <nuxt-link to="/pimp-tech-lab">Sponsor</nuxt-link>
                   </button>
                   <button
-                    class="btn h-16 border-black text-black rounded-md border"
+                    class="px-10 font-semibold lg:font-bold h-10 text-sm lg:text-lg lg:h-16 border-black text-black rounded-md border"
                   >
                     Be a Beneficiary
                   </button>
                 </div>
               </div>
-              <div class="w-3/6">
-                <div class="relative flex justify-end">
+              <div class="lg:w-3/6 mt-10 lg:mt-0">
+                <div class="relative flex justify-center lg:justify-end">
                   <img
                     src="@/assets/images/illustrations/launch-one.png"
                     alt=""
                     srcset=""
-                    class="z-10 w-4/5 h-full relative"
+                    class="z-10 lg:w-4/5 h-full relative"
                   />
                   <div
-                    class="bg-black z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
+                    class="bg-black hidden lg:block z-0 h-full w-4/5 rounded-lg absolute -bottom-4 -right-4"
                   ></div>
                 </div>
               </div>

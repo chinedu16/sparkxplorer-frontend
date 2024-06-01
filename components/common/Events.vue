@@ -1,25 +1,25 @@
 <template>
   <div class="bg-white">
-    <div class="py-28">
+    <div class="py-20 lg:py-28">
       <div class="flex items-center px-5 justify-center">
         <div class="max-w-screen-2xl w-full mx-auto">
-          <div class="flex justify-between items-center">
+          <div class="md:flex justify-between items-center">
             <div>
               <span>Our Events</span>
-              <h2 class="text-4xl w-3/5 font-semibold">
+              <h2 class="text-2xl lg:text-4xl lg:w-3/5 font-semibold">
                 Join Upcoming Events Replays & Webinars
               </h2>
             </div>
-            <div>
+            <div class="mt-5 lg:mt-0">
               <button
-                class="rounded-66 h-16 text-white right-0 bg-blue-three btn"
+                class="rounded-66 h-10 lg:h-16 text-white right-0 bg-blue-three px-10 font-semibold"
               >
                 More Events
               </button>
             </div>
           </div>
-          <div class="mt-14 flex space-x-10 justify-between w-full">
-            <div class="w-6/12 space-y-10">
+          <div class="mt-14 lg:flex lg:space-x-10 justify-between w-full">
+            <div class="lg:w-6/12 space-y-10">
               <div class="items-center">
                 <img
                   src="@/assets/images/icons/blog-image.png"
@@ -34,16 +34,16 @@
                       >: AFOLABI ABIODUN</span
                     >
                   </div>
-                  <h5 class="text-2xl border-t pt-2 font-bold">
+                  <h5 class="text-xl lg:text-2xl border-t pt-2 font-bold">
                     ViewPoint with AFO
                   </h5>
-                  <p class="mt-6 text-lg text-gray-one">
+                  <p class="mt-6 text-sm lg:text-lg text-gray-one">
                     Inflation-Adjusted Wages and Biometric Attendance: A Win-Win
                     National Policy for Nigerian Labor Unions and Government
                   </p>
 
                   <div
-                    class="mt-7 bg-gray-two uppercas flex items-center py-4 px-6 w-fit"
+                    class="mt-7 bg-gray-two uppercase flex items-center py-4 px-6 w-fit"
                   >
                     <img
                       src="@/assets/images/icons/locator.svg"
@@ -56,23 +56,23 @@
                 </div>
               </div>
             </div>
-            <div class="w-6/12 space-y-4">
+            <div class="mt-10 lg:mt-0 lg:w-6/12 space-y-4">
               <div class="flex items-center border-b pb-3 space-x-5">
                 <div
-                  class="bg-yellow-three px-4 font-bold h-32 w-28 flex flex-col justify-center items-center"
+                  class="bg-yellow-three px-4 font-bold h-20 md:h-32 w-28 flex flex-col justify-center items-center"
                 >
-                  <div class="text-6xl">18</div>
-                  <div class="text-2xl">June</div>
+                  <div class="text-3xl lg:text-6xl">14</div>
+                  <div class="md:text-2xl">July</div>
                 </div>
                 <div>
-                  <div class="mb-2">
+                  <div class="mb-2 text-sm lg:text-base">
                     <span class="text-gray-one">Organized By</span>
                     <span class="text-blue-two font-semibold"
                       >: AFOLABI ABIODUN</span
                     >
                   </div>
-                  <h5 class="text-2xl font-bold">ViewPoint with AFO</h5>
-                  <p class="mt-6 text-lg text-gray-one">
+                  <h5 class="lg:text-2xl font-bold">ViewPoint with AFO</h5>
+                  <p class="mt-6 text-sm lg:text-lg text-gray-one">
                     Inflation-Adjusted Wages and Biometric Attendance: A Win-Win
                     National Policy for Nigerian Labor Unions and Government
                   </p>
@@ -80,41 +80,41 @@
               </div>
               <div class="flex items-center border-b pb-3 space-x-5">
                 <div
-                  class="bg-yellow-three px-4 font-bold h-32 w-28 flex flex-col justify-center items-center"
+                  class="bg-yellow-three px-4 font-bold h-20 md:h-32 w-28 flex flex-col justify-center items-center"
                 >
-                  <div class="text-6xl">21</div>
-                  <div class="text-2xl">May</div>
+                  <div class="text-3xl lg:text-6xl">14</div>
+                  <div class="md:text-2xl">July</div>
                 </div>
                 <div>
-                  <div class="mb-2">
+                  <div class="mb-2 text-sm lg:text-base">
                     <span class="text-gray-one">Organized By</span>
                     <span class="text-blue-two font-semibold"
                       >: AFOLABI ABIODUN</span
                     >
                   </div>
-                  <h5 class="text-2xl font-bold">ViewPoint with AFO</h5>
-                  <p class="mt-6 text-lg text-gray-one">
+                  <h5 class="lg:text-2xl font-bold">ViewPoint with AFO</h5>
+                  <p class="mt-6 text-sm lg:text-lg text-gray-one">
                     Inflation-Adjusted Wages and Biometric Attendance: A Win-Win
                     National Policy for Nigerian Labor Unions and Government
                   </p>
                 </div>
               </div>
-              <div class="flex items-center border-b pb-3 space-x-5">
+              <div class="flex items-center pb-3 space-x-5">
                 <div
-                  class="bg-yellow-three px-4 font-bold h-32 w-28 flex flex-col justify-center items-center"
+                  class="bg-yellow-three px-4 font-bold h-20 md:h-32 w-28 flex flex-col justify-center items-center"
                 >
-                  <div class="text-6xl">14</div>
-                  <div class="text-2xl">July</div>
+                  <div class="text-3xl lg:text-6xl">14</div>
+                  <div class="md:text-2xl">July</div>
                 </div>
                 <div>
-                  <div class="mb-2">
+                  <div class="mb-2 text-sm lg:text-base">
                     <span class="text-gray-one">Organized By</span>
                     <span class="text-blue-two font-semibold"
                       >: AFOLABI ABIODUN</span
                     >
                   </div>
-                  <h5 class="text-2xl font-bold">ViewPoint with AFO</h5>
-                  <p class="mt-6 text-lg text-gray-one">
+                  <h5 class="lg:text-2xl font-bold">ViewPoint with AFO</h5>
+                  <p class="mt-6 text-sm lg:text-lg text-gray-one">
                     Inflation-Adjusted Wages and Biometric Attendance: A Win-Win
                     National Policy for Nigerian Labor Unions and Government
                   </p>

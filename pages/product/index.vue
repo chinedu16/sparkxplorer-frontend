@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="max-w-screen-2xl mt-12 space-x-4 w-full mx-auto">
+  <div class="px-5">
+    <div class="max-w-screen-2xl mt-12 text-sm lg:text-lg space-x-4 w-full mx-auto">
       <span>Account</span>
       <span>/</span>
       <span>Laptop</span>
@@ -8,13 +8,13 @@
       <span>HP Stream 11-Intel</span>
     </div>
     <div
-      class="max-w-screen-2xl mt-10 w-full space-x-14 items-center mx-auto gallery-container flex"
+      class="max-w-screen-2xl mt-10 w-full lg:space-x-14 items-center mx-auto gallery-container lg:flex"
     >
-      <div class="w-4/6 space-x-5 flex">
+      <div class="lg:w-4/6 lg:space-x-5 lg:flex">
         <!-- Left Side: Thumbnails -->
-        <div class="thumbnails w-1/4 space-y-5">
+        <div class="thumbnails lg:w-1/4 grid grid-cols-4 gap-2 lg:block lg:space-y-5">
           <div
-            class="p-10 rounded-md shadow-card cursor-pointer"
+            class="p-5 lg:p-10 flex rounded-md shadow-card cursor-pointer"
             @click="selectImage(index)"
             v-for="(image, index) in images"
             :key="index"
@@ -22,7 +22,7 @@
             <img
               :src="image.thumbnailUrl"
               :class="{ 'selected-thumbnail': selectedImageIndex === index }"
-              class="thumbnail"
+              class="thumbnail h-16 lg:w-32 lg:h-24 object-contain"
               :alt="'Thumbnail ' + (index + 1)"
             />
           </div>
@@ -30,7 +30,7 @@
 
         <!-- Right Side: Large Image -->
         <div
-          class="large-image rounded-md shadow-card w-3/4 flex justify-center items-center"
+          class="large-image rounded-md shadow-card lg:w-3/4 flex justify-center items-center"
         >
           <img
             :src="images[selectedImageIndex].url"
@@ -39,11 +39,11 @@
           />
         </div>
       </div>
-      <div class="w-2/6">
-        <div class="w-4/5">
-          <h4 class="text-2xl font-semibold ">Hp Window Laptop</h4>
-          <div class="text-4xl my-2 font-semibold text-blue-two ">$125.00</div>
-          <p>
+      <div class="mt-10 md:mt-0 lg:w-2/6">
+        <div class="lg:w-4/5">
+          <h4 class="lg:text-2xl font-semibold ">Hp Window Laptop</h4>
+          <div class="text-xl lg:text-4xl my-2 font-semibold text-blue-two ">$125.00</div>
+          <p class="text-sm lg:text-base">
             HP Stream 11-Intel Laptop with High quality vinyl with air channel
             adhesive for easy bubble free install & mess free removal Pressure
             sensitive.
@@ -85,13 +85,13 @@
       </div>
       <div class="max-w-screen-2xl mt-5 w-full mx-auto space-y-10">
         <div>
-          <h4 class="font-semibold text-xl mb-10 text-blue-two">
+          <h4 class="font-semibold text-base lg:text-xl mb-10 text-blue-two">
             Specifications
           </h4>
-          <div class="space-y-3">
+          <div class="text-sm lg:text-base space-y-3">
             <span>Key Features</span>
             <ul class="list-disc pl-8">
-              <li>32GBHARD DRIVE +  1TB OF OneDrive Cloud Storage</li>
+              <li>32GBHARD DRIVE + 1TB OF OneDrive Cloud Storage</li>
               <li>2GB RAM</li>
               <li>Thinner, Lighter Design</li>
               <li>Fast, Durable And Mobile</li>
@@ -121,17 +121,17 @@
           </div>
         </div>
         <div>
-          <h4 class="font-semibold text-xl mb-10 text-blue-two">
+          <h4 class="font-semibold text-base lg:text-xl mb-10 text-blue-two">
             Product Details
           </h4>
-          <div class="space-y-3">
+          <div class="text-sm lg:text-base space-y-3">
             <span>Product info</span>
             <ul class="list-disc pl-8">
-              <li>32GBHARD DRIVE +  1TB OF OneDrive Cloud Storage</li>
+              <li>32GBHARD DRIVE + 1TB OF OneDrive Cloud Storage</li>
               <li>2GB RAM</li>
               <li>Thinner, Lighter Design</li>
               <li>Fast, Durable And Mobile</li>
-              <li>32GBHARD DRIVE +  1TB OF OneDrive Cloud Storage</li>
+              <li>32GBHARD DRIVE + 1TB OF OneDrive Cloud Storage</li>
               <li>2GB RAM</li>
               <li>Thinner, Lighter Design</li>
               <li>Fast, Durable And Mobile</li>
@@ -179,9 +179,7 @@ const selectImage = (index) => {
 }
 
 .thumbnail {
-  width: 120px;
-  height: 100px;
-  object-fit: contain;
+  
   width: 100%;
   border: 2px solid transparent;
 }
