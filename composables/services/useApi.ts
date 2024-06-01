@@ -3,7 +3,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 const axiosInstance = axios.create({
-  baseURL: "https://51c8-102-89-40-88.ngrok-free.app/api/v1/", // Replace this with your API base URL
+  baseURL: "https://api.sparkbridges.com/api/v1/", // Replace this with your API base URL
 });
 
 // Request interceptor

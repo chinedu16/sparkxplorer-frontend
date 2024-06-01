@@ -289,8 +289,8 @@
     v-if="showOverlay"
     class="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-50"
   >
-    <div class="w-3/12 p-10 rounded-lg text-center">
-      <h2 class="text-4xl font-bold text-green-two">Thank You!</h2>
+    <div class="w-full lg:w-3/12 p-10 rounded-lg text-center">
+      <h2 class="text-xl lg:text-4xl font-bold text-green-two">Thank You!</h2>
 
       <button
         @click="closeOverlay"
