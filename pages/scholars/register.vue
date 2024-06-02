@@ -18,7 +18,9 @@
     >
       <div class="mt-10">
         <div class="max-w-screen-2xl mt-5 w-full mx-auto">
-          <h4 class="px-5 md:px-10 font-semibold lg:text-2xl">Fill out this form</h4>
+          <h4 class="px-5 md:px-10 font-semibold lg:text-2xl">
+            Fill out this form
+          </h4>
 
           <div class="px-5 md:px-10 mt-10 space-y-5">
             <div
@@ -28,11 +30,11 @@
             >
               <h1 class="mb-5 font-semibold">Child {{ index + 1 }}</h1>
               <el-form-item
-                :prop="'child.' + index + '.fullname'"
+                :prop="'child.' + index + '.firstname'"
                 :rules="[
                   {
                     required: true,
-                    message: 'Please input Child name',
+                    message: 'Please input Child firstname',
                     trigger: 'blur',
                   },
                   {
@@ -41,9 +43,27 @@
                     trigger: 'change',
                   },
                 ]"
-                label="Child Full Name"
+                label="First Name"
               >
-                <el-input v-model="domain.fullname" />
+                <el-input v-model="domain.firstname" />
+              </el-form-item>
+              <el-form-item
+                :prop="'child.' + index + '.lastname'"
+                :rules="[
+                  {
+                    required: true,
+                    message: 'Please input Child lastname',
+                    trigger: 'blur',
+                  },
+                  {
+                    min: 6,
+                    message: 'Length should be min 6',
+                    trigger: 'change',
+                  },
+                ]"
+                label="Last Name"
+              >
+                <el-input v-model="domain.lastname" />
               </el-form-item>
               <el-form-item
                 :prop="'child.' + index + '.dateOfBirth'"
@@ -59,8 +79,6 @@
                 <el-date-picker
                   v-model="domain.dateOfBirth"
                   type="date"
-                  popper-class="w-full"
-                  class="w-full"
                   placeholder="Pick a day"
                 />
               </el-form-item>
@@ -73,15 +91,25 @@
                     message: 'Grade is required',
                     trigger: 'blur',
                   },
-                  {
-                    type: 'number',
-                    message: 'Grade must be a number',
-                    trigger: 'change',
-                  },
                 ]"
                 label="Grade"
               >
-                <el-input v-model.number="domain.grade" />
+                <el-select v-model="domain.grade" placeholder="Select Grade">
+                  <el-option label="Pre-K" value="Pre-K" />
+                  <el-option label="Kindergarten" value="Kindergarten" />
+                  <el-option label="First Grade" value="First Grade" />
+                  <el-option label="Second Grade" value="Second Grade" />
+                  <el-option label="Third Grade" value="Third Grade" />
+                  <el-option label="Fourth Grade" value="Fourth Grade" />
+                  <el-option label="Fifth Grade" value="Fifth Grade" />
+                  <el-option label="Sixth Grade" value="Sixth Grade" />
+                  <el-option label="Seventh Grade" value="Seventh Grade" />
+                  <el-option label="Eighth Grade" value="Eighth Grade" />
+                  <el-option label="Ninth Grade" value="Ninth Grade" />
+                  <el-option label="Tenth Grade" value="Tenth Grade" />
+                  <el-option label="Eleventh Grade" value="Eleventh Grade" />
+                  <el-option label="Twelfth Grade" value="Twelfth Grade" />
+                </el-select>
               </el-form-item>
 
               <el-button
@@ -154,6 +182,43 @@
             label="WhatsApp Number"
           >
             <el-input v-model.number="dynamicValidateForm.whatsappNumber" />
+          </el-form-item>
+          <el-form-item
+            prop="whatsappNumber"
+            size="large"
+            :rules="[
+              {
+                required: true,
+                message: 'WhatsApp Number is required',
+                trigger: 'blur',
+              },
+              {
+                type: 'string',
+                message: 'WhatsApp Number must be a number',
+                trigger: 'change',
+              },
+            ]"
+            label="WhatsApp Number"
+          >
+            <el-input-group
+              size="large"
+              class="whatsapp-input-group flex w-full space-x-2"
+            >
+              <el-select
+                v-model="dynamicValidateForm.countryCode"
+                placeholder="Country Code"
+                style="width: 120px"
+              >
+                <el-option label="+1" value="+1" />
+                <el-option label="+44" value="+44" />
+                <el-option label="+91" value="+91" />
+              </el-select>
+              <el-input
+                v-model.number="dynamicValidateForm.whatsappNumber"
+                placeholder="WhatsApp Number"
+                class="for-number"
+              />
+            </el-input-group>
           </el-form-item>
           <el-form-item
             prop="email"
@@ -260,7 +325,11 @@
             ]"
             label="Consent and Agreement"
           >
-            <el-checkbox class="tandc mt-5" v-model="dynamicValidateForm.agree" size="large">
+            <el-checkbox
+              class="tandc mt-5"
+              v-model="dynamicValidateForm.agree"
+              size="large"
+            >
               I agree to the terms and conditions of the Spark Scholars program.
               I consent to my child’s participation in the Spark Scholars
               program
@@ -285,27 +354,44 @@
     </el-form>
   </div>
 
-  <div
-    v-if="showOverlay"
-    class="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-50"
-  >
-    <div class="w-full lg:w-3/12 p-10 rounded-lg text-center">
-      <h2 class="text-xl lg:text-4xl font-bold text-green-two">Thank You!</h2>
+  <el-dialog v-model="showOverlay" title="Continue to Donate" width="80%">
+    <div>
+      <div class="mt-7">
+        <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
+          <span
+            v-for="items in amountOptions"
+            @click="handleAmountSelected(items.amount)"
+            class="text-center py-4 px-0 font-semibold cursor-pointer lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+            :class="[items.amount === selectedAmount ? 'bg-green-two text-white' : 'bg-white']"
+          >
+            ${{items.amount}}
+          </span>
+          
+        </div>
 
-      <button
-        @click="closeOverlay"
-        class="h-16 w-full mt-3 text-white right-0 bg-green-two btn"
-      >
-        Back Home
-      </button>
-      <div>
-        Would you like to donate?
-        <nuxt-link to="/scholars/donate" class="font-semibold text-green-two">
-          Click here
-        </nuxt-link>
+        <div class="mt-10 flex items-center space-x-2">
+          <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+            >Other Amount:
+          </span>
+
+          <el-input
+            v-model="customAmount"
+            size="large"
+            class="w-full"
+            placeholder="Please enter amount"
+          />
+        </div>
       </div>
     </div>
-  </div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="showOverlay = false">Cancel</el-button>
+        <el-button type="primary" @click="showOverlay = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -315,7 +401,7 @@ import { useSparkStore } from "~/store/spark";
 
 const sparkStore = useSparkStore();
 
-const showOverlay = ref(false);
+const showOverlay = ref(true);
 
 const closeOverlay = () => {
   showOverlay.value = false;
@@ -323,10 +409,59 @@ const closeOverlay = () => {
 
 const formRef = ref<FormInstance>();
 const loading = ref(false);
+const amountOptions = ref([
+  {
+    id: 1,
+    amount: 0
+  },
+  {
+    id: 2,
+    amount: 50
+  },
+  {
+    id: 3,
+    amount: 100
+  },
+  {
+    id: 4,
+    amount: 150
+  },
+  {
+    id: 5,
+    amount: 200
+  },
+  {
+    id: 6,
+    amount: 250
+  },
+  {
+    id: 7,
+    amount: 300
+  },
+  {
+    id: 8,
+    amount: 350
+  },
+  {
+    id: 9,
+    amount: 400
+  },
+  {
+    id: 10,
+    amount: 450
+  },
+  {
+    id: 11,
+    amount: 500
+  }
+]);
+const selectedAmount = ref(50)
+const customAmount = ref("");
 const dynamicValidateForm = reactive<{
   child: DomainItem[];
   email: string;
   whatsappNumber: string;
+  countryCode: string;
   fullname: string;
   address: string;
   contactMethod: string;
@@ -338,13 +473,15 @@ const dynamicValidateForm = reactive<{
   child: [
     {
       key: 1,
-      fullname: "",
+      firstname: "",
+      lastname: "",
       dateOfBirth: "",
-      grade: 0,
+      grade: "",
     },
   ],
   fullname: "",
   whatsappNumber: "",
+  countryCode: "",
   email: "",
   address: "",
   contactMethod: "",
@@ -356,9 +493,10 @@ const dynamicValidateForm = reactive<{
 
 interface DomainItem {
   key: number;
-  fullname: string;
+  firstname: string;
+  lastname: string;
   dateOfBirth: string;
-  grade: number;
+  grade: string;
 }
 
 const removeDomain = (item: DomainItem) => {
@@ -368,18 +506,23 @@ const removeDomain = (item: DomainItem) => {
   }
 };
 
+const handleAmountSelected = (params: number) => {
+  selectedAmount.value = params
+}
+
 const addDomain = () => {
   dynamicValidateForm.child.push({
     key: Date.now(),
-    fullname: "",
+    firstname: "",
+    lastname: "",
     dateOfBirth: "",
-    grade: 0,
+    grade: "",
   });
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate(async(valid, fields) => {
+  await formEl.validate(async (valid, fields) => {
     if (valid) {
       loading.value = true;
 
@@ -387,6 +530,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         email: dynamicValidateForm.email,
         fullname: dynamicValidateForm.fullname,
         whatsappNumber: dynamicValidateForm.whatsappNumber,
+        countryCode: dynamicValidateForm.countryCode,
         phoneNumber: dynamicValidateForm.whatsappNumber, // Assuming it's intentional to use whatsappNumber for both phoneNumber and whatsappNumber
         address: dynamicValidateForm.address,
         contactMethod:
@@ -398,7 +542,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             ? dynamicValidateForm.othersHowDidYouHearAboutUs
             : dynamicValidateForm.howDidYouHearAboutUs,
         child: dynamicValidateForm.child.map((child) => ({
-          fullName: child.fullname,
+          firstname: child.firstname,
+          lastname: child.lastname,
           dateOfBirth: child.dateOfBirth,
           grade: child.grade,
         })),
@@ -407,7 +552,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       try {
         loading.value = true;
         const response = await sparkStore.createSparkScholar(payload);
-        console.log(response)
+        console.log(response);
         showOverlay.value = true;
       } catch (error) {
       } finally {
@@ -432,5 +577,15 @@ const resetForm = (formEl: FormInstance | undefined) => {
   /* display: none !important; */
   white-space: normal;
   line-height: 21px;
+}
+
+.whatsapp-input-group .el-input,
+.whatsapp-input-group .el-select {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.whatsapp-input-group .el-input .el-input__wrapper {
+  width: 100%;
 }
 </style>
