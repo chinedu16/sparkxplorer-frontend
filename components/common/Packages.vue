@@ -224,7 +224,7 @@
               <div class="lg:w-3/6 mt-10 lg:mt-0">
                 <div class="relative flex justify-center lg:justify-end">
                   <img
-                    src="@/assets/images/illustrations/launch-one.png"
+                    src="@/assets/images/illustrations/ixl-children.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"

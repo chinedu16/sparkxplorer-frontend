@@ -36,7 +36,7 @@
                 <div class="mt-5 md:mt-0 md:w-2/6 lg:w-3/6">
                   <div class="relative flex justify-end">
                     <img
-                      src="@/assets/images/illustrations/launch-one.png"
+                      src="@/assets/images/illustrations/ixl-children.png"
                       alt=""
                       srcset=""
                       class="z-10 lg:w-4/5 h-full relative"
@@ -180,7 +180,7 @@
               :style="{
                 backgroundColor: '#4CAF50',
                 color: '#FFF',
-                height: '50px',
+                height: '60px',
                 width: '100%',
               }"
             >
@@ -192,7 +192,7 @@
               :style="{
                 backgroundColor: '#000000',
                 color: '#FFF',
-                height: '50px',
+                height: '60px',
                 width: '100%',
               }"
             >
