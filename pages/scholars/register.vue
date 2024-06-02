@@ -354,23 +354,26 @@
     </el-form>
   </div>
 
-  <el-dialog v-model="showOverlay" title="Continue to Donate" width="80%">
+  <el-dialog v-model="showPaymentModal" title="Continue to Donate" width="80%">
     <div>
       <div class="mt-7">
         <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
           <span
             v-for="items in amountOptions"
             @click="handleAmountSelected(items.amount)"
-            class="text-center py-4 px-0 font-semibold cursor-pointer lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-            :class="[items.amount === selectedAmount ? 'bg-green-two text-white' : 'bg-white']"
+            class="text-center py-4 px-0 font-medium cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+            :class="[
+              items.amount === selectedAmount
+                ? 'bg-green-two text-white'
+                : 'bg-white',
+            ]"
           >
-            ${{items.amount}}
+            ${{ items.amount }}
           </span>
-          
         </div>
 
         <div class="mt-10 flex items-center space-x-2">
-          <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+          <span class="font-semibold w-1/5 lg:font-bold text-xs lg:text-xl"
             >Other Amount:
           </span>
 
@@ -381,17 +384,62 @@
             placeholder="Please enter amount"
           />
         </div>
+        <div class="mt-10">
+          <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+            >Donation Type:
+          </span>
+
+          <div class="mt-3 flex space-x-2">
+            <span
+              @click="handleDonationType('one-time')"
+              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+              :class="[
+                 selectedDonationType === 'one-time'
+                  ? 'bg-green-two text-white'
+                  : 'bg-white',
+              ]"
+            >
+              One Time Payment
+            </span>
+            <span
+              @click="handleDonationType('reocurring')"
+              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+              :class="[
+                 selectedDonationType === 'reocurring'
+                  ? 'bg-green-two text-white'
+                  : 'bg-white',
+              ]"
+            >
+            Recurring Payment
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="showOverlay = false">Cancel</el-button>
-        <el-button type="primary" @click="showOverlay = false">
-          Confirm
+      <div class="mt-10 dialog-footer">
+        <el-button @click="showPaymentModal = false">Cancel</el-button>
+        <el-button type="primary" @click="openSuccessOverlay()">
+          Make Payment
         </el-button>
       </div>
     </template>
   </el-dialog>
+  <div
+    v-if="showOverlay"
+    class="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-50"
+  >
+    <div class="w-full lg:w-3/12 p-10 rounded-lg text-center">
+      <h2 class="text-xl lg:text-4xl font-bold text-green-two">Thank You!</h2>
+      <p>We will review your application and get back to you on the next step. Be on the lookout for your email</p>
+      <button
+        @click="closeOverlay"
+        class="h-16 w-full mt-3 text-white right-0 bg-green-two btn"
+      >
+        Proceed to your Dashboard
+      </button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -401,7 +449,8 @@ import { useSparkStore } from "~/store/spark";
 
 const sparkStore = useSparkStore();
 
-const showOverlay = ref(true);
+const showPaymentModal = ref(true);
+const showOverlay = ref(false);
 
 const closeOverlay = () => {
   showOverlay.value = false;
@@ -412,50 +461,51 @@ const loading = ref(false);
 const amountOptions = ref([
   {
     id: 1,
-    amount: 0
+    amount: 0,
   },
   {
     id: 2,
-    amount: 50
+    amount: 50,
   },
   {
     id: 3,
-    amount: 100
+    amount: 100,
   },
   {
     id: 4,
-    amount: 150
+    amount: 150,
   },
   {
     id: 5,
-    amount: 200
+    amount: 200,
   },
   {
     id: 6,
-    amount: 250
+    amount: 250,
   },
   {
     id: 7,
-    amount: 300
+    amount: 300,
   },
   {
     id: 8,
-    amount: 350
+    amount: 350,
   },
   {
     id: 9,
-    amount: 400
+    amount: 400,
   },
   {
     id: 10,
-    amount: 450
+    amount: 450,
   },
   {
     id: 11,
-    amount: 500
-  }
+    amount: 500,
+  },
 ]);
-const selectedAmount = ref(50)
+const selectedAmount = ref(50);
+const selectedDonationType = ref('one-time')
 const customAmount = ref("");
 const dynamicValidateForm = reactive<{
   child: DomainItem[];
@@ -507,8 +557,13 @@ const removeDomain = (item: DomainItem) => {
 };
 
 const handleAmountSelected = (params: number) => {
-  selectedAmount.value = params
-}
+  selectedAmount.value = params;
+};
+
+const openSuccessOverlay = () => {
+  showPaymentModal.value = false
+  showOverlay.value = true
+};
 
 const addDomain = () => {
   dynamicValidateForm.child.push({
@@ -519,6 +574,10 @@ const addDomain = () => {
     grade: "",
   });
 };
+
+const handleDonationType = (params: string) => {
+  selectedDonationType.value = params
+}
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -553,7 +612,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         loading.value = true;
         const response = await sparkStore.createSparkScholar(payload);
         console.log(response);
-        showOverlay.value = true;
+        showPaymentModal.value = true;
       } catch (error) {
       } finally {
         loading.value = false;
