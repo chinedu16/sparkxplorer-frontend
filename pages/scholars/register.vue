@@ -38,8 +38,8 @@
                     trigger: 'blur',
                   },
                   {
-                    min: 6,
-                    message: 'Length should be min 6',
+                    min: 3,
+                    message: 'Length should be min 3',
                     trigger: 'change',
                   },
                 ]"
@@ -56,8 +56,8 @@
                     trigger: 'blur',
                   },
                   {
-                    min: 6,
-                    message: 'Length should be min 6',
+                    min: 3,
+                    message: 'Length should be min 3',
                     trigger: 'change',
                   },
                 ]"
@@ -95,20 +95,20 @@
                 label="Grade"
               >
                 <el-select v-model="domain.grade" placeholder="Select Grade">
-                  <el-option label="Pre-K" value="Pre-K" />
-                  <el-option label="Kindergarten" value="Kindergarten" />
-                  <el-option label="First Grade" value="First Grade" />
-                  <el-option label="Second Grade" value="Second Grade" />
-                  <el-option label="Third Grade" value="Third Grade" />
-                  <el-option label="Fourth Grade" value="Fourth Grade" />
-                  <el-option label="Fifth Grade" value="Fifth Grade" />
-                  <el-option label="Sixth Grade" value="Sixth Grade" />
-                  <el-option label="Seventh Grade" value="Seventh Grade" />
-                  <el-option label="Eighth Grade" value="Eighth Grade" />
-                  <el-option label="Ninth Grade" value="Ninth Grade" />
-                  <el-option label="Tenth Grade" value="Tenth Grade" />
-                  <el-option label="Eleventh Grade" value="Eleventh Grade" />
-                  <el-option label="Twelfth Grade" value="Twelfth Grade" />
+                  <el-option label="Pre-K" value="0" />
+                  <el-option label="Kindergarten" value="0" />
+                  <el-option label="First Grade" value="1" />
+                  <el-option label="Second Grade" value="2" />
+                  <el-option label="Third Grade" value="3" />
+                  <el-option label="Fourth Grade" value="4" />
+                  <el-option label="Fifth Grade" value="5" />
+                  <el-option label="Sixth Grade" value="6" />
+                  <el-option label="Seventh Grade" value="7" />
+                  <el-option label="Eighth Grade" value="8" />
+                  <el-option label="Ninth Grade" value="9" />
+                  <el-option label="Tenth Grade" value="10" />
+                  <el-option label="Eleventh Grade" value="11" />
+                  <el-option label="Twelfth Grade" value="12" />
                 </el-select>
               </el-form-item>
 
@@ -342,8 +342,8 @@
         <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
           <span
             v-for="items in getAllAmountList"
-            @click="handleAmountSelected(items.amount)"
-            class="text-center py-4 px-0 font-medium cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+            @click="handleAmountSelected(items.amount, items.name)"
+            class="text-center py-4 px-0 font-medium cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded-2xl border-green-two border"
             :class="[
               items.amount === selectedAmount
                 ? 'bg-green-two text-white'
@@ -355,7 +355,7 @@
         </div>
 
         <div class="mt-10 flex items-center space-x-2">
-          <span class="font-semibold w-1/5 lg:font-bold text-xs lg:text-xl"
+          <span class="font-semibold w-1/5 text-xs lg:text-base"
             >Other Amount:
           </span>
 
@@ -367,14 +367,14 @@
           />
         </div>
         <div class="mt-10">
-          <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+          <span class="font-semibold w-1/5 text-xs lg:text-base"
             >Donation Type:
           </span>
 
           <div class="mt-3 flex space-x-2">
             <span
               @click="handleDonationType('one-time')"
-              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded border-green-two border"
               :class="[
                 selectedDonationType === 'one-time'
                   ? 'bg-green-two text-white'
@@ -385,7 +385,7 @@
             </span>
             <span
               @click="handleDonationType('reocurring')"
-              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+              class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded border-green-two border"
               :class="[
                 selectedDonationType === 'reocurring'
                   ? 'bg-green-two text-white'
@@ -400,26 +400,41 @@
     </div>
     <template #footer>
       <div class="mt-10 dialog-footer">
-        <el-button @click="showPaymentModal = false">Cancel</el-button>
-        <el-button type="primary" @click="openSuccessOverlay()">
-          Make Payment
+        <el-button
+          :style="{
+            height: '50px',
+          }"
+          @click="showPaymentModal = false"
+          >Cancel</el-button
+        >
+
+        <el-button
+          @click="openSuccessOverlay()"
+          :loading="loadingPayment"
+          :style="{
+            backgroundColor: '#4CAF50',
+            color: '#FFF',
+            height: '50px',
+          }"
+        >
+          {{ selectedAmount === 0 ? "Continue" : "Make Payment" }}
         </el-button>
       </div>
     </template>
   </el-dialog>
   <div
     v-if="showOverlay"
-    class="fixed inset-0 bg-white bg-opacity-50 flex justify-center items-center z-50"
+    class="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
   >
     <div class="w-full lg:w-3/12 p-10 rounded-lg text-center">
-      <h2 class="text-xl lg:text-4xl font-bold text-green-two">Thank You!</h2>
-      <p>
+      <h2 class="text-xl lg:text-4xl font-bold text-white">Thank You!</h2>
+      <p class="text-white">
         We will review your application and get back to you on the next step. Be
         on the lookout for your email
       </p>
       <button
         @click="closeOverlay"
-        class="h-16 w-full mt-3 text-white right-0 bg-green-two btn"
+        class="h-16 w-full mt-3 text-white right-0 bg-black btn"
       >
         Proceed to your Dashboard
       </button>
@@ -449,8 +464,10 @@ const closeOverlay = () => {
 
 const formRef = ref<FormInstance>();
 const loading = ref(false);
-const selectedAmount = ref(50);
-const selectedDonationType = ref("one-time");
+const loadingPayment = ref(false);
+const selectedAmount = ref(10);
+const selectedAmountName = ref("ten");
+const selectedDonationType = ref("reocurring");
 const customAmount = ref("");
 const dynamicValidateForm = reactive<{
   child: DomainItem[];
@@ -501,13 +518,39 @@ const removeDomain = (item: DomainItem) => {
   }
 };
 
-const handleAmountSelected = (params: number) => {
+const handleAmountSelected = (params: number, name: string) => {
+  selectedAmountName.value = name;
   selectedAmount.value = params;
 };
 
-const openSuccessOverlay = () => {
-  showPaymentModal.value = false;
-  showOverlay.value = true;
+const openSuccessOverlay = async () => {
+  if (selectedAmount.value === 0) {
+    showPaymentModal.value = false;
+    showOverlay.value = true;
+  } else {
+    loadingPayment.value = true;
+    try {
+      const payload = {
+        plan: `${selectedAmountName.value}${
+          selectedDonationType.value === "reocurring" ? "Sub" : ""
+        }`,
+        subscription:
+          selectedDonationType.value === "reocurring" ? true : false,
+      };
+      const { data, error } = await sparkStore.donateToAScholar(payload);
+      if (data) {
+        window.open(data, '_blank');
+        showOverlay.value = true;
+        showPaymentModal.value = false;
+      }
+      if (error) {
+        console.log(error)
+      }
+    } catch (error) {
+    } finally {
+      loadingPayment.value = false;
+    }
+  }
 };
 
 const addDomain = () => {
@@ -530,10 +573,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
 
-      const formattedWhatsappNumber = Number(
-        `${dynamicValidateForm.countryCode}${dynamicValidateForm.whatsappNumber}`
-      );
-
+      const formattedWhatsappNumber = `${dynamicValidateForm.countryCode}${dynamicValidateForm.whatsappNumber}`;
       const payload = {
         email: dynamicValidateForm.email,
         fullname: dynamicValidateForm.fullname,
@@ -549,9 +589,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             ? dynamicValidateForm.othersHowDidYouHearAboutUs
             : dynamicValidateForm.howDidYouHearAboutUs,
         child: dynamicValidateForm.child.map((child) => ({
-          fullname: `${child.firstname} ${child.lastname}`,
+          fullName: `${child.firstname} ${child.lastname}`,
           dateOfBirth: child.dateOfBirth,
-          grade: child.grade,
+          grade: Number(child.grade),
         })),
       };
       try {
@@ -560,10 +600,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (error) {
           ElNotification({
             title: "Error",
-            message: error?.response?.data?.message[0] || error?.response?.data?.message,
+            message:
+              error?.response?.data?.message[0] ||
+              error?.response?.data?.message,
             type: "error",
           });
           return;
+        }
+
+        if (data) {
+          console.log(data);
         }
         showPaymentModal.value = true;
       } catch (error) {
@@ -584,9 +630,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style>
 /* Add your styles here */
-
 .tandc .el-checkbox__label {
-  /* display: none !important; */
   white-space: normal;
   line-height: 21px;
 }

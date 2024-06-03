@@ -15,23 +15,27 @@
             Choose Amount
           </h4>
           <div class="p-5 md:p-10 rounded-2xl shadow-card mt-7">
-            <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
-              <span
+            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-3">
+              <div
                 v-for="items in getAllAmountList"
-                @click="handleAmountSelected(items.name)"
-                class="text-center py-4 px-0 font-medium cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-                :class="[
-                  items.name === selectedAmount
-                    ? 'bg-green-two text-white'
-                    : 'bg-white',
-                ]"
+                @click="handleAmountSelected(items.amount, items.name)"
               >
-                ${{ items.amount }}
-              </span>
+                <div
+                  class="text-center py-4 px-0 font-medium cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+                  :class="[
+                    items.amount === selectedAmount
+                      ? 'bg-green-two text-white'
+                      : 'bg-white',
+                  ]"
+                  v-if="items.amount !== 0"
+                >
+                  ${{ items.amount }}
+                </div>
+              </div>
             </div>
 
             <div class="mt-10 flex items-center space-x-2">
-              <span class="font-semibold w-1/5 lg:font-bold text-xs lg:text-xl"
+              <span class="font-semibold w-1/5 text-xs lg:text-base"
                 >Other Amount:
               </span>
 
@@ -43,14 +47,14 @@
               />
             </div>
             <div class="mt-10">
-              <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+              <span class="font-semibold w-1/5 text-xs lg:text-base"
                 >Donation Type:
               </span>
 
               <div class="mt-3 flex space-x-2">
                 <span
                   @click="handleDonationType('one-time')"
-                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded border-green-two border"
                   :class="[
                     selectedDonationType === 'one-time'
                       ? 'bg-green-two text-white'
@@ -61,7 +65,7 @@
                 </span>
                 <span
                   @click="handleDonationType('reocurring')"
-                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded border-green-two border"
                   :class="[
                     selectedDonationType === 'reocurring'
                       ? 'bg-green-two text-white'
@@ -86,11 +90,15 @@
           class="demo-ruleForm"
         >
           <div class="max-w-screen-2xl mt-10 w-full mx-auto">
-            <h4 class="font-semibold text-lg lg:text-2xl text-green-two">
+            <h4
+              v-if="false"
+              class="font-semibold text-lg lg:text-2xl text-green-two"
+            >
               Sign up Information
             </h4>
 
             <div
+              v-if="false"
               class="pt-8 pb-10 px-6 lg:p-10 rounded-2xl shadow-card mt-7 space-y-5"
             >
               <el-form-item label="Proceed to signup" prop="delivery">
@@ -191,10 +199,12 @@ const closeOverlay = () => {
   showOverlay.value = false;
 };
 
-const selectedAmount = ref('fifty');
-const selectedDonationType = ref("one-time");
+const selectedAmount = ref(10);
+const selectedAmountName = ref("ten");
+const selectedDonationType = ref("reocurring");
 
-const handleAmountSelected = (params: string) => {
+const handleAmountSelected = (params: number, name: string) => {
+  selectedAmountName.value = name;
   selectedAmount.value = params;
 };
 
@@ -301,25 +311,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       loading.value = true;
 
       const payload = {
-        email: ruleForm.email,
-        firstName: ruleForm.firstname,
-        lastName: ruleForm.lastname,
-        password: ruleForm.pass,
-        phoneNumber: ruleForm.phoneNumber,
-      };
-
-      const paymentPayload = {
-        plan: "fifty",
+        plan: `${selectedAmountName.value}${
+          selectedDonationType.value === "reocurring" ? "Sub" : ""
+        }`,
+        subscription:
+          selectedDonationType.value === "reocurring" ? true : false,
       };
       console.log(payload);
       try {
         loading.value = true;
-        const { data, error } = await authStore.registerUser(payload);
-
+        const { data, error } = await sparkStore.donateToAScholar(payload);
         if (data) {
-          localStorage.setItem("USER_INFO", JSON.stringify(data.data));
-          const response = await sparkStore.donateToAScholar();
-          console.log(response);
+          window.open(data, "_blank");
           showOverlay.value = true;
         }
       } catch (error) {
