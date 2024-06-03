@@ -539,8 +539,8 @@ const openSuccessOverlay = async () => {
       };
       const { data, error } = await sparkStore.donateToAScholar(payload);
       if (data) {
-        window.open(data, '_blank');
-        showOverlay.value = true;
+        window.location.replace(data);
+        showOverlay.value = false;
         showPaymentModal.value = false;
       }
       if (error) {

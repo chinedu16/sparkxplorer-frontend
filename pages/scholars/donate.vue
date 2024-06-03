@@ -322,8 +322,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         loading.value = true;
         const { data, error } = await sparkStore.donateToAScholar(payload);
         if (data) {
-          window.open(data, "_blank");
-          showOverlay.value = true;
+          window.location.replace(data);
+          showOverlay.value = false;
         }
       } catch (error) {
       } finally {
