@@ -87,7 +87,7 @@
         v-if="isMobileMenuOpen"
         class="absolute border-t top-20 left-0 w-full bg-blue-one shadow-header px-4 pt-4 pb-6"
       >
-        <nav class="flex flex-col space-y-4 font-semibold">
+        <nav class="flex flex-col space-y-4 font-semibold" @click="toggleMobileMenu">
           <nuxt-link to="/#about-us" class="hover:text-yellow-three"
             >About us</nuxt-link
           >

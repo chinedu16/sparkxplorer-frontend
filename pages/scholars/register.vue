@@ -164,6 +164,7 @@
           >
             <el-input v-model="dynamicValidateForm.fullname" />
           </el-form-item>
+
           <el-form-item
             prop="whatsappNumber"
             size="large"
@@ -181,25 +182,6 @@
             ]"
             label="WhatsApp Number"
           >
-            <el-input v-model.number="dynamicValidateForm.whatsappNumber" />
-          </el-form-item>
-          <el-form-item
-            prop="whatsappNumber"
-            size="large"
-            :rules="[
-              {
-                required: true,
-                message: 'WhatsApp Number is required',
-                trigger: 'blur',
-              },
-              {
-                type: 'string',
-                message: 'WhatsApp Number must be a number',
-                trigger: 'change',
-              },
-            ]"
-            label="WhatsApp Number"
-          >
             <el-input-group
               size="large"
               class="whatsapp-input-group flex w-full space-x-2"
@@ -209,9 +191,9 @@
                 placeholder="Country Code"
                 style="width: 120px"
               >
-                <el-option label="+1" value="+1" />
-                <el-option label="+44" value="+44" />
-                <el-option label="+91" value="+91" />
+                <el-option label="+1" value="1" />
+                <el-option label="+44" value="44" />
+                <el-option label="+91" value="91" />
               </el-select>
               <el-input
                 v-model.number="dynamicValidateForm.whatsappNumber"
@@ -359,7 +341,7 @@
       <div class="mt-7">
         <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
           <span
-            v-for="items in amountOptions"
+            v-for="items in getAllAmountList"
             @click="handleAmountSelected(items.amount)"
             class="text-center py-4 px-0 font-medium cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
             :class="[
@@ -394,7 +376,7 @@
               @click="handleDonationType('one-time')"
               class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
               :class="[
-                 selectedDonationType === 'one-time'
+                selectedDonationType === 'one-time'
                   ? 'bg-green-two text-white'
                   : 'bg-white',
               ]"
@@ -405,12 +387,12 @@
               @click="handleDonationType('reocurring')"
               class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
               :class="[
-                 selectedDonationType === 'reocurring'
+                selectedDonationType === 'reocurring'
                   ? 'bg-green-two text-white'
                   : 'bg-white',
               ]"
             >
-            Recurring Payment
+              Recurring Payment
             </span>
           </div>
         </div>
@@ -431,7 +413,10 @@
   >
     <div class="w-full lg:w-3/12 p-10 rounded-lg text-center">
       <h2 class="text-xl lg:text-4xl font-bold text-green-two">Thank You!</h2>
-      <p>We will review your application and get back to you on the next step. Be on the lookout for your email</p>
+      <p>
+        We will review your application and get back to you on the next step. Be
+        on the lookout for your email
+      </p>
       <button
         @click="closeOverlay"
         class="h-16 w-full mt-3 text-white right-0 bg-green-two btn"
@@ -445,11 +430,17 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import type { FormInstance } from "element-plus";
+
+import { ElNotification } from "element-plus";
 import { useSparkStore } from "~/store/spark";
+
+import { storeToRefs } from "pinia";
 
 const sparkStore = useSparkStore();
 
-const showPaymentModal = ref(true);
+const { getAllAmountList } = storeToRefs(sparkStore);
+
+const showPaymentModal = ref(false);
 const showOverlay = ref(false);
 
 const closeOverlay = () => {
@@ -458,54 +449,8 @@ const closeOverlay = () => {
 
 const formRef = ref<FormInstance>();
 const loading = ref(false);
-const amountOptions = ref([
-  {
-    id: 1,
-    amount: 0,
-  },
-  {
-    id: 2,
-    amount: 50,
-  },
-  {
-    id: 3,
-    amount: 100,
-  },
-  {
-    id: 4,
-    amount: 150,
-  },
-  {
-    id: 5,
-    amount: 200,
-  },
-  {
-    id: 6,
-    amount: 250,
-  },
-  {
-    id: 7,
-    amount: 300,
-  },
-  {
-    id: 8,
-    amount: 350,
-  },
-  {
-    id: 9,
-    amount: 400,
-  },
-  {
-    id: 10,
-    amount: 450,
-  },
-  {
-    id: 11,
-    amount: 500,
-  },
-]);
 const selectedAmount = ref(50);
-const selectedDonationType = ref('one-time')
+const selectedDonationType = ref("one-time");
 const customAmount = ref("");
 const dynamicValidateForm = reactive<{
   child: DomainItem[];
@@ -561,8 +506,8 @@ const handleAmountSelected = (params: number) => {
 };
 
 const openSuccessOverlay = () => {
-  showPaymentModal.value = false
-  showOverlay.value = true
+  showPaymentModal.value = false;
+  showOverlay.value = true;
 };
 
 const addDomain = () => {
@@ -576,8 +521,8 @@ const addDomain = () => {
 };
 
 const handleDonationType = (params: string) => {
-  selectedDonationType.value = params
-}
+  selectedDonationType.value = params;
+};
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -585,12 +530,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
 
+      const formattedWhatsappNumber = Number(
+        `${dynamicValidateForm.countryCode}${dynamicValidateForm.whatsappNumber}`
+      );
+
       const payload = {
         email: dynamicValidateForm.email,
         fullname: dynamicValidateForm.fullname,
-        whatsappNumber: dynamicValidateForm.whatsappNumber,
-        countryCode: dynamicValidateForm.countryCode,
-        phoneNumber: dynamicValidateForm.whatsappNumber, // Assuming it's intentional to use whatsappNumber for both phoneNumber and whatsappNumber
+        whatsappNumber: formattedWhatsappNumber,
+        phoneNumber: formattedWhatsappNumber,
         address: dynamicValidateForm.address,
         contactMethod:
           dynamicValidateForm.contactMethod === "additional"
@@ -601,17 +549,22 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             ? dynamicValidateForm.othersHowDidYouHearAboutUs
             : dynamicValidateForm.howDidYouHearAboutUs,
         child: dynamicValidateForm.child.map((child) => ({
-          firstname: child.firstname,
-          lastname: child.lastname,
+          fullname: `${child.firstname} ${child.lastname}`,
           dateOfBirth: child.dateOfBirth,
           grade: child.grade,
         })),
       };
-      console.log(payload);
       try {
         loading.value = true;
-        const response = await sparkStore.createSparkScholar(payload);
-        console.log(response);
+        const { data, error } = await sparkStore.createSparkScholar(payload);
+        if (error) {
+          ElNotification({
+            title: "Error",
+            message: error?.response?.data?.message[0] || error?.response?.data?.message,
+            type: "error",
+          });
+          return;
+        }
         showPaymentModal.value = true;
       } catch (error) {
       } finally {

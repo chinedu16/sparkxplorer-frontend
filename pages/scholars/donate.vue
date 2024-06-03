@@ -15,56 +15,23 @@
             Choose Amount
           </h4>
           <div class="p-5 md:p-10 rounded-2xl shadow-card mt-7">
-            <div class="grid grid-cols-3 md:grid-cols-5 gap-5 lg:gap-10">
+            <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-5">
               <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+                v-for="items in getAllAmountList"
+                @click="handleAmountSelected(items.name)"
+                class="text-center py-4 px-0 font-medium cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
+                :class="[
+                  items.name === selectedAmount
+                    ? 'bg-green-two text-white'
+                    : 'bg-white',
+                ]"
               >
-                $50
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $100
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $150
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $200
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $250
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $300
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $350
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $400
-              </span>
-              <span
-                class="text-center py-4 px-1 font-semibold lg:font-bold text-lg lg:text-2xl shadow-card flex items-center justify-center rounded-2xl border-green-two border"
-              >
-                $450
+                ${{ items.amount }}
               </span>
             </div>
 
             <div class="mt-10 flex items-center space-x-2">
-              <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+              <span class="font-semibold w-1/5 lg:font-bold text-xs lg:text-xl"
                 >Other Amount:
               </span>
 
@@ -74,6 +41,36 @@
                 class="w-full"
                 placeholder="Please enter amount"
               />
+            </div>
+            <div class="mt-10">
+              <span class="font-semibold w-1/5 lg:font-bold text-sm lg:text-xl"
+                >Donation Type:
+              </span>
+
+              <div class="mt-3 flex space-x-2">
+                <span
+                  @click="handleDonationType('one-time')"
+                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+                  :class="[
+                    selectedDonationType === 'one-time'
+                      ? 'bg-green-two text-white'
+                      : 'bg-white',
+                  ]"
+                >
+                  One Time Payment
+                </span>
+                <span
+                  @click="handleDonationType('reocurring')"
+                  class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer lg:font-bold text-xs lg:text-2xl shadow-card flex items-center justify-center rounded border-green-two border"
+                  :class="[
+                    selectedDonationType === 'reocurring'
+                      ? 'bg-green-two text-white'
+                      : 'bg-white',
+                  ]"
+                >
+                  Recurring Payment
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -175,21 +172,35 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+import type { FormInstance, FormRules } from "element-plus";
+
+import { useAuthStore } from "~/store/auth";
+import { useSparkStore } from "~/store/spark";
+
+const authStore = useAuthStore();
+const sparkStore = useSparkStore();
+
+const { getAllAmountList } = storeToRefs(sparkStore);
 
 const showOverlay = ref(false);
 const customAmount = ref("");
 const loading = ref(false);
 const showLoginForm = ref(true);
 
-import { useAuthStore } from "~/store/auth";
-
-const authStore = useAuthStore();
-
 const closeOverlay = () => {
   showOverlay.value = false;
 };
 
-import type { FormInstance, FormRules } from "element-plus";
+const selectedAmount = ref('fifty');
+const selectedDonationType = ref("one-time");
+
+const handleAmountSelected = (params: string) => {
+  selectedAmount.value = params;
+};
+
+const handleDonationType = (params: string) => {
+  selectedDonationType.value = params;
+};
 
 const ruleFormRef = ref<FormInstance>();
 
@@ -197,13 +208,40 @@ const validatePass = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("Please input the password"));
   } else {
-    if (ruleForm.checkPass !== "") {
-      if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField("checkPass");
+    const minLength = 8;
+    const lowercasePattern = /[a-z]/;
+    const uppercasePattern = /[A-Z]/;
+    const numericPattern = /[0-9]/;
+    const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (value.length < minLength) {
+      callback(
+        new Error(`Password should be at least ${minLength} characters`)
+      );
+    } else if (!lowercasePattern.test(value)) {
+      callback(
+        new Error("Password should contain at least one lowercase letter")
+      );
+    } else if (!uppercasePattern.test(value)) {
+      callback(
+        new Error("Password should contain at least one uppercase letter")
+      );
+    } else if (!numericPattern.test(value)) {
+      callback(new Error("Password should contain at least one numeric digit"));
+    } else if (!specialCharPattern.test(value)) {
+      callback(
+        new Error("Password should contain at least one special character")
+      );
+    } else {
+      if (ruleForm.checkPass !== "") {
+        if (!ruleFormRef.value) return;
+        ruleFormRef.value.validateField("checkPass");
+      }
+      callback();
     }
-    callback();
   }
 };
+
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("Please input the password again"));
@@ -269,12 +307,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         password: ruleForm.pass,
         phoneNumber: ruleForm.phoneNumber,
       };
+
+      const paymentPayload = {
+        plan: "fifty",
+      };
       console.log(payload);
       try {
         loading.value = true;
-        const response = await authStore.registerUser(payload);
-        console.log(response)
-        showOverlay.value = true;
+        const { data, error } = await authStore.registerUser(payload);
+
+        if (data) {
+          localStorage.setItem("USER_INFO", JSON.stringify(data.data));
+          const response = await sparkStore.donateToAScholar();
+          console.log(response);
+          showOverlay.value = true;
+        }
       } catch (error) {
       } finally {
         loading.value = false;
