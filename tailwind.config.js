@@ -6,6 +6,9 @@ export default {
       backgroundImage: {
         'custom-gradient': 'linear-gradient(180deg, #003B5C 0%, #036EAC 100%)',
       },
+      height: {
+        700: '700px'
+      },
       colors: {
         'blue-one': '#EBFEFF',
         'blue-two': "#0F537A",
