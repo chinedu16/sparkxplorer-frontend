@@ -38,14 +38,14 @@ onMounted(() => {
   verifyTokenHandler();
 });
 
-// http://localhost:3001/auth/email-verification?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5b2JhbWlAZ21haWwuY29tIiwiaWF0IjoxNzEzMTI2NTc2LCJleHAiOjE3MTMyOTkzNzZ9.7_A-KtVTUkMar0EhZYWNTo6yNMYubNm4t7b4K7sqLmc
-
 const verifyTokenHandler = async () => {
   fullscreenLoading.value = true;
   try {
     const token = route.query.token;
+    const email = route.query.email;
     const payload = {
       token: token,
+      email: email
     };
     const { data, error } = await authStore.verifyToken(payload);
 
@@ -56,18 +56,21 @@ const verifyTokenHandler = async () => {
     if (error) {
       ElNotification({
         title: "Error",
-        message: "The validation was not complete, please retry with correct link",
+        message: "The validation was not complete, please retry with the correct link",
         type: "error",
       });
       return;
     }
   } catch (error) {
+    ElNotification({
+      title: "Error",
+      message: "An unexpected error occurred",
+      type: "error",
+    });
   } finally {
     fullscreenLoading.value = false;
   }
 };
-
-// await sparkStore.donateToAScholar(payload)
 </script>
 
 <style scoped></style>
