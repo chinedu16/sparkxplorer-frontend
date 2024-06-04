@@ -16,13 +16,12 @@ export const useAuthStore = defineStore({
     },
     async verifyToken(payload: any) {
       try {
-        const { data, error } = await useApiPost("/auth/verify-token", payload);
-        return { data, error };
+        const response = await axios.post("https://api.sparkbridges.com/api/v1/auth/verify-email", payload);
+        return { data: response.data, error: null };
       } catch (error) {
-        return { error };
+        return { data: null, error: error.response.data };
       }
     },
-    
   },
   getters: {
     // getterAllMyProjects: (state) => state.myProject,
