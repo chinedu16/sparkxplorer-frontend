@@ -72,7 +72,7 @@ const heroSlides = ref([
               {{ slide.title }}
             </h1>
             <p class="mt-6 font-normal lg:text-xl">{{ slide.subtitle }}</p>
-            <div class="lg:space-x-5 mt-7 lg:flex items-center md:space-x-3 space-y-4">
+            <div class="lg:space-x-5 mt-7 lg:flex items-center md:space-x-3 space-y-4 md:space-y-0">
               <button
                 class="px-10 text-sm lg:text-lg shadow-button rounded-md bg-blue-two border-blue-two h-10 lg:h-16 border-2"
               >

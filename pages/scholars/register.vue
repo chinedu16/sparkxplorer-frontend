@@ -362,6 +362,7 @@
           <el-input
             v-model="customAmount"
             size="large"
+            type="number"
             class="w-full"
             placeholder="Please enter amount"
           />
@@ -530,28 +531,34 @@ const openSuccessOverlay = async () => {
   } else {
     loadingPayment.value = true;
     try {
+      
       const payload = {
-        plan: `${selectedAmountName.value}${
-          selectedDonationType.value === "reocurring" ? "Sub" : ""
-        }`,
-        subscription:
-          selectedDonationType.value === "reocurring" ? true : false,
+        plan: `${selectedAmountName.value}${selectedDonationType.value === "reocurring" ? "Sub" : ""}`,
+        subscription: selectedDonationType.value === "reocurring" ? true : false,
       };
-      const { data, error } = await sparkStore.donateToAScholar(payload);
+      const payload2 = {
+        amount: Number(customAmount.value),
+        plan: customAmount.value,
+        subscription: selectedDonationType.value === "reocurring" ? true : false,
+      };
+      
+      const { data, error } = await sparkStore.donateToAScholar(customAmount.value ? payload2 : payload);
       if (data) {
         window.location.replace(data);
         showOverlay.value = false;
         showPaymentModal.value = false;
       }
       if (error) {
-        console.log(error)
+        console.log(error);
       }
     } catch (error) {
+      console.error(error);
     } finally {
       loadingPayment.value = false;
     }
   }
 };
+
 
 const addDomain = () => {
   dynamicValidateForm.child.push({
@@ -600,18 +607,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         if (error) {
           ElNotification({
             title: "Error",
-            message:
-              error?.response?.data?.message[0] ||
-              error?.response?.data?.message,
+            message: error?.message,
             type: "error",
           });
           return;
         }
 
         if (data) {
-          console.log(data);
+          showPaymentModal.value = true;
         }
-        showPaymentModal.value = true;
+        
       } catch (error) {
       } finally {
         loading.value = false;

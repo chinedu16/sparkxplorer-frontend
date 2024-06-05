@@ -40,7 +40,7 @@
               <div class="mt-10 lg:mt-0 lg:w-3/6">
                 <div class="relative flex justify-center lg:justify-end">
                   <img
-                    src="@/assets/images/illustrations/launch-one.png"
+                    src="@/assets/images/illustrations/chromebook.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"
@@ -64,7 +64,7 @@
               <div class="lg:w-3/6 mb-10 lg:mb-0">
                 <div class="relative flex justify-center lg:justify-start">
                   <img
-                    src="@/assets/images/illustrations/launch-one.png"
+                    src="@/assets/images/illustrations/laptops.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"
@@ -131,7 +131,7 @@
               <div class="lg:w-3/6 mt-10 lgmt-0">
                 <div class="relative flex justify-center lg:justify-end">
                   <img
-                    src="@/assets/images/illustrations/launch-one.png"
+                    src="@/assets/images/illustrations/amplify.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"
@@ -155,7 +155,7 @@
               <div class="lg:w-3/6 mb-10 lg:mb-0">
                 <div class="relative flex justify-center lg:justify-start">
                   <img
-                    src="@/assets/images/illustrations/launch-one.png"
+                    src="@/assets/images/illustrations/scholar.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"
@@ -201,7 +201,7 @@
               <div class="lg:w-3/6">
                 <h2 class="text-xl lg:text-4xl text-black font-bold">Pimp My Tech Lab</h2>
                 <p class="text-sm lg:text-xl mt-5">
-                  A complete tech lab setup for less    privileged schools,
+                  A complete tech lab setup for less privileged schools,
                   equipping these schools with 50 computers, projectors, PA
                   systems, furniture and a power generator. Sponsors in turn
                   will recieve a heartfelt thank you letter from beneficiaries,
@@ -224,7 +224,7 @@
               <div class="lg:w-3/6 mt-10 lg:mt-0">
                 <div class="relative flex justify-center lg:justify-end">
                   <img
-                    src="@/assets/images/illustrations/ixl-children.png"
+                    src="@/assets/images/illustrations/pimp.png"
                     alt=""
                     srcset=""
                     class="z-10 lg:w-4/5 h-full relative"

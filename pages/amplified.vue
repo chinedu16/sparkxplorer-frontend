@@ -43,7 +43,7 @@
                 <div class="lg:w-2/6 mt-10 lg:mt-0">
                   <div class="relative flex justify-end">
                     <img
-                      src="@/assets/images/illustrations/launch-one.png"
+                      src="@/assets/images/illustrations/amplify.png"
                       alt=""
                       srcset=""
                       class="z-10 lg:w-4/5 h-full relative"
