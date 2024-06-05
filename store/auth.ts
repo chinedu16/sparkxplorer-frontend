@@ -5,7 +5,6 @@ export const useAuthStore = defineStore({
   id: "auth-store",
   state: () => ({}),
   actions: {
-
     async registerUser(payload: any) {
       try {
         const { data, error } = await useApiPost("/auth/register", payload);
@@ -16,13 +15,13 @@ export const useAuthStore = defineStore({
     },
     async verifyToken(payload: any) {
       try {
-        const { data, error } = await useApiPost("/auth/verify-token", payload);
+        const {email, token} = payload
+        const { data, error } = await useApiPost("/auth/verify-email",  {email, token});
         return { data, error };
       } catch (error) {
         return { error };
       }
     },
-    
   },
   getters: {
     // getterAllMyProjects: (state) => state.myProject,

@@ -38,14 +38,16 @@ onMounted(() => {
   verifyTokenHandler();
 });
 
-// http://localhost:3001/auth/email-verification?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5b2JhbWlAZ21haWwuY29tIiwiaWF0IjoxNzEzMTI2NTc2LCJleHAiOjE3MTMyOTkzNzZ9.7_A-KtVTUkMar0EhZYWNTo6yNMYubNm4t7b4K7sqLmc
+// http://localhost:3001/auth/email-verification?email=ayobami@gmail.comtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5b2JhbWkyQGdtYWlsLmNvbSIsImlhdCI6M
 
 const verifyTokenHandler = async () => {
   fullscreenLoading.value = true;
   try {
     const token = route.query.token;
+    const email = route.query.email;
     const payload = {
       token: token,
+      email: email
     };
     const { data, error } = await authStore.verifyToken(payload);
 
