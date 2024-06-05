@@ -18,6 +18,7 @@
             <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-3">
               <div
                 v-for="items in getAllAmountList"
+                :key="items.id"
                 @click="handleAmountSelected(items.amount, items.name)"
               >
                 <div
@@ -35,10 +36,7 @@
             </div>
 
             <div class="mt-10 flex items-center space-x-2">
-              <span class="font-semibold w-1/5 text-xs lg:text-base"
-                >Other Amount:
-              </span>
-
+              <span class="font-semibold w-1/5 text-xs lg:text-base">Other Amount:</span>
               <el-input
                 v-model="customAmount"
                 size="large"
@@ -47,9 +45,7 @@
               />
             </div>
             <div class="mt-10">
-              <span class="font-semibold w-1/5 text-xs lg:text-base"
-                >Donation Type:
-              </span>
+              <span class="font-semibold w-1/5 text-xs lg:text-base">Donation Type:</span>
 
               <div class="mt-3 flex space-x-2">
                 <span
@@ -64,10 +60,10 @@
                   One Time Payment
                 </span>
                 <span
-                  @click="handleDonationType('reocurring')"
+                  @click="handleDonationType('recurring')"
                   class="w-1/2 text-center py-4 px-2 font-semibold cursor-pointer text-xs lg:text-base shadow-card flex items-center justify-center rounded border-green-two border"
                   :class="[
-                    selectedDonationType === 'reocurring'
+                    selectedDonationType === 'recurring'
                       ? 'bg-green-two text-white'
                       : 'bg-white',
                   ]"
@@ -203,13 +199,14 @@ const selectedAmount = ref(10);
 const selectedAmountName = ref("ten");
 const selectedDonationType = ref("reocurring");
 
-const handleAmountSelected = (params: number, name: string) => {
+const handleAmountSelected = (amount: number, name: string) => {
   selectedAmountName.value = name;
-  selectedAmount.value = params;
+  selectedAmount.value = amount;
+  customAmount.value = ''; // Clear custom amount when a predefined amount is selected
 };
 
-const handleDonationType = (params: string) => {
-  selectedDonationType.value = params;
+const handleDonationType = (type: string) => {
+  selectedDonationType.value = type;
 };
 
 const ruleFormRef = ref<FormInstance>();
@@ -310,12 +307,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       loading.value = true;
 
+      // Use custom amount if specified, otherwise use selected amount
+      const amountToUse = customAmount.value ? parseFloat(customAmount.value) : selectedAmount.value;
+      const amountNameToUse = customAmount.value ? 'custom' : selectedAmountName.value;
+
       const payload = {
-        plan: `${selectedAmountName.value}${
-          selectedDonationType.value === "reocurring" ? "Sub" : ""
-        }`,
-        subscription:
-          selectedDonationType.value === "reocurring" ? true : false,
+        plan: `${amountNameToUse}${selectedDonationType.value === "reocurring" ? "Sub" : ""}`,
+        subscription: selectedDonationType.value === "reocurring",
+        amount: amountToUse, // Ensure the amount is passed in the payload
       };
       console.log(payload);
       try {
@@ -334,6 +333,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
+
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
@@ -341,3 +341,5 @@ const resetForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped></style>
+
+
