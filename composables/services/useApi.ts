@@ -46,12 +46,12 @@ axiosInstance.interceptors.response.use(
           navigateTo("/portal");
         }
       } else if (status === 500) {
-        ElNotification({
-          title: "Server Error",
-          message:
-            "An unexpected server error occurred. Please try again later.",
-          type: "error",
-        });
+        // ElNotification({
+        //   title: "Server Error",
+        //   message:
+        //     "An unexpected server error occurred. Please try again later.",
+        //   type: "error",
+        // });
       }
     } else if (error.request) {
       console.error("No response received:", error.request);

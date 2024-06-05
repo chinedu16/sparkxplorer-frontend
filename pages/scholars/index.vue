@@ -36,7 +36,7 @@
                 <div class="mt-5 md:mt-0 md:w-2/6 lg:w-3/6">
                   <div class="relative flex justify-end">
                     <img
-                      src="@/assets/images/illustrations/ixl-children.png"
+                      src="@/assets/images/illustrations/scholar.png"
                       alt=""
                       srcset=""
                       class="z-10 lg:w-4/5 h-full relative"
