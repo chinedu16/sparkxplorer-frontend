@@ -19,7 +19,7 @@ export const useAuthStore = defineStore({
         const { data, error } = await useApiPost("/auth/verify-email",  {email, token});
         return { data, error };
       } catch (error) {
-        return { error };
+        return { data: null, error: error };
       }
     },
   },

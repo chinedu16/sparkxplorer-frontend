@@ -58,18 +58,21 @@ const verifyTokenHandler = async () => {
     if (error) {
       ElNotification({
         title: "Error",
-        message: "The validation was not complete, please retry with correct link",
+        message: "The validation was not complete, please retry with the correct link",
         type: "error",
       });
       return;
     }
   } catch (error) {
+    ElNotification({
+      title: "Error",
+      message: "An unexpected error occurred",
+      type: "error",
+    });
   } finally {
     fullscreenLoading.value = false;
   }
 };
-
-// await sparkStore.donateToAScholar(payload)
 </script>
 
 <style scoped></style>
