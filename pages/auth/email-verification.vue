@@ -38,6 +38,8 @@ onMounted(() => {
   verifyTokenHandler();
 });
 
+// http://localhost:3001/auth/email-verification?email=ayobami@gmail.comtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF5b2JhbWkyQGdtYWlsLmNvbSIsImlhdCI6M
+
 const verifyTokenHandler = async () => {
   fullscreenLoading.value = true;
   try {
