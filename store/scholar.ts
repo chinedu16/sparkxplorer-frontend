@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
-export const useSparkStore = defineStore('sparkstore', {
+export const useScholarStore = defineStore('scholarStore', {
   state: () => ({
     scholars: [],
     loading: false,

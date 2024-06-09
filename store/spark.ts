@@ -56,6 +56,20 @@ export const useSparkStore = defineStore({
         return { error };
       }
     },
+
+    async exportScholarData(params: string) {
+      try {
+        const urlParams = params === 'parent' ? '/spark/export-parent-numbers' : '/spark/export-child-data'
+        const { data, error } = await useApiPost(urlParams, {});
+        if (error) {
+          console.error("Could not generate file:", error);
+        }
+        return { data, error };
+      } catch (error) {
+        console.error("Could not generate file:", error);
+        return { error };
+      }
+    },
   },
   getters: {
     getAllAmountList: (state) => state.amountList,
