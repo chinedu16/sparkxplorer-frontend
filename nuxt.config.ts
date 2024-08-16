@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "nuxt-swiper",
     "@element-plus/nuxt",
     "@pinia/nuxt",
+    '@nuxt/fonts',
   ],
   
   tailwindcss: {

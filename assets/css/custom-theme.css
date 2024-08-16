@@ -1,5 +1,10 @@
 /* assets/css/custom-theme.css */
 :root {
-    --el-color-primary: #67c23a !important; /* Green color */
+    --el-color-primary: #4F46E5 !important; /* Green color */
     /* You can define other custom variables here */
+  }
+
+  body {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    letter-spacing: -0.7%;
   }

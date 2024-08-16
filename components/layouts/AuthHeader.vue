@@ -1,27 +1,22 @@
 <template>
   <div>
     <div class="bg-gray-three shadow-header">
-      <div class="flex items-center h-20 px-10 justify-center">
+      <div class="flex items-center h-24 px-10 justify-center">
         <div class="w-full mx-auto flex items-center justify-between">
-          <nuxt-link to="/">
-            <img class="w-40 " src="@/assets/images/icons/logo.svg" alt="" srcset="" />
-          </nuxt-link>
+          <h1 class="text-3xl font-extrabold">Hello David</h1>
           <nav class="flex items-center space-x-5 font-semibold">
-            <el-input
-              v-model="search"
-              style="width: 440px"
-              size="large"
-              class="mr-10"
-              placeholder="Search Something..."
-              :suffix-icon="Search"
-            />
-            <Bell class="text-black w-7 h-7" />
+            <div class="bg-gray-three rounded-full p-2">
+              <Bell class="text-black w-6 h-6" />
+            </div>
             <el-dropdown trigger="click">
               <span class="space-x-2 flex items-center el-dropdown-link">
-                <UserFilled class="w-8 h-8"/>
-                <span>Taiwo Ademola</span> <el-icon class="el-icon--right"
-                  ><arrow-down
-                /></el-icon>
+                <div
+                  class="bg-purple-one text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
+                >
+                  OD
+                </div>
+                <span>Odafe David</span>
+                <el-icon class="el-icon--right"><arrow-down /></el-icon>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -56,7 +51,7 @@ import {
   CirclePlus,
   CirclePlusFilled,
   Plus,
-  UserFilled
+  UserFilled,
 } from "@element-plus/icons-vue";
 
 const router = useRouter();

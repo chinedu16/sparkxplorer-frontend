@@ -1,16 +1,16 @@
 <template>
-  <div>
-    
-    <main>
-      <slot />
-    </main>
-    <LayoutsFooter />
+  <div class="flex flex-col h-screen">
+    <div class="flex flex-grow overflow-hidden">
+      <main class="flex-grow overflow-auto bg-white">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 useHead({
-  title: "Spark Brigde - Home",
+  title: "Spark Explorer",
   meta: [
     {
       name: "description",

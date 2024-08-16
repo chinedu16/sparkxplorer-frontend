@@ -16,24 +16,11 @@ export default {
         700: '700px'
       },
       colors: {
-        'blue-one': '#EBFEFF',
-        'blue-two': "#0F537A",
-        'blue-three': '#0D9AEB',
-        'blue-four': '#ECF1F0',
-        'blue-five': '#F2FEFF',
-        'blue-six': '#7C8DB5',
-        'yellow-one': '#FFFBDB',
-        'yellow-two': '#FFF5A1',
-        'yellow-three': '#F6CF05',
-        'gray-one': '#797B89',
-        'gray-two': '#F5F5F5',
-        'gray-three': '#FFFBFB',
-        'pink-one': '#FFF5F7',
-        'pink-two': '#E93B77',
-        'yellow-one': '#FFFBDBB2',
-        'orange-one': '#E17153',
-        'green-one': '#EDFFEE',
-        'green-two': '#63B967',
+        'primary': '#4F46E5',
+        'purple-one': "#EEF2FF",
+        'gray-one': '#475569',
+        'gray-two': '#1E293B',
+        'gray-three': "#F8FAFC",
       },
       boxShadow: {
         'header': '2px 6px 4px 0px #00000040',
@@ -43,6 +30,7 @@ export default {
       },
       borderRadius: {
         '66': '66px',
+        '123': '123px'
       },
     },
   },

@@ -1,14 +1,11 @@
 <template>
-  <div>
-    
-  </div>
+  <div>Dashboard</div>
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
-
-router.push('/auth/login')
-
+definePageMeta({
+  layout: "dashboard",
+});
 </script>
 
 <style scoped></style>
