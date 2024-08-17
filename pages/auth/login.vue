@@ -77,7 +77,7 @@
         </el-form>
       </div>
     </div>
-    <div class="w-1/2 h-screen bg-red-500 relative">
+    <div class="w-1/2 h-screen bg-purple-one relative">
       <CommonAuthCarousel></CommonAuthCarousel>
     </div>
   </div>

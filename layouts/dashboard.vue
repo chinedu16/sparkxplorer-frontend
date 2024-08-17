@@ -11,7 +11,7 @@
         <!-- Header -->
         <LayoutsAuthHeader class="bg-gray-three flex-none" />
         <!-- Main Content -->
-        <main class="flex-grow p-6 overflow-auto bg-white">
+        <main class="flex-grow p-8 overflow-auto bg-white">
           <slot />
         </main>
         <!-- Footer -->

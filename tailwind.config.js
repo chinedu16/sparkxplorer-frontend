@@ -21,6 +21,7 @@ export default {
         'gray-one': '#475569',
         'gray-two': '#1E293B',
         'gray-three': "#F8FAFC",
+        'gray-four': "#E2E8F0"
       },
       boxShadow: {
         'header': '2px 6px 4px 0px #00000040',
