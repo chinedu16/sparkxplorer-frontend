@@ -3,7 +3,7 @@ import axios, { type AxiosRequestConfig } from "axios";
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 const axiosInstance = axios.create({
-  baseURL: "https://api.sparkbridges.com/api/v1/", // Replace this with your API base URL
+  baseURL: "https://api.sparkbridges.com/xplorer/api/v1/", // Replace this with your API base URL
 });
 
 // Request interceptor
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-
+      console.log(status)
       if (status === 400) {
         ElNotification({
           title: "Bad Request",
@@ -45,17 +45,21 @@ axiosInstance.interceptors.response.use(
         if (error.response.data?.message.includes("Invalid token")) {
           navigateTo("/portal");
         }
-      } else if (status === 500) {
-        // ElNotification({
-        //   title: "Server Error",
-        //   message:
-        //     "An unexpected server error occurred. Please try again later.",
-        //   type: "error",
-        // });
+      } else if (status === 422) {
+        ElNotification({
+          title: "Error!!!",
+          message: error.response.data?.message || "Bad Request",
+          type: "error",
+        });
       }
     } else if (error.request) {
       console.error("No response received:", error.request);
     } else {
+      ElNotification({
+        title: "Error",
+        message: error.response.data?.message || "Something else occured!!!",
+        type: "error",
+      });
       console.error("Error during request setup:", error.message);
     }
     return Promise.reject(error);

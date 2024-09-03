@@ -23,7 +23,7 @@
               label=""
               placeholder="Search"
               type="text"
-              iconPrefix="search"
+              iconPrefix="search-gray"
               variant="transparent"
             />
           </div>

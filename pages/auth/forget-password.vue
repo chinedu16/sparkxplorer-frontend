@@ -76,6 +76,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+const router = useRouter()
 
 definePageMeta({
   layout: "auth",
@@ -99,6 +100,7 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit((values) => {
   console.log("Form submitted:", values);
+  router.push('/auth/reset-password')
 });
 </script>
 

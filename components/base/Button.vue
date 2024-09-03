@@ -2,7 +2,6 @@
   <div :class="containerClass">
     <el-button
       :type="type"
-      :size="size"
       :circle="circle"
       native-type="submit"
       :disabled="disabled"
@@ -61,10 +60,24 @@ const props = defineProps({
 
 const containerClass = computed(() => props.containerStyle);
 
+const buttonHeight = computed(() => {
+  switch (props.size) {
+    case "small":
+      return "32px";
+    case "medium":
+      return "40px";
+    case "large":
+      return "48px";
+    default:
+      return "48px";
+  }
+});
+
 const buttonStyle = computed(() => ({
   backgroundColor: props.bgColor,
   color: props.textColor,
   borderColor: props.borderColor || props.bgColor, // Use borderColor if provided, otherwise use bgColor
+  height: buttonHeight.value,
 }));
 
 const buttonClass = computed(() => `${props.styles} custom-button`);
@@ -73,8 +86,8 @@ const buttonClass = computed(() => `${props.styles} custom-button`);
 <style scoped>
 .custom-button {
   border-radius: 123px !important;
-  height: 48px;
   box-shadow: none;
   font-weight: 700;
+  font-size: 16px;
 }
 </style>

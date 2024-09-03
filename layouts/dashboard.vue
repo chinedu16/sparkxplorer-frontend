@@ -9,9 +9,9 @@
       <!-- Main Content and Footer Wrapper -->
       <div class="flex flex-col flex-grow">
         <!-- Header -->
-        <LayoutsAuthHeader class="bg-gray-three flex-none" />
+        <LayoutsAuthHeader :class="userGetStartedLayout" class="bg-gray-three flex-none" />
         <!-- Main Content -->
-        <main class="flex-grow p-8 overflow-auto bg-white">
+        <main :class="mainClassSpacing" class="flex-grow overflow-auto bg-white">
           <slot />
         </main>
         <!-- Footer -->
@@ -22,6 +22,17 @@
 </template>
 
 <script setup lang="ts">
+
+const route = useRoute();
+
+const mainClassSpacing = computed(() => {
+  return route.name === 'dashboard-feed' ? '' : 'p-8';
+});
+
+const userGetStartedLayout = computed(() => {
+  return route.name === 'dashboard-get-started' ? 'hidden' : '';
+});
+
 useHead({
   title: "Admin - Spark Xplorer",
   meta: [

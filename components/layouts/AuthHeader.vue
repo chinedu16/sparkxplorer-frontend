@@ -24,7 +24,7 @@
                   <el-dropdown-item :icon="Setting">
                     Setting
                   </el-dropdown-item>
-                  <el-dropdown-item :icon="Plus">
+                  <el-dropdown-item @click="logoutApp" :icon="Plus">
                     Logout
                   </el-dropdown-item>
                   
@@ -42,15 +42,16 @@
 import {
   Bell,
   ArrowDown,
- 
   User,
   Setting,
   Plus,
 } from "@element-plus/icons-vue";
 
 const router = useRouter();
-const goToBeneficiaries = () => {
-  router.push("/#beneficiaries");
+const logoutApp = () => {
+  localStorage.removeItem("TOKEN");
+  localStorage.removeItem("USER");
+  router.push("/");
 };
 
 const search = ref("");

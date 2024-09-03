@@ -5,7 +5,11 @@
     <div class="max-w-screen-2xl mx-auto w-full">
       <div class="flex justify-between border-t py-4">
         <nuxt-link to="/">
-          <img class="cursor-pointer" src="~/assets/images/icons/logo-sparkexplorer.svg" alt="" />
+          <img
+            class="cursor-pointer"
+            src="~/assets/images/icons/logo-sparkexplorer.svg"
+            alt=""
+          />
         </nuxt-link>
         <div class="">
           <base-button
@@ -35,19 +39,75 @@
         <p class="mt-6 text-xl text-gray-one">
           With our annual plan, you get a full experience of our service.
         </p>
-        <div
-          class="bg-purple-one flex-col font-bold text-primary text-2xl h-96 w-full rounded-lg mt-6 text-center flex items-center justify-center"
-        >
-          Stripe Pricing Table
 
-          <base-button
-            styles="w-full mt-4 font-bold"
+        <div class="flex space-x-4 items-center my-12">
+          <h4 class="text-gray-one text-xl">Number of scholars</h4>
+          <el-input-number
+            class="input-number"
             size="large"
-            @click="onSubmit"
-            type="primary"
-          >
-            Continue to Dashboard
-          </base-button>
+            v-model="num"
+            :min="1"
+            :max="40"
+            @change="handleChange"
+          />
+        </div>
+
+        <div class="w-full flex justify-center items-center">
+          <div class="w-8/12 space-x-8 flex">
+            <div class="w-1/2 rounded-3xl border p-6">
+              <span class="text-lg text-primary font-bold">Monthly</span>
+              <div class="mt-5 text-gray-one text-2xl mb-8">
+                <span class="text-gray-two font-black text-5xl">$15</span
+                >/month/scholar
+              </div>
+              <hr />
+              <div class="space-y-3 my-6">
+                <div v-for="i in 4" class="flex space-x-3">
+                  <img
+                    src="../../assets/images/icons/check-primary.svg"
+                    alt=""
+                  />
+                  <span>Mathematics (Pre-K to Calc)</span>
+                </div>
+              </div>
+              <base-button
+                styles="w-full mt-4 font-bold"
+                size=""
+                @click="onSubmit"
+                type="primary"
+              >
+                Subscribe Now
+              </base-button>
+            </div>
+            <div class="w-1/2 rounded-3xl border p-6">
+              <div class="flex justify-between">
+                <span class="text-lg text-primary font-bold">Yearly</span>
+                <span class="text-sm rounded-full p-2 text-primary bg-purple-one">10% OFF</span>
+              </div>
+              <div class="mt-5 text-gray-one text-2xl mb-8">
+                <span class="text-gray-two font-black text-5xl">$160</span
+                >/annum/scholar
+              </div>
+              <hr />
+              <div class="space-y-3 my-6">
+                <div v-for="i in 4" class="flex space-x-3">
+                  <img
+                    src="../../assets/images/icons/check-primary.svg"
+                    alt=""
+                  />
+                  <span>Mathematics (Pre-K to Calc)</span>
+                </div>
+              </div>
+              <base-button
+                styles="w-full mt-4 font-bold"
+                size=""
+                @click="onSubmit"
+                type="primary"
+              >
+                Subscribe Now
+              </base-button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="mt-24">
@@ -116,14 +176,31 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
+const router = useRouter();
 definePageMeta({
   layout: "auth",
 });
 
 const onSubmit = () => {
-  router.push('/dashboard')
+  router.push("/dashboard/get-started");
+};
+
+const num = ref(1);
+const handleChange = (value: number) => {
+  console.log(value);
 };
 </script>
 
-<style scoped></style>
+<style>
+.input-number .el-input-number__decrease {
+  border-radius: 123px 0px 0px 123px;
+}
+
+.input-number .el-input-number__increase {
+  border-radius: 0px 123px 123px 0px;
+}
+
+.input-number .el-input__wrapper {
+  border-radius: 123px;
+}
+</style>

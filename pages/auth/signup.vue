@@ -43,9 +43,10 @@
           <base-input
             name="phone"
             label="Phone Number"
-            type="text"
+            type="phone"
             placeholder="Enter Phone Number"
             v-model:value="formData.phone"
+            v-model:phoneCode="formData.phoneCode"
           />
           <base-input
             name="password"
@@ -59,8 +60,13 @@
           <el-checkbox v-model="formData.checked" size="large">
             <div class="font-semibold text-sm">
               By signing up, I confirm I agree to the
-              <span class="text-primary">Terms and Conditions</span> and
-              <span class="text-primary">Privacy Policy</span>
+              <nuxt-link to="/terms-and-conditions"
+                ><span class="text-primary">Terms and Conditions</span>
+              </nuxt-link>
+              and
+              <nuxt-link to="/terms-and-conditions"
+                ><span class="text-primary">Privacy Policy</span></nuxt-link
+              >
             </div>
           </el-checkbox>
 
@@ -68,6 +74,7 @@
             <base-button
               styles="w-full font-bold"
               size="large"
+              :loading="loading"
               @click="onSubmit"
               type="primary"
             >
@@ -83,12 +90,16 @@
               <div class="flex items-center space-x-2">
                 <img src="@/assets/images/icons/google.svg" alt="" />
                 <span>Sign Up With Google</span>
+                <div v-if="loading" class="spinner"></div>
               </div>
             </div>
           </div>
 
           <div class="font-semibold pb-6 text-sm mt-6 text-center">
-            Already have an account? <span class="text-primary cursor-pointer" @click="goToSignin">Sign In</span>.
+            Already have an account?
+            <span class="text-primary cursor-pointer" @click="goToSignin"
+              >Sign In</span
+            >.
           </div>
         </el-form>
       </div>
@@ -100,15 +111,13 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
-definePageMeta({
-  layout: "auth",
-});
-
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import { useAuthStore } from "@/store/auth";
 
-
+const router = useRouter();
+const authStore = useAuthStore();
+const loading = ref(false);
 const formData = ref({
   firstname: "",
   lastname: "",
@@ -116,6 +125,7 @@ const formData = ref({
   phone: "",
   checked: false,
   password: "",
+  phoneCode: "+1",
 });
 
 const validationSchema = yup.object({
@@ -158,18 +168,55 @@ const { handleSubmit, resetForm } = useForm({
   initialValues: formData.value,
 });
 
-const onboardingSubmit = () => {
-  router.push('/auth/onboarding')
-}
+const onboardingSubmit = async () => {
+  try {
+    loading.value = true;
+    const { data, error } = await authStore.getGoogleAuthUrl();
+    console.log(data);
+    if (data?.success) {
+      window.location.href = data.data.url;
+    } else if (error) {
+      console.log("Error:", error);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
-const onSubmit = handleSubmit((values) => {
-  console.log("Form submitted:", values);
-  
+const onSubmit = handleSubmit(async (values) => {
+  const payload = {
+    first_name: values.firstname,
+    last_name: values.lastname,
+    email: values.email,
+    password: values.password,
+    mobile_number: values.phone,
+    mobile_code: formData.value.phoneCode,
+    home_address: "",
+    preferred_contact_method: "",
+    find_out_channel: "",
+  };
+
+  try {
+    loading.value = true;
+    const { data, error } = await authStore.registerUser(payload);
+    console.log(data);
+    // router.push("/auth/onboarding");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 });
 
 const goToSignin = () => {
-  router.push('/auth/login')
-}
+  router.push("/auth/login");
+};
+
+definePageMeta({
+  layout: "auth",
+});
 </script>
 
 <style scoped></style>

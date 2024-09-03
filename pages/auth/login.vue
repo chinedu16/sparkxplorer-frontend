@@ -1,8 +1,6 @@
 <template>
   <div class="flex justify-between h-screen">
-    <div
-      class="w-1/2 h-screen overflow-scroll flex justify-center items-start"
-    >
+    <div class="w-1/2 h-screen overflow-scroll flex justify-center items-start">
       <div class="w-4/6 flex items-center flex-col justify-center pt-10">
         <div class="mb-6 flex items-center justify-center">
           <img
@@ -51,6 +49,7 @@
             <base-button
               styles="w-full font-bold"
               size="large"
+              :loading="loading"
               @click="onSubmit"
               type="primary"
             >
@@ -61,18 +60,21 @@
             </base-button>
             <div
               class="w-full justify-center cursor-pointer items-center flex h-11 rounded-123 border-gray-two font-bold border text-gray-two"
-              @click="onSubmit"
+              @click="onboardingSubmit"
             >
               <div class="flex items-center space-x-2">
                 <img src="@/assets/images/icons/google.svg" alt="" />
                 <span>Sign In With Google</span>
+                <div v-if="loading" class="spinner"></div>
               </div>
             </div>
           </div>
 
           <div class="font-semibold pb-6 text-sm mt-6 text-center">
             Don’t have an account?
-            <span class="text-primary cursor-pointer" @click="goToSignup">Sign Up</span>.
+            <span class="text-primary cursor-pointer" @click="goToSignup"
+              >Sign Up</span
+            >.
           </div>
         </el-form>
       </div>
@@ -90,15 +92,14 @@ definePageMeta({
 
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import { useAuthStore } from "@/store/auth";
 
 const router = useRouter();
+const authStore = useAuthStore();
+const loading = ref(false);
 
 const formData = ref({
-  firstname: "",
-  lastname: "",
   email: "",
-  phone: "",
-  checked: false,
   password: "",
 });
 
@@ -127,8 +128,47 @@ const { handleSubmit } = useForm({
   initialValues: formData.value,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log("Form submitted:", values);
+const onboardingSubmit = async () => {
+  try {
+    loading.value = true;
+    const { data, error } = await authStore.getGoogleAuthUrl();
+    console.log(data);
+    if (data?.success) {
+      window.location.href = data.data.url;
+    } else if (error) {
+      console.log("Error:", error);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const onSubmit = handleSubmit(async (values) => {
+  const payload = {
+    username: values.email,
+    password: values.password,
+    client_id: "439ec9c9-d9f1-431f-bb5d-19bf4022c03b",
+    client_secret: "31902e790e424770a887325f6ce47c46",
+    grant_type: "password",
+  };
+
+  try {
+    loading.value = true;
+    const { data, error } = await authStore.login(payload);
+  
+    if (data.success) {
+      localStorage.setItem('USER', data.data)
+      localStorage.setItem('TOKEN', data.data.accessToken)
+      router.push("/dashboard");
+    }
+    
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 });
 
 const goToSignup = () => {

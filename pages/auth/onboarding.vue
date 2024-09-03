@@ -32,7 +32,7 @@
                 @mouseleave="handleHover(index, false)"
                 @click="handleClick(index)"
                 :class="[
-                  'border cursor-pointer rounded-66 py-4 px-6 flex justify-between items-center',
+                  'border-2 cursor-pointer rounded-66 py-4 px-6 flex justify-between items-center',
                   { 'border-primary': kids.selected || kids.hovered },
                 ]"
               >
@@ -65,7 +65,7 @@
                 @mouseleave="handleTopicsHover(index, false)"
                 @click="handleTopicsClick(index)"
                 :class="[
-                  'border cursor-pointer rounded-66 py-3 px-6 flex justify-between items-center',
+                  'border-2 cursor-pointer rounded-66 py-3 px-6 flex justify-between items-center',
                   { 'border-primary': topic.selected || topic.hovered },
                 ]"
               >
@@ -88,7 +88,7 @@
             </p>
             <h1 class="text-3xl font-extrabold">Add a Scholar</h1>
 
-            <div class="mt-16 space-y-6">
+            <div class="mt-8 h-3/6 space-y-6">
               <base-input
                 name="firstname"
                 label="First Name"
@@ -105,26 +105,34 @@
                 icon-prefix="user"
                 v-model:value="formData.lastname"
               />
-              
+
               <base-input
                 name="grade"
                 label="Grade"
                 type="text"
                 placeholder="Select Grade"
-                v-model:value="formData.phone"
+                v-model:value="formData.grade"
               />
               <base-input
-                name="dob"
+                name="date_of_birth"
                 label="Dirth of Birth"
                 type="text"
                 placeholder="Select Date of Birth"
                 icon-prefix=""
-                v-model:value="formData.password"
+                v-model:value="formData.date_of_birth"
               />
+
+              <div>
+                <div class="mb-2 text-sm font-medium">Scholar Avatar</div>
+                <base-file-upload
+                  name="uploaded_files"
+                  @update:fileList="handleFileListUpdate"
+                />
+              </div>
             </div>
           </div>
 
-          <el-form class="space-y-6 mt-16 w-full">
+          <el-form class="space-y-6 mt-10 w-full">
             <div class="flex justify-between items-center mt-6">
               <base-progress-indicator :count="4" :activeIndex="formIndex" />
               <div
@@ -152,16 +160,22 @@
         </div>
       </div>
 
-      <layouts-footer class="mt-auto"></layouts-footer>
+      <layouts-footer class="mt-auto px-5"></layouts-footer>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useForm } from "vee-validate";
+import * as yup from "yup";
 const router = useRouter();
 definePageMeta({
   layout: "auth",
 });
+
+const handleFileListUpdate = (fileList: any) => {
+  console.log("Files:", fileList);
+};
 
 const formIndex = ref(1);
 const numberOfKids = ref([
@@ -208,40 +222,102 @@ const topics = ref([
 const formData = ref({
   firstname: "",
   lastname: "",
-  email: "",
-  phone: "",
-  checked: false,
-  password: "",
+  grade: "",
+  date_of_birth: "",
+  uploaded_files: ""
+});
+
+const validationSchema = yup.object({
+  firstname: yup
+    .string()
+    .required("First Name is required")
+    .min(2, "First Name must be at least 2 characters")
+    .max(50, "First Name cannot exceed 50 characters"),
+  lastname: yup
+    .string()
+    .required("Last Name is required")
+    .min(2, "Last Name must be at least 2 characters")
+    .max(50, "Last Name cannot exceed 50 characters"),
+  grade: yup.string().required("Grade is required"),
+  date_of_birth: yup.string().required("Date of birth is required"),
+  uploaded_files: yup.array().min(1, "At least one file is required").required(),
+});
+
+const { handleSubmit } = useForm({
+  validationSchema,
+  initialValues: formData.value,
 });
 
 // handling for kids
-const handleHover = (index, hover) => {
+const handleHover = (index: number, hover: boolean) => {
   numberOfKids.value[index].hovered = hover;
 };
 
-const handleClick = (index) => {
+const handleClick = (index: number) => {
   numberOfKids.value.forEach((kid, i) => {
     kid.selected = i === index;
   });
 };
 
 // handling for topics form
-const handleTopicsHover = (index, hover) => {
+const handleTopicsHover = (index: number, hover: boolean) => {
   topics.value[index].hovered = hover;
 };
 
-const handleTopicsClick = (index) => {
+const handleTopicsClick = (index: number) => {
   topics.value.forEach((kid, i) => {
     kid.selected = i === index;
   });
 };
 
-const nextForm = () => {
-  if (formIndex.value < 3) {
-    formIndex.value++;
-  } else {
-    router.push('/auth/subscription');
+const nextForm = async () => {
+  if (formIndex.value === 1) {
+    const selectedKid = numberOfKids.value.find((kid) => kid.selected);
+    if (!selectedKid) {
+      ElNotification({
+        title: "Missing Information",
+        message: "Please select how many kids you want to enroll.",
+        type: "error",
+      });
+      return;
+    }
   }
+
+  if (formIndex.value === 2) {
+    const selectedTopic = topics.value.find((topic) => topic.selected);
+    if (!selectedTopic) {
+      ElNotification({
+        title: "Missing Information",
+        message: "Please select a topic to explore.",
+        type: "error",
+      });
+      return;
+    }
+  }
+
+  if (formIndex.value === 3) {
+    // Trigger handleSubmit for validation
+    const isValid = await handleSubmit(async (formData) => {
+      // Validation passed, proceed with the form submission
+      return true;
+    })().catch(() => false);
+
+    if (!isValid) {
+      // Validation failed, stop the form progression
+      return;
+    }
+
+    // Proceed with submission or redirection
+    router.push("/auth/subscription");
+  } else {
+    formIndex.value++;
+  }
+};
+
+
+const validateScholarInfo = () => {
+  const { firstname, lastname, grade, dob } = formData.value;
+  return firstname && lastname && grade && dob;
 };
 
 const previousForm = () => {
