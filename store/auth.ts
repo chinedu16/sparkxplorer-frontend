@@ -38,6 +38,14 @@ export const useAuthStore = defineStore({
         return { error };
       }
     },
+    async getLoginGoogleAuthUrl() {
+      try {
+        const { data, error } = await useApiGet("/auth/login-google");
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
     async getGoogleToken(params: {code: string}) {
       try {
         const { data, error } = await useApiPost(`/auth/google-callback?code=${params.code}`, {});

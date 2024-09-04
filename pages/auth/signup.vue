@@ -117,6 +117,9 @@ import { useAuthStore } from "@/store/auth";
 
 const router = useRouter();
 const authStore = useAuthStore();
+
+const { handleError } = useErrorHandler();
+
 const loading = ref(false);
 const formData = ref({
   firstname: "",
@@ -172,14 +175,13 @@ const onboardingSubmit = async () => {
   try {
     loading.value = true;
     const { data, error } = await authStore.getGoogleAuthUrl();
-    console.log(data);
     if (data?.success) {
       window.location.href = data.data.url;
     } else if (error) {
-      console.log("Error:", error);
+      handleError(error);
     }
   } catch (error) {
-    console.log(error);
+    handleError(error);
   } finally {
     loading.value = false;
   }
@@ -201,10 +203,12 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     loading.value = true;
     const { data, error } = await authStore.registerUser(payload);
-    console.log(data);
-    // router.push("/auth/onboarding");
+    if (data.success) {
+      router.push("/auth/login");
+    }
+    
   } catch (error) {
-    console.log(error);
+    handleError(error);
   } finally {
     loading.value = false;
   }

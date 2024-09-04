@@ -2,27 +2,27 @@ import { defineStore } from "pinia";
 
 const { handleError } = useErrorHandler();
 
-export const useScholarStore = defineStore("scholar-store", {
+export const usePaymentStore = defineStore("payment-store", {
   state: () => ({
-    scholars: [],
+    paymentPlan: [],
     grades: null as GradeInfo | null,
   }),
   actions: {
-    async createScholar(payload: any) {
+    async getPlanPayment() {
       try {
-        const { data, error } = await useApiPost("/scholars", payload);
+        const { data, error } = await useApiGet("/auth/pricing-plans");
+        if (data && !error) {
+            this.paymentPlan = data.data;
+          }
         return { data, error };
       } catch (error) {
         handleError(error);
       }
     },
 
-    async getAllGrades() {
+    async getPaymentMethod(payload: any) {
       try {
-        const { data, error } = await useApiGet("/scholars/grades");
-        if (data && !error) {
-          this.grades = data.data.results;
-        }
+        const { data, error } = await useApiPost("/payments/generate-checkout-url", payload);
         return { data, error };
       } catch (error) {
         return { error };

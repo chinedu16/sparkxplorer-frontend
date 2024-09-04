@@ -107,25 +107,35 @@
               />
 
               <base-input
-                name="grade"
-                label="Grade"
-                type="text"
-                placeholder="Select Grade"
-                v-model:value="formData.grade"
+                name="email"
+                label="Email Address"
+                type="email"
+                placeholder="Enter Email Address"
+                icon-prefix="email"
+                v-model:value="formData.email"
               />
-              <base-input
+
+              <base-select
+                v-model="formData.grade"
+                name="grade"
+                :options="options"
+                label="Grade"
+                placeholder="Select Grade"
+              />
+
+              <base-date-picker
+                v-model="formData.date_of_birth"
                 name="date_of_birth"
                 label="Dirth of Birth"
-                type="text"
                 placeholder="Select Date of Birth"
-                icon-prefix=""
-                v-model:value="formData.date_of_birth"
+                type="date"
               />
 
               <div>
                 <div class="mb-2 text-sm font-medium">Scholar Avatar</div>
                 <base-file-upload
                   name="uploaded_files"
+                  @uploadedBase64="handleUploadedBase64"
                   @update:fileList="handleFileListUpdate"
                 />
               </div>
@@ -168,7 +178,18 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+
+import { useScholarStore } from "@/store/scholar";
+
 const router = useRouter();
+const scholarStore = useScholarStore();
+
+const base64File = ref("");
+
+const handleUploadedBase64 = (base64String: string) => {
+  base64File.value = base64String;
+};
+
 definePageMeta({
   layout: "auth",
 });
@@ -222,9 +243,21 @@ const topics = ref([
 const formData = ref({
   firstname: "",
   lastname: "",
+  email: "",
   grade: "",
   date_of_birth: "",
-  uploaded_files: ""
+  uploaded_files: [],
+});
+
+onMounted(async () => {
+  await scholarStore.getAllGrades();
+});
+
+const options = computed(() => {
+  return scholarStore.getGrades?.map((grade: { id: number; name: string }) => ({
+    value: grade.id,
+    label: grade.name,
+  }));
 });
 
 const validationSchema = yup.object({
@@ -238,9 +271,16 @@ const validationSchema = yup.object({
     .required("Last Name is required")
     .min(2, "Last Name must be at least 2 characters")
     .max(50, "Last Name cannot exceed 50 characters"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Enter a valid email address"),
   grade: yup.string().required("Grade is required"),
   date_of_birth: yup.string().required("Date of birth is required"),
-  uploaded_files: yup.array().min(1, "At least one file is required").required(),
+  uploaded_files: yup
+    .array()
+    .min(1, "At least one file is required")
+    .required(),
 });
 
 const { handleSubmit } = useForm({
@@ -296,28 +336,34 @@ const nextForm = async () => {
   }
 
   if (formIndex.value === 3) {
-    // Trigger handleSubmit for validation
     const isValid = await handleSubmit(async (formData) => {
-      // Validation passed, proceed with the form submission
-      return true;
+      try {
+        const payload = {
+          first_name: formData.firstname,
+          last_name: formData.lastname,
+          email: formData.email,
+          date_of_birth: formData.date_of_birth,
+          grade_id: formData.grade,
+          picture_url: base64File.value,
+        };
+
+        const response = await scholarStore.createScholar(payload);
+        if (response?.data.success) {
+          router.push("/auth/subscription");
+        }
+        router.push("/auth/subscription");
+      } catch (error) {
+        console.error("API call failed:", error);
+        return false;
+      }
     })().catch(() => false);
 
     if (!isValid) {
-      // Validation failed, stop the form progression
       return;
     }
-
-    // Proceed with submission or redirection
-    router.push("/auth/subscription");
   } else {
     formIndex.value++;
   }
-};
-
-
-const validateScholarInfo = () => {
-  const { firstname, lastname, grade, dob } = formData.value;
-  return firstname && lastname && grade && dob;
 };
 
 const previousForm = () => {

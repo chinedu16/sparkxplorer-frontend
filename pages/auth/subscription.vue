@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div v-if="loading" class="container">
+    <div class="spinner-big"></div>
+  </div>
+  <div v-else class="flex flex-col min-h-screen">
     <!-- Header Component -->
 
     <div class="max-w-screen-2xl mx-auto w-full">
@@ -82,7 +85,10 @@
             <div class="w-1/2 rounded-3xl border p-6">
               <div class="flex justify-between">
                 <span class="text-lg text-primary font-bold">Yearly</span>
-                <span class="text-sm rounded-full p-2 text-primary bg-purple-one">10% OFF</span>
+                <span
+                  class="text-sm rounded-full p-2 text-primary bg-purple-one"
+                  >10% OFF</span
+                >
               </div>
               <div class="mt-5 text-gray-one text-2xl mb-8">
                 <span class="text-gray-two font-black text-5xl">$160</span
@@ -176,14 +182,26 @@
 </template>
 
 <script setup lang="ts">
+import { usePaymentStore } from "@/store/payment";
+
 const router = useRouter();
+const paymentStore = usePaymentStore();
+
 definePageMeta({
   layout: "auth",
 });
 
+const loading = ref(true);
+
 const onSubmit = () => {
   router.push("/dashboard/get-started");
 };
+
+onMounted(async() => {
+  loading.value = true
+  await paymentStore.getPaymentMethod
+  loading.value = false
+})
 
 const num = ref(1);
 const handleChange = (value: number) => {

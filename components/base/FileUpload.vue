@@ -53,10 +53,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  action: {
-    type: String,
-    required: true,
-  },
   multiple: {
     type: Boolean,
     default: true,

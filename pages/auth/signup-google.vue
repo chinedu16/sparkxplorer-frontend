@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="loading" class="spinner"></div>
-    <!-- Your other content goes here -->
+    <div v-if="loading" class="spinner-big"></div>
   </div>
 </template>
 
@@ -42,26 +41,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
-.spinner {
-  display: inline-block;
-  width: 70px;
-  height: 70px;
-  border: 6px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top-color: #4f46e5;
-  animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 </style>

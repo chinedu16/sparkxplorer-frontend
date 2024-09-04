@@ -93,9 +93,13 @@ definePageMeta({
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useAuthStore } from "@/store/auth";
+import { useUserStore } from "@/store/user";
 
 const router = useRouter();
 const authStore = useAuthStore();
+const userStore = useUserStore()
+
+const { handleError } = useErrorHandler();
 const loading = ref(false);
 
 const formData = ref({
@@ -131,15 +135,14 @@ const { handleSubmit } = useForm({
 const onboardingSubmit = async () => {
   try {
     loading.value = true;
-    const { data, error } = await authStore.getGoogleAuthUrl();
-    console.log(data);
+    const { data, error } = await authStore.getLoginGoogleAuthUrl();
     if (data?.success) {
       window.location.href = data.data.url;
     } else if (error) {
-      console.log("Error:", error);
+      handleError(error);
     }
   } catch (error) {
-    console.log(error);
+    handleError(error);
   } finally {
     loading.value = false;
   }
@@ -157,15 +160,23 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     loading.value = true;
     const { data, error } = await authStore.login(payload);
-  
+
     if (data.success) {
-      localStorage.setItem('USER', data.data)
-      localStorage.setItem('TOKEN', data.data.accessToken)
-      router.push("/dashboard");
+      localStorage.setItem("USER", JSON.stringify(data.data));
+      localStorage.setItem("TOKEN", data.data.accessToken);
+      const response = await userStore.getCurrentUser();
+
+      console.log(response.data)
+      if (response.data.success) {
+        if (response.data.data.primary_role === 'parent' && response.data.data.parent.no_scholars === 0) {
+          router.push("/auth/onboarding")
+        } else {
+          router.push("/dashboard")
+        }
+      }
     }
-    
   } catch (error) {
-    console.log(error);
+    handleError(error);
   } finally {
     loading.value = false;
   }
