@@ -10,7 +10,7 @@ export const useUserStore = defineStore({
       try {
         const { data, error } = await useApiGet("/users/me");
         if (data && !error) {
-          this.userInfo = data;
+          this.userInfo = data.data;
         }
         return { data, error };
       } catch (error) {

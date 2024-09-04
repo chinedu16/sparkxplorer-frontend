@@ -22,6 +22,7 @@
             styles="w-full font-bold"
             size="large"
             type="primary"
+            :loading="loading"
           >
             Next
           </base-button>
@@ -47,6 +48,7 @@ const emit = defineEmits<{
 const props = defineProps<{
   openModal: boolean;
   email: string;
+  loading: boolean;
 }>();
 
 const otpSchema = yup.object({
