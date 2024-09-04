@@ -60,7 +60,7 @@
             </base-button>
             <div
               class="w-full justify-center cursor-pointer items-center flex h-11 rounded-123 border-gray-two font-bold border text-gray-two"
-              @click="onboardingSubmit"
+              @click="loginWithGoogle"
             >
               <div class="flex items-center space-x-2">
                 <img src="@/assets/images/icons/google.svg" alt="" />
@@ -95,9 +95,8 @@ import * as yup from "yup";
 import { useAuthStore } from "@/store/auth";
 import { useUserStore } from "@/store/user";
 
-const router = useRouter();
 const authStore = useAuthStore();
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 const { handleError } = useErrorHandler();
 const loading = ref(false);
@@ -132,10 +131,10 @@ const { handleSubmit } = useForm({
   initialValues: formData.value,
 });
 
-const onboardingSubmit = async () => {
+const loginWithGoogle = async () => {
   try {
     loading.value = true;
-    const { data, error } = await authStore.getLoginGoogleAuthUrl();
+    const { data, error } = await authStore.getGoogleAuthUrl("login");
     if (data?.success) {
       window.location.href = data.data.url;
     } else if (error) {
@@ -161,17 +160,30 @@ const onSubmit = handleSubmit(async (values) => {
     loading.value = true;
     const { data, error } = await authStore.login(payload);
 
-    if (data.success) {
+    if (error) {
+      handleError(error);
+      return;
+    }
+
+    if (data?.success) {
       localStorage.setItem("USER", JSON.stringify(data.data));
       localStorage.setItem("TOKEN", data.data.accessToken);
+
       const response = await userStore.getCurrentUser();
 
-      console.log(response.data)
+      if (response.error) {
+        handleError(response.error);
+        return;
+      }
+
       if (response.data.success) {
-        if (response.data.data.primary_role === 'parent' && response.data.data.parent.no_scholars === 0) {
-          router.push("/auth/onboarding")
+        if (
+          response.data.data.primary_role === "parent" &&
+          response.data.data.parent.no_scholars === 0
+        ) {
+          navigateTo("/auth/onboarding");
         } else {
-          router.push("/dashboard")
+          navigateTo("/dashboard");
         }
       }
     }
@@ -183,7 +195,7 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 const goToSignup = () => {
-  router.push("/auth/signup");
+  navigateTo("/auth/signup");
 };
 </script>
 

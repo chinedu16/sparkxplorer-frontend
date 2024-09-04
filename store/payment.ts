@@ -4,7 +4,7 @@ const { handleError } = useErrorHandler();
 
 export const usePaymentStore = defineStore("payment-store", {
   state: () => ({
-    paymentPlan: [],
+    paymentPlan: [] as PaymentPlanInfo | any,
     grades: null as GradeInfo | null,
   }),
   actions: {
@@ -20,7 +20,7 @@ export const usePaymentStore = defineStore("payment-store", {
       }
     },
 
-    async getPaymentMethod(payload: any) {
+    async getPaymentStripeLink(payload: any) {
       try {
         const { data, error } = await useApiPost("/payments/generate-checkout-url", payload);
         return { data, error };
@@ -31,10 +31,17 @@ export const usePaymentStore = defineStore("payment-store", {
   },
   getters: {
     getGrades: (state) => state.grades,
+    getPaymentPlan: (state) => state.paymentPlan,
   },
 });
 
 interface GradeInfo {
   id: number;
   name: string;
+}
+
+interface PaymentPlanInfo {
+  duration: string;
+  amount: number;
+  currency: string;
 }

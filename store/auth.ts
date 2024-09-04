@@ -30,25 +30,25 @@ export const useAuthStore = defineStore({
         return { error };
       }
     },
-    async getGoogleAuthUrl() {
+    async resetPassword(payload: any) {
       try {
-        const { data, error } = await useApiGet("/auth/google");
+        const { data, error } = await useApiPut("/auth/reset-password", payload);
         return { data, error };
       } catch (error) {
         return { error };
       }
     },
-    async getLoginGoogleAuthUrl() {
+    async getGoogleAuthUrl(mode: string) {
       try {
-        const { data, error } = await useApiGet("/auth/login-google");
+        const { data, error } = await useApiGet(`/auth/google/generate-auth-url?mode=${mode}`);
         return { data, error };
       } catch (error) {
         return { error };
       }
     },
-    async getGoogleToken(params: {code: string}) {
+    async getGoogleToken(params: {code: string, mode: string}) {
       try {
-        const { data, error } = await useApiPost(`/auth/google-callback?code=${params.code}`, {});
+        const { data, error } = await useApiPost(`/auth/google/callback?code=${params.code}&mode=${params.mode}`, {});
         return { data, error };
       } catch (error) {
         return { error };

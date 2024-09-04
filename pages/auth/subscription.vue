@@ -48,7 +48,7 @@
           <el-input-number
             class="input-number"
             size="large"
-            v-model="num"
+            v-model="numberOfScholar"
             :min="1"
             :max="40"
             @change="handleChange"
@@ -57,57 +57,47 @@
 
         <div class="w-full flex justify-center items-center">
           <div class="w-8/12 space-x-8 flex">
-            <div class="w-1/2 rounded-3xl border p-6">
-              <span class="text-lg text-primary font-bold">Monthly</span>
-              <div class="mt-5 text-gray-one text-2xl mb-8">
-                <span class="text-gray-two font-black text-5xl">$15</span
-                >/month/scholar
-              </div>
-              <hr />
-              <div class="space-y-3 my-6">
-                <div v-for="i in 4" class="flex space-x-3">
-                  <img
-                    src="../../assets/images/icons/check-primary.svg"
-                    alt=""
-                  />
-                  <span>Mathematics (Pre-K to Calc)</span>
-                </div>
-              </div>
-              <base-button
-                styles="w-full mt-4 font-bold"
-                size=""
-                @click="onSubmit"
-                type="primary"
-              >
-                Subscribe Now
-              </base-button>
-            </div>
-            <div class="w-1/2 rounded-3xl border p-6">
+            <div v-for="plan in plans" class="w-1/2 rounded-3xl border p-6">
               <div class="flex justify-between">
-                <span class="text-lg text-primary font-bold">Yearly</span>
+                <span class="text-lg text-primary capitalize font-bold">{{
+                  plan.duration
+                }}</span>
                 <span
+                  v-if="plan.is_discount_active"
                   class="text-sm rounded-full p-2 text-primary bg-purple-one"
                   >10% OFF</span
                 >
               </div>
+
               <div class="mt-5 text-gray-one text-2xl mb-8">
-                <span class="text-gray-two font-black text-5xl">$160</span
-                >/annum/scholar
+                <span class="text-gray-two font-black text-5xl"
+                  >{{ plan.currency }} {{ plan.amount }}</span
+                >/{{ plan.duration }}/scholar
               </div>
               <hr />
               <div class="space-y-3 my-6">
-                <div v-for="i in 4" class="flex space-x-3">
-                  <img
-                    src="../../assets/images/icons/check-primary.svg"
-                    alt=""
-                  />
+                <div class="flex space-x-3">
+                  <img src="~/assets/images/icons/check-primary.svg" alt="" />
                   <span>Mathematics (Pre-K to Calc)</span>
+                </div>
+                <div class="flex space-x-3">
+                  <img src="~/assets/images/icons/check-primary.svg" alt="" />
+                  <span>Language Arts (Pre-K to 12)</span>
+                </div>
+                <div class="flex space-x-3">
+                  <img src="~/assets/images/icons/check-primary.svg" alt="" />
+                  <span>Science (K to Biology)</span>
+                </div>
+                <div class="flex space-x-3">
+                  <img src="~/assets/images/icons/check-primary.svg" alt="" />
+                  <span>Social Studies (K to Civics and government)</span>
                 </div>
               </div>
               <base-button
                 styles="w-full mt-4 font-bold"
                 size=""
-                @click="onSubmit"
+                @click="subscribePlan(plan)"
+                :loading="isSubscribingPlan"
                 type="primary"
               >
                 Subscribe Now
@@ -183,8 +173,8 @@
 
 <script setup lang="ts">
 import { usePaymentStore } from "@/store/payment";
+const { handleError } = useErrorHandler();
 
-const router = useRouter();
 const paymentStore = usePaymentStore();
 
 definePageMeta({
@@ -192,20 +182,50 @@ definePageMeta({
 });
 
 const loading = ref(true);
+const isSubscribingPlan = ref(false);
+const numberOfScholar = ref(1)
 
-const onSubmit = () => {
-  router.push("/dashboard/get-started");
+const plans = computed(() => {
+  return paymentStore.getPaymentPlan;
+});
+
+
+const subscribePlan = async (plan: {id: number}) => {
+  try {
+    isSubscribingPlan.value = true;
+    const payload = {
+      plan_id: plan.id,
+      no_of_scholars: numberOfScholar.value,
+    };
+    const {data, error} = await paymentStore.getPaymentStripeLink(payload);
+    if (data.success) {
+      window.location.href = data.data.url;
+    }
+    
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isSubscribingPlan.value = false;
+  }
 };
 
-onMounted(async() => {
-  loading.value = true
-  await paymentStore.getPaymentMethod
-  loading.value = false
-})
+const getPlans = async () => {
+  try {
+    loading.value = true;
+    await paymentStore.getPlanPayment();
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
-const num = ref(1);
+onMounted(() => {
+  getPlans();
+});
+
 const handleChange = (value: number) => {
-  console.log(value);
+  numberOfScholar.value = value
 };
 </script>
 

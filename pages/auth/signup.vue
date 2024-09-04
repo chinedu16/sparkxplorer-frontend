@@ -115,7 +115,6 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { useAuthStore } from "@/store/auth";
 
-const router = useRouter();
 const authStore = useAuthStore();
 
 const { handleError } = useErrorHandler();
@@ -174,7 +173,7 @@ const { handleSubmit, resetForm } = useForm({
 const onboardingSubmit = async () => {
   try {
     loading.value = true;
-    const { data, error } = await authStore.getGoogleAuthUrl();
+    const { data, error } = await authStore.getGoogleAuthUrl('signup');
     if (data?.success) {
       window.location.href = data.data.url;
     } else if (error) {
@@ -204,7 +203,7 @@ const onSubmit = handleSubmit(async (values) => {
     loading.value = true;
     const { data, error } = await authStore.registerUser(payload);
     if (data.success) {
-      router.push("/auth/login");
+      navigateTo("/auth/login");
     }
     
   } catch (error) {
@@ -215,7 +214,7 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 const goToSignin = () => {
-  router.push("/auth/login");
+  navigateTo("/auth/login");
 };
 
 definePageMeta({

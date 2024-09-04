@@ -112,14 +112,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
 
 const isMobileMenuOpen = ref(false);
 
 const goToBeneficiaries = () => {
-  router.push('/#beneficiaries');
+  navigateTo('/#beneficiaries');
 };
 
 const toggleMobileMenu = () => {

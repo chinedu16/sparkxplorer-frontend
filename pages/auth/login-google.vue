@@ -23,7 +23,7 @@ onMounted(async () => {
     try {
       const payload = {
         code,
-        mode: "signup",
+        mode: "login",
       };
       const { data, error } = await authStore.getGoogleToken(payload as any);
       if (data.success) {

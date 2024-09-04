@@ -43,14 +43,8 @@ axiosInstance.interceptors.response.use(
         });
 
         if (error.response.data?.message.includes("Invalid token")) {
-          navigateTo("/portal");
+          navigateTo("/");
         }
-      } else if (status === 422) {
-        ElNotification({
-          title: "Error!!!",
-          message: error.response.data?.message || "Bad Request",
-          type: "error",
-        });
       }
     } else if (error.request) {
       console.error("No response received:", error.request);

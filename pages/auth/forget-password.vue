@@ -28,6 +28,7 @@
           <base-button
             styles="w-full font-bold"
             size="large"
+            :loading="loading"
             @click="onSubmit"
             type="primary"
           >
@@ -69,6 +70,11 @@
         </el-form>
       </div>
     </div>
+    <common-otp-dialog
+      :email="tempEmail"
+      :openModal="openOptModal"
+      @submit="handleOtpSubmit"
+    />
     <layouts-footer class="mt-auto"></layouts-footer>
   </div>
 </template>
@@ -76,15 +82,24 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-const router = useRouter()
 
+import { useAuthStore } from "@/store/auth";
+const { handleError } = useErrorHandler();
+
+const authStore = useAuthStore();
 definePageMeta({
   layout: "auth",
 });
 
+const loading = ref(false);
+const openOptModal = ref(false);
+
 const formData = ref({
   email: "",
+  otp: "",
 });
+
+const tempEmail = ref("")
 
 const validationSchema = yup.object({
   email: yup
@@ -93,14 +108,35 @@ const validationSchema = yup.object({
     .email("Enter a valid email address"),
 });
 
+const handleOtpSubmit = (otp: string) => {
+  formData.value.otp = otp
+  openOptModal.value = false
+  navigateTo(`/auth/reset-password?code=${otp}&email=${tempEmail.value}`)
+};
+
 const { handleSubmit } = useForm({
   validationSchema,
   initialValues: formData.value,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log("Form submitted:", values);
-  router.push('/auth/reset-password')
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    loading.value = true;
+    const { data, error } = await authStore.forgetPassword({
+      email: values.email,
+    });
+    if (data?.success) {
+      tempEmail.value = values.email
+      openOptModal.value = true;
+
+    } else if (error) {
+      handleError(error);
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
 });
 </script>
 

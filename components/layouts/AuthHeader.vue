@@ -47,11 +47,10 @@ import {
   Plus,
 } from "@element-plus/icons-vue";
 
-const router = useRouter();
 const logoutApp = () => {
   localStorage.removeItem("TOKEN");
   localStorage.removeItem("USER");
-  router.push("/");
+  navigateTo("/");
 };
 
 const search = ref("");

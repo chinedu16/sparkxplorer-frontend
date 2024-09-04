@@ -5,9 +5,7 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
-
-router.push('/auth/login')
+navigateTo('/auth/login')
 
 </script>
 

@@ -35,17 +35,18 @@
                 v-model:value="formData.password"
               />
               <base-input
-                name="password"
+                name="confirm_password"
                 label="Confirm Password"
                 type="password"
                 placeholder="Enter Confirm password"
                 icon-prefix="password"
-                v-model:value="formData.confirm_passwordpassword"
+                v-model:value="formData.confirm_password"
               />
 
               <base-button
                 styles="w-full font-bold"
                 size="large"
+                :loading="loading"
                 @click="onSubmit"
                 type="primary"
               >
@@ -99,19 +100,40 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-const router = useRouter();
+const route = useRoute();
+import { useAuthStore } from "@/store/auth";
+const { handleError } = useErrorHandler();
+const authStore = useAuthStore();
 
 definePageMeta({
   layout: "auth",
 });
 
+const loading = ref(false);
+
 const formData = ref({
-  email: "",
+  password: "",
+  confirm_password: "",
 });
 
 const validationSchema = yup.object({
-  password: yup.string().required("Password is required"),
-  confirm_password: yup.string().required("Password is required"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password cannot exceed 100 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Password must contain at least one special character"
+    ),
+
+  confirm_password: yup
+    .string()
+    .oneOf([yup.ref("password")], "Passwords must match")
+    .required("Confirm password is required"),
 });
 
 const { handleSubmit } = useForm({
@@ -119,9 +141,27 @@ const { handleSubmit } = useForm({
   initialValues: formData.value,
 });
 
-const onSubmit = handleSubmit((values) => {
-  console.log("Form submitted:", values);
-  router.push("/auth/login");
+const onSubmit = handleSubmit(async (values) => {
+
+  try {
+    loading.value = true;
+    const payload = {
+      email: route.query.email,
+      password: values.password,
+      code: route.query.code,
+    };
+
+    const { data, error } = await authStore.resetPassword(payload);
+    if (data?.success) {
+      navigateTo("/auth/login");
+    } else if (error) {
+      handleError(error);
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
 });
 </script>
 

@@ -181,7 +181,6 @@ import * as yup from "yup";
 
 import { useScholarStore } from "@/store/scholar";
 
-const router = useRouter();
 const scholarStore = useScholarStore();
 
 const base64File = ref("");
@@ -344,14 +343,14 @@ const nextForm = async () => {
           email: formData.email,
           date_of_birth: formData.date_of_birth,
           grade_id: formData.grade,
-          picture_url: base64File.value,
+          picture_url: "",
         };
 
         const response = await scholarStore.createScholar(payload);
         if (response?.data.success) {
-          router.push("/auth/subscription");
+          navigateTo("/auth/subscription");
         }
-        router.push("/auth/subscription");
+        navigateTo("/auth/subscription");
       } catch (error) {
         console.error("API call failed:", error);
         return false;
