@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen">
+  <div v-loading.fullscreen.lock="loading" class="flex flex-col h-screen">
     <div class="flex flex-grow overflow-hidden">
       <!-- Sidebar -->
       <LayoutsAuthSidebar
@@ -22,8 +22,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from "@/store/user";
 
 const route = useRoute();
+const userStore = useUserStore()
 
 const mainClassSpacing = computed(() => {
   return route.name === 'dashboard-feed' ? '' : 'p-8';
@@ -32,6 +34,23 @@ const mainClassSpacing = computed(() => {
 const userGetStartedLayout = computed(() => {
   return route.name === 'dashboard-get-started' ? 'hidden' : '';
 });
+
+const loading = ref(false)
+
+onMounted(() => {
+  fetchUserData()
+})
+
+const fetchUserData = async () => {
+  try {
+    loading.value  = true
+    await userStore.getCurrentUser();
+  } catch (error) {
+    
+  } finally {
+    loading.value = false
+  }
+}
 
 useHead({
   title: "Admin - Spark Xplorer",

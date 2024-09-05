@@ -324,7 +324,6 @@
 </template>
 
 <script setup lang="ts">
-import type { TabsPaneContext } from "element-plus";
 
 const activeName = ref("first");
 const password = ref("");

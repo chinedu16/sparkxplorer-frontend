@@ -4,11 +4,12 @@
       class="flex justify-between items-center mb-6 border-b pb-6 border-gray-five"
     >
       <h2 class="font-extrabold text-gray-two text-3xl">Scholars</h2>
-      <div class="flex space-x-4">
+      <div class="flex items-center space-x-4">
         <base-button
           styles="w-full font-bold bg-white text-primary"
           size="large"
           type="primary"
+          @click="openCreateModal = true"
           class="m-0"
         >
           <div class="flex items-center space-x-2">
@@ -28,7 +29,7 @@
             <span>Add Scholar</span>
           </div>
         </base-button>
-        <base-button
+        <!-- <base-button
           styles="w-full font-bold"
           class="m-0"
           size="large"
@@ -52,7 +53,7 @@
 
             <span>Filter</span>
           </div>
-        </base-button>
+        </base-button> -->
         <base-input
           v-model="search"
           name="username"
@@ -69,59 +70,110 @@
       <el-table
         class="border-r rounded-3xl"
         :data="tableData"
+        v-loading="loading"
         style="width: 100%"
       >
-        <el-table-column prop="name" label="Scholar Name" />
-        <el-table-column prop="hours" label="Hours Spent" />
+        <el-table-column prop="name" label="Scholar Name">
+          <template #default="scope">
+            <div class="flex space-x-3">
+              <img
+                v-if="!scope.row.picture_url"
+                class="w-10 h-10 object-cover rounded-full"
+                src="@/assets/images/icons/user.svg"
+                alt=""
+              />
+              <img
+                v-else
+                class="w-10 h-10 object-cover rounded-full"
+                :src="scope.row.picture_url"
+                alt=""
+              />
+              <div>
+                <h3 class="font-bold">{{ scope.row.name }}</h3>
+                <p>{{ scope.row.grade }}</p>
+              </div>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="Status">
+          <template #default="scope">
+            <el-tag :type="scope.row.status ? 'success' : 'info'">
+              {{ scope.row.status ? "Active" : "Inactive" }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column prop="date" label="Date Registered" />
         <el-table-column fixed="right" label="" min-width="120">
           <template #default>
             <el-button link type="primary" size="small">
-              <img class="w-4 h-4" src="@/assets/images/icons/edit.svg" alt="">
+              <img
+                class="w-4 h-4"
+                src="@/assets/images/icons/edit.png"
+                alt=""
+              />
             </el-button>
             <el-button link type="primary" size="small">
-              <img class="w-4 h-4" src="@/assets/images/icons/delete.svg" alt="">
+              <img
+                class="w-4 h-4"
+                src="@/assets/images/icons/delete.png"
+                alt=""
+              />
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="px-8 flex justify-end py-6">
-        <el-pagination background layout="prev, pager, next" :total="1000" />
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="scholarStore.getTotal"
+        />
       </div>
     </div>
+
+    <el-dialog v-model="openCreateModal" title="" width="500">
+      <scholars-add-scholar @done="fetchScholars" />
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useScholarStore } from "@/store/scholar";
+const { formatDate } = useDateFormatter();
+
+const scholarStore = useScholarStore();
 const search = ref("");
+const page = ref(1);
+const per_page = ref(10);
+const loading = ref(false);
+const openCreateModal = ref(false);
+const { handleError } = useErrorHandler();
 
-const tableData = [
-  {
-    name: "Tobi Alarex",
-    grade: "grade 6",
-    hours: "6 Hours 2 Minutes",
-    date: "August 3, 2024",
-  },
-  {
-    name: "Thomas Cortez",
-    grade: "grade 2",
-    hours: "22 Hours 43 Minutes",
-    date: "January 4, 2020",
-  },
-  {
-    name: "Spain Cotes",
-    grade: "grade 3",
-    hours: "23 Hours 53 Minutes",
-    date: "June 4, 2024",
-  },
-  {
-    name: "Chinedu Ohagwu",
-    grade: "grade 1",
-    hours: "16 Hours 43 Minutes",
-    date: "July 30, 2024",
-  },
-];
+const tableData = computed(() => {
+  return scholarStore.getScholars.map((scholar: any) => ({
+    name: `${scholar.first_name} ${scholar.last_name}`,
+    grade: scholar.grade.name,
+    status: scholar.is_active,
+    date: formatDate(scholar.created_at),
+  }));
+});
 
+const fetchScholars = async () => {
+  try {
+    loading.value = true;
+    const payload = {
+      page: page.value,
+      per_page: per_page.value,
+    };
+    await scholarStore.getAllScholar(payload);
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+fetchScholars();
 definePageMeta({
   layout: "dashboard",
 });

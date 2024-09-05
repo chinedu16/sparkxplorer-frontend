@@ -72,7 +72,7 @@
                 <div class="mb-2 text-sm font-medium">Scholar Avatar</div>
                 <base-file-upload
                   name="uploaded_files"
-                  @uploadedBase64="handleUploadedBase64"
+                  @uploadedUrl="handleUploadedUrl"
                   @update:fileList="handleFileListUpdate"
                 />
               </div>
@@ -104,15 +104,17 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-
+const { handleError } = useErrorHandler();
 import { useScholarStore } from "@/store/scholar";
 
 const scholarStore = useScholarStore();
 
 const base64File = ref("");
 
-const handleUploadedBase64 = (base64String: string) => {
-  base64File.value = base64String;
+
+const handleUploadedUrl = (url: string) => {
+  formData.value.picture_url = url;
+  base64File.value = url
 };
 
 definePageMeta({
@@ -131,6 +133,7 @@ const formData = ref({
   email: "",
   grade: "",
   date_of_birth: "",
+  picture_url: "",
   uploaded_files: [],
 });
 
@@ -183,15 +186,17 @@ const nextForm = async () => {
           email: formData.email,
           date_of_birth: formData.date_of_birth,
           grade_id: formData.grade,
-          picture_url: "",
+          picture_url: base64File.value || formData.picture_url,
         };
 
         const response = await scholarStore.createScholar(payload);
         if (response?.data.success) {
           navigateTo("/auth/subscription");
         }
-        navigateTo("/auth/subscription");
+
+        console.log(response)
       } catch (error) {
+        handleError(error);
         return false;
       }
     })().catch(() => false);

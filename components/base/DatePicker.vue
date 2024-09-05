@@ -1,7 +1,7 @@
 <template>
   <el-form-item :error="errorMessage">
     <div class="w-full custom-base-date-picker">
-      <div class="mb-2 text-sm font-medium">{{ label }}</div>
+      <div v-if="label" class="mb-2 text-sm font-medium">{{ label }}</div>
       <el-date-picker
         class="custom-base-date-picker"
         v-model="internalValue"

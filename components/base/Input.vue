@@ -1,7 +1,7 @@
 <template>
   <el-form-item :error="errorMessage">
     <div class="w-full">
-      <div class="mb-2 text-sm font-medium">{{ label }}</div>
+      <div v-if="label" class="mb-2 text-sm font-medium">{{ label }}</div>
       <div v-if="type === 'phone'" class="flex custom-select">
         <el-select
           class="phone-code custom-input"

@@ -4,7 +4,8 @@ const { handleError } = useErrorHandler();
 
 export const useScholarStore = defineStore("scholar-store", {
   state: () => ({
-    scholars: [],
+    scholars: [] as ScholarInfo | any,
+    total: 0,
     grades: null as GradeInfo | null,
   }),
   actions: {
@@ -16,7 +17,19 @@ export const useScholarStore = defineStore("scholar-store", {
         handleError(error);
       }
     },
-
+    async getAllScholar(payload: any) {
+      try {
+        const { page, per_page } = payload
+        const { data, error } = await useApiGet(`/scholars?page=${page}&per_page=${per_page}`);
+        if (data && !error) {
+          this.scholars = data.data.results;
+          this.total = data.data.total;
+        }
+        return { data, error };
+      } catch (error) {
+        handleError(error);
+      }
+    },
     async getAllGrades() {
       try {
         const { data, error } = await useApiGet("/scholars/grades");
@@ -30,6 +43,8 @@ export const useScholarStore = defineStore("scholar-store", {
     },
   },
   getters: {
+    getScholars: (state) => state.scholars,
+    getTotal: (state) => state.total,
     getGrades: (state) => state.grades,
   },
 });
@@ -37,4 +52,9 @@ export const useScholarStore = defineStore("scholar-store", {
 interface GradeInfo {
   id: number;
   name: string;
+}
+
+interface ScholarInfo {
+  name: string,
+
 }

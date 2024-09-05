@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="file-upload w-full border border-dotted p-2 border-gray-five rounded-3xl"
-  >
+  <div class="file-upload w-full border border-dotted p-2 border-gray-five rounded-3xl">
     <el-form-item :error="errorMessage">
       <el-upload
         v-model:file-list="internalFileList"
@@ -18,7 +16,7 @@
         <div class="flex flex-col items-center justify-center">
           <h1 class="text-primary mb-2 font-bold">{{ title }}</h1>
           <p class="text-sm mb-6">{{ tip }}</p>
-          <base-button styles="w-full text-sm font-bold" size="medium" type="primary">
+          <base-button :loading="isUploading" styles="w-full text-sm font-bold" size="medium" type="primary">
             <div class="flex items-center space-x-2">
               <span>Browse File</span>
               <svg
@@ -41,9 +39,9 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import axios from "axios";
 import { useField } from "vee-validate";
 import type { UploadProps, UploadUserFile } from "element-plus";
 
@@ -71,7 +69,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:fileList", "uploadedBase64"]);
+const isUploading = ref(false)
+
+const emit = defineEmits(["update:fileList", "uploadedUrl"]);
 
 const { value: fileList, errorMessage } = useField<UploadUserFile[]>(props.name);
 
@@ -84,22 +84,23 @@ watch(internalFileList, (newFileList) => {
 
 const handleRemove: UploadProps["onRemove"] = (uploadFile, uploadFiles) => {
   console.log("File removed:", uploadFile);
-  // Optional: Update internalFileList if needed
 };
 
 const handlePreview: UploadProps["onPreview"] = (file) => {
   console.log("File preview:", file);
 };
 
-const handleSuccess: UploadProps["onSuccess"] = (response, file, fileList) => {
-  console.log("File uploaded successfully:", file);
-  // Ensure internalFileList is updated correctly
+const handleSuccess: UploadProps["onSuccess"] = async (response, file, fileList) => {
   internalFileList.value = fileList;
 
-  // Convert the uploaded file to base64 and emit it
-  convertToBase64(file.raw);
+  // Upload to Cloudinary
+  const cloudinaryUrl = await uploadToCloudinary(file.raw);
+  if (cloudinaryUrl) {
+    emit("uploadedUrl", cloudinaryUrl);
+  }
 };
 
+// Before uploading, check file type and size
 const beforeUpload = (file: File) => {
   const isJPG = file.type === "image/jpeg" || file.type === "image/png";
   const isLt500kb = file.size / 1024 < 500;
@@ -114,17 +115,27 @@ const beforeUpload = (file: File) => {
   return isJPG && isLt500kb;
 };
 
-// Convert file to Base64 string and emit it
-const convertToBase64 = (file: File) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-    const base64String = reader.result as string;
-    emit("uploadedBase64", base64String);
-  };
-  reader.onerror = (error) => {
-    console.error("Error converting file to base64:", error);
-  };
+// Upload file to Cloudinary and return the image URL
+const uploadToCloudinary = async (file: File): Promise<string | null> => {
+  try {
+    isUploading.value = true
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "vrhbeole"); // Replace with your Cloudinary preset
+    formData.append("cloud_name", "dk4pd3ju4"); // Replace with your Cloudinary cloud name
+
+    const response = await axios.post("https://api.cloudinary.com/v1_1/dk4pd3ju4/image/upload", formData);
+    
+    if (response.data.secure_url) {
+      return response.data.secure_url;
+    }
+  } catch (error) {
+    console.error("Error uploading to Cloudinary:", error);
+  } finally {
+    isUploading.value = false
+  }
+
+  return null;
 };
 </script>
 

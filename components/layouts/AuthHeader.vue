@@ -3,7 +3,7 @@
     <div class="bg-gray-three shadow-header">
       <div class="flex items-center h-24 px-10 justify-center">
         <div class="w-full mx-auto flex items-center justify-between">
-          <h1 class="text-3xl text-gray-two font-extrabold">Hello David</h1>
+          <h1 class="text-3xl text-gray-two font-extrabold">{{ userStore.getUserInfo?.name }}</h1>
           <nav class="flex items-center space-x-5 font-semibold">
             <div class="bg-gray-three rounded-full p-2">
               <Bell class="text-black w-6 h-6" />
@@ -11,11 +11,11 @@
             <el-dropdown trigger="click">
               <span class="space-x-2 flex items-center el-dropdown-link">
                 <div
-                  class="bg-purple-one text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
+                  class="bg-purple-one text-primary uppercase rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
                 >
-                  OD
+                  {{ userStore.getUserInfo?.name[0]}}{{userStore.getUserInfo?.name[1] }}
                 </div>
-                <span>Odafe David</span>
+                <span>{{ userStore.getUserInfo?.name }}</span>
                 <el-icon class="el-icon--right"><arrow-down /></el-icon>
               </span>
               <template #dropdown>
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from "@/store/user";
 import {
   Bell,
   ArrowDown,
@@ -46,6 +47,8 @@ import {
   Setting,
   Plus,
 } from "@element-plus/icons-vue";
+
+const userStore = useUserStore()
 
 const logoutApp = () => {
   localStorage.removeItem("TOKEN");
