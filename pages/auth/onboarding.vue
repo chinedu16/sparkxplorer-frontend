@@ -1,14 +1,17 @@
 <template>
   <div class="flex min-h-screen">
-    <div class="w-1/2 h-screen">
+    <!-- Left Section: Stagnant -->
+    <div class="w-1/2 h-screen fixed">
       <img
         src="~/assets/images/illustrations/onboarding-frame.png"
         class="w-full h-screen"
         alt=""
       />
     </div>
-    <div class="w-1/2 flex flex-col">
-      <div class="flex-grow flex justify-center items-center">
+
+    <!-- Right Section: Scrollable -->
+    <div class="w-1/2 ml-auto justify-between flex flex-col overflow-y-auto">
+      <div class="flex-grow py-12 flex justify-center items-center">
         <!-- form one  -->
         <div class="flex w-4/6 flex-col">
           <div class="mb-6">

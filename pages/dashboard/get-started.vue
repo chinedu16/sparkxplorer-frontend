@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center w-full mt-40">
+  <div class="flex justify-center items-center w-full mt-20">
     <div class="w-7/12">
       <h1 class="font-black text-3xl text-center">
         Hello {{ currentUser?.name }}, Let’s Finish Setting Up Your Account! ☀️

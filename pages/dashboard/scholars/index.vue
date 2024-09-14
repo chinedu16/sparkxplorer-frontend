@@ -9,7 +9,7 @@
           styles="w-full font-bold bg-white text-primary"
           size="large"
           type="primary"
-          @click="openCreateModal = true"
+          @click="addScholarHandler"
           class="m-0"
         >
           <div class="flex items-center space-x-2">
@@ -139,8 +139,12 @@
 
 <script setup lang="ts">
 import { useScholarStore } from "@/store/scholar";
+import { usePaymentStore } from "@/store/payment";
+
+const emit = defineEmits(["done"]);
 const { formatDate } = useDateFormatter();
 
+const paymentStore = usePaymentStore();
 const scholarStore = useScholarStore();
 const search = ref("");
 const page = ref(1);
@@ -158,6 +162,14 @@ const tableData = computed(() => {
   }));
 });
 
+const addScholarHandler = () => {
+  if (!paymentStore.getCanAddScholar) {
+    navigateTo("/dashboard/subscription/subscribe");
+  } else {
+    openCreateModal.value = true;
+  }
+};
+
 const fetchScholars = async () => {
   try {
     loading.value = true;
@@ -166,6 +178,8 @@ const fetchScholars = async () => {
       per_page: per_page.value,
     };
     await scholarStore.getAllScholar(payload);
+    await paymentStore.checkIfCanAddScholars();
+
   } catch (error) {
     handleError(error);
   } finally {

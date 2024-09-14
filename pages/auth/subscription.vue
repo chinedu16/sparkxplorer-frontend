@@ -5,7 +5,7 @@
   <div v-else class="flex flex-col min-h-screen">
     <!-- Header Component -->
 
-    <div class="max-w-screen-2xl mx-auto w-full">
+    <div class="max-w-screen-2xl px-5 mx-auto w-full">
       <div class="flex justify-between border-t py-4">
         <nuxt-link to="/">
           <img
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="flex-grow max-w-screen-2xl mx-auto w-full">
+    <div class="flex-grow px-5 max-w-screen-2xl mx-auto w-full">
       <div class="mt-20 flex flex-col items-center justify-center">
         <div
           class="text-sm py-2 px-5 w-fit font-semibold text-primary bg-purple-one rounded-full"
@@ -71,7 +71,7 @@
 
               <div class="mt-5 text-gray-one text-2xl mb-8">
                 <span class="text-gray-two font-black text-5xl"
-                  >{{ plan.currency }} {{ plan.amount }}</span
+                  >{{ plan.currency }} {{ plan.amount * numberOfScholar }}</span
                 >/{{ plan.duration }}/scholar
               </div>
               <hr />

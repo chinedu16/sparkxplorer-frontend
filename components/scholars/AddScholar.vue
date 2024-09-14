@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <h1 class="text-3xl font-extrabold">Add a Scholar</h1>
     <p class="mt-2 text-gray-one">
       We’ll fine tune our features to be personalized for you.
@@ -43,7 +42,7 @@
       <base-date-picker
         v-model="formData.date_of_birth"
         name="date_of_birth"
-        label="Dirth of Birth"
+        label="Date of Birth"
         placeholder="Select Date of Birth"
         type="date"
       />
@@ -73,12 +72,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+
 const { handleError } = useErrorHandler();
 import { useScholarStore } from "@/store/scholar";
-
-
 const emit = defineEmits(["done"]);
 
 const scholarStore = useScholarStore();
@@ -89,10 +88,6 @@ const handleUploadedUrl = (url: string) => {
   formData.value.picture_url = url;
   base64File.value = url;
 };
-
-definePageMeta({
-  layout: "auth",
-});
 
 const handleFileListUpdate = (fileList: any) => {
   console.log("Files:", fileList);
@@ -163,7 +158,7 @@ const onSubmit = handleSubmit(async () => {
     loading.value = true;
     const response = await scholarStore.createScholar(payload);
     if (response?.data.success) {
-      emit('done')
+      emit("done");
     }
   } catch (error) {
     handleError(error);

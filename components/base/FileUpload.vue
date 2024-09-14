@@ -18,7 +18,7 @@
           <p class="text-sm mb-6">{{ tip }}</p>
           <base-button :loading="isUploading" styles="w-full text-sm font-bold" size="medium" type="primary">
             <div class="flex items-center space-x-2">
-              <span>Browse File</span>
+              <span>{{ btnText }}</span>
               <svg
                 width="16"
                 height="14"
@@ -54,6 +54,10 @@ const props = defineProps({
   multiple: {
     type: Boolean,
     default: true,
+  },
+  btnText: {
+    type: String,
+    default: 'Browse File'
   },
   limit: {
     type: Number,

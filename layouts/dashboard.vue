@@ -15,7 +15,7 @@
           <slot />
         </main>
         <!-- Footer -->
-        <LayoutsFooter class=" flex-none px-6" />
+        <LayoutsAuthFooter class=" flex-none px-6" />
       </div>
     </div>
   </div>

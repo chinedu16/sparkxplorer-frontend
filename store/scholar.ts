@@ -40,7 +40,7 @@ export const useScholarStore = defineStore("scholar-store", {
       } catch (error) {
         return { error };
       }
-    },
+    }
   },
   getters: {
     getScholars: (state) => state.scholars,

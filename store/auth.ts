@@ -54,6 +54,22 @@ export const useAuthStore = defineStore({
         return { error };
       }
     },
+    async changePasswordTwoFaCode() {
+      try {
+        const { data, error } = await useApiPost(`/auth/change-password/twofa-code`, {});
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
+    async changePassword(payload: any) {
+      try {
+        const { data, error } = await useApiPost(`/auth/change-password`, payload);
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
     async verifyAccount(payload: any) {
       try {
         const { data, error } = await useApiPut("/auth/verify-account", payload);

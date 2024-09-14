@@ -37,6 +37,7 @@
       <el-input
         v-else
         v-model="internalValue"
+        :disabled="disabled"
         :type="passwordVisible ? 'text' : type"
         :rows="row"
         :placeholder="placeholder"
@@ -87,6 +88,7 @@ import { ref, watch, computed } from "vue";
 const props = defineProps({
   name: { type: String, required: true },
   label: { type: String, required: true },
+  disabled: {type: Boolean, required: false },
   placeholder: { type: String, required: true },
   type: {
     type: String as () =>

@@ -13,16 +13,28 @@
       />
     </div>
     <nav>
-      <ul class="space-y-2">
-        <li v-for="i in navLink" :key="i.id">
+      <ul class="space-y-3">
+        <li v-for="(item, index) in filteredNavLinks" :key="index">
           <nuxt-link
-            :to="`/dashboard${i.url}`"
+            :to="`/dashboard${item.url}`"
             active-class="active-link"
-            class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-lg"
+            class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-full"
           >
-            <img :src="`/icons/${i.icon}.svg`" alt="">
-            <span class="font-bold">{{ i.name }}</span>
+            <img :src="`/icons/${item.icon}.svg`" alt="" />
+            <span class="font-bold">{{ item.name }}</span>
           </nuxt-link>
+          <!-- Render sub-items if they exist -->
+          <ul v-if="item.children" class="space-y-1 ml-6">
+            <li v-for="child in item.children" :key="child.url">
+              <nuxt-link
+                :to="`/dashboard${child.url}`"
+                active-class="active-link"
+                class="hover:text-white p-2 text-blue-six flex items-center space-x-3 rounded-lg"
+              >
+                <span class="font-semibold">{{ child.name }}</span>
+              </nuxt-link>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>
@@ -35,8 +47,8 @@
             OD
           </div>
           <div>
-            <h4 class="font-bold">Odafe David</h4>
-            <p class="text-purple-one">Parent</p>
+            <h4 class="font-bold">{{ currentUser?.name }}</h4>
+            <p class="text-purple-one capitalize">{{ currentUser?.primary_role }}</p>
           </div>
         </div>
         <img class="w-8 h-8" src="/icons/sign-out.svg" alt="" />
@@ -46,26 +58,56 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue';
+import { useUserStore } from "@/store/user";
+
+const userStore = useUserStore();
+const currentUser = computed(() => userStore.getUserInfo);
 const search = ref("");
 
-const navLink = ref([
+// Base navigation links for parent role
+const baseNavLinks = [
   { id: 1, url: '/', name: 'Home', icon: 'home' },
   { id: 2, url: '/scholars', name: 'Scholars', icon: 'scholar' },
-  { id: 3, url: '/feed', name: 'Feed', icon: 'feed' },
-  { id: 4, url: '/subscription', name: 'Subscription', icon: 'subscription' },
-  { id: 5, url: '/settings', name: 'Settings', icon: 'settings' },
-  { id: 6, url: '/help-and-support', name: 'Help & Support', icon: 'help' },
-]);
+  { id: 3, url: '/tutors', name: 'Tutors', icon: 'tutor' },
+  { id: 4, url: '/feed', name: 'Feed', icon: 'feed' },
+  { id: 5, url: '/ixl-portal', name: 'IXL Portal', icon: 'ixl' },
+  { id: 6, url: '/subscription', name: 'Subscription', icon: 'subscription' },
+  { id: 7, url: '/profile', name: 'Profile', icon: 'profile' },
+  { id: 8, url: '/help-and-support', name: 'Help & Support', icon: 'help' },
+];
+
+// Navigation links for scholar role
+const scholarNavLinks = [
+  { id: 1, url: '/', name: 'Home', icon: 'home' },
+  { id: 2, url: '/ixl-portal', name: 'IXL Portal', icon: 'ixl' },
+  { id: 3, url: '/assessment', name: 'Assessment', icon: 'assessment', children: [
+    { url: '/general-assessment', name: 'General Assessment' },
+    { url: '/tutor-assessment', name: 'Tutor Assessment' }
+  ]},
+  { id: 4, url: '/tutors', name: 'Tutors', icon: 'tutor' },
+  { id: 5, url: '/feed', name: 'Feed', icon: 'feed' },
+  { id: 6, url: '/profile', name: 'Profile', icon: 'profile' },
+  { id: 7, url: '/help-and-support', name: 'Help & Support', icon: 'help' },
+];
+
+const filteredNavLinks = computed(() => {
+  if (currentUser.value?.primary_role === 'scholar') {
+    return scholarNavLinks;
+  }
+  return baseNavLinks;
+});
+
+
 </script>
 
 <style scoped>
 .active-link {
   background-color: #6366F1;
-  /* color: #1f2937;  */
 }
 
 .active-link img {
-  /* filter: brightness(0) invert(0);  */
+  /* Adjust styles if necessary */
 }
 
 .hover\:text-white:hover {

@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import * as yup from "yup";
 
