@@ -43,12 +43,16 @@
     <div class="mt-auto space-y-6 border-t border-white pt-6">
       <div class="flex justify-between items-center">
         <div class="flex space-x-2">
-          <div class="bg-purple-one text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10">
-            OD
+          <div
+            class="bg-purple-one uppercase text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
+          >
+            {{ currentUser?.name[0] }}{{ currentUser?.name[1] }}
           </div>
           <div>
             <h4 class="font-bold">{{ currentUser?.name }}</h4>
-            <p class="text-purple-one capitalize">{{ currentUser?.primary_role }}</p>
+            <p class="text-purple-one capitalize">
+              {{ currentUser?.primary_role }}
+            </p>
           </div>
         </div>
         <img class="w-8 h-8" src="/icons/sign-out.svg" alt="" />
@@ -58,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 import { useUserStore } from "@/store/user";
 
 const userStore = useUserStore();
@@ -67,43 +71,47 @@ const search = ref("");
 
 // Base navigation links for parent role
 const baseNavLinks = [
-  { id: 1, url: '/', name: 'Home', icon: 'home' },
-  { id: 2, url: '/scholars', name: 'Scholars', icon: 'scholar' },
-  { id: 3, url: '/tutors', name: 'Tutors', icon: 'tutor' },
-  { id: 4, url: '/feed', name: 'Feed', icon: 'feed' },
-  { id: 5, url: '/ixl-portal', name: 'IXL Portal', icon: 'ixl' },
-  { id: 6, url: '/subscription', name: 'Subscription', icon: 'subscription' },
-  { id: 7, url: '/profile', name: 'Profile', icon: 'profile' },
-  { id: 8, url: '/help-and-support', name: 'Help & Support', icon: 'help' },
+  { id: 1, url: "/", name: "Home", icon: "home" },
+  { id: 2, url: "/scholars", name: "Scholars", icon: "scholar" },
+  { id: 3, url: "/tutors", name: "Tutors", icon: "tutor" },
+  { id: 4, url: "/feed", name: "Feed", icon: "feed" },
+  { id: 5, url: "/ixl-portal", name: "IXL Portal", icon: "ixl" },
+  { id: 6, url: "/subscription", name: "Subscription", icon: "subscription" },
+  { id: 7, url: "/profile", name: "Profile", icon: "profile" },
+  { id: 8, url: "/help-and-support", name: "Help & Support", icon: "help" },
 ];
 
 // Navigation links for scholar role
 const scholarNavLinks = [
-  { id: 1, url: '/', name: 'Home', icon: 'home' },
-  { id: 2, url: '/ixl-portal', name: 'IXL Portal', icon: 'ixl' },
-  { id: 3, url: '/assessment', name: 'Assessment', icon: 'assessment', children: [
-    { url: '/general-assessment', name: 'General Assessment' },
-    { url: '/tutor-assessment', name: 'Tutor Assessment' }
-  ]},
-  { id: 4, url: '/tutors', name: 'Tutors', icon: 'tutor' },
-  { id: 5, url: '/feed', name: 'Feed', icon: 'feed' },
-  { id: 6, url: '/profile', name: 'Profile', icon: 'profile' },
-  { id: 7, url: '/help-and-support', name: 'Help & Support', icon: 'help' },
+  { id: 1, url: "/", name: "Home", icon: "home" },
+  { id: 2, url: "/ixl-portal", name: "IXL Portal", icon: "ixl" },
+  {
+    id: 3,
+    url: "/assessment",
+    name: "Assessment",
+    icon: "assessment",
+    children: [
+      { url: "/general-assessment", name: "General Assessment" },
+      { url: "/tutor-assessment", name: "Tutor Assessment" },
+    ],
+  },
+  { id: 4, url: "/tutors", name: "Tutors", icon: "tutor" },
+  { id: 5, url: "/feed", name: "Feed", icon: "feed" },
+  { id: 6, url: "/profile", name: "Profile", icon: "profile" },
+  { id: 7, url: "/help-and-support", name: "Help & Support", icon: "help" },
 ];
 
 const filteredNavLinks = computed(() => {
-  if (currentUser.value?.primary_role === 'scholar') {
+  if (currentUser.value?.primary_role === "scholar") {
     return scholarNavLinks;
   }
   return baseNavLinks;
 });
-
-
 </script>
 
 <style scoped>
 .active-link {
-  background-color: #6366F1;
+  background-color: #6366f1;
 }
 
 .active-link img {

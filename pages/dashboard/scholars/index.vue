@@ -57,6 +57,7 @@
         <base-input
           v-model="search"
           name="username"
+          style="margin-bottom: 0!important;"
           label=""
           placeholder="Find scholar"
           type="text"
@@ -68,10 +69,11 @@
     </div>
     <div class="border rounded-3xl">
       <el-table
-        class="border-r rounded-3xl"
+        class="border-r rounded-3xl cursor-pointer"
         :data="tableData"
         v-loading="loading"
         style="width: 100%"
+        @row-click="goToSingle()"
       >
         <el-table-column prop="name" label="Scholar Name">
           <template #default="scope">
@@ -186,6 +188,10 @@ const fetchScholars = async () => {
     loading.value = false;
   }
 };
+
+const goToSingle = () => {
+  navigateTo('/dashboard/scholars/1')
+}
 
 fetchScholars();
 definePageMeta({
