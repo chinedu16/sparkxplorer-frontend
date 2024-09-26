@@ -72,7 +72,7 @@
             />
           </div>
         </div>
-        <div class="border p-6 text-sm text-gray-one font-semibold">
+        <div class="border mt-10 p-6 text-sm text-gray-one font-semibold">
           <div class="chart-container">
             <Bar v-if="chartData" :data="chartData" :options="chartOptions" />
           </div>
@@ -100,8 +100,8 @@
     </div>
 
     <div class="flex justify-between space-x-6">
-      <DashboardNextLesson class="w-1/2" />
-      <DashboardNextLesson class="w-1/2" />
+      <ScholarsLeaderboard class="w-1/2" />
+      <ScholarsAssessment class="w-1/2" />
     </div>
   </div>
 </template>

@@ -57,7 +57,7 @@
         <base-input
           v-model="search"
           name="username"
-          style="margin-bottom: 0!important;"
+          style="margin-bottom: 0 !important"
           label=""
           placeholder="Find scholar"
           type="text"
@@ -106,17 +106,27 @@
         </el-table-column>
         <el-table-column prop="date" label="Date Registered" />
         <el-table-column fixed="right" label="" min-width="120">
-          <template #default>
-            <el-button link type="primary" size="small">
+          <template #default="scope">
+            <el-button
+              @click.stop="editScholar(scope.row)"
+              link
+              type="primary"
+              size="small"
+            >
               <img
-                class="w-4 h-4"
+                class="w-4 h-4 object-cover"
                 src="@/assets/images/icons/edit.png"
                 alt=""
               />
             </el-button>
-            <el-button link type="primary" size="small">
+            <el-button
+              @click.stop="deleteScholar(scope.row)"
+              link
+              type="primary"
+              size="small"
+            >
               <img
-                class="w-4 h-4"
+                class="w-4 h-4 object-cover"
                 src="@/assets/images/icons/delete.png"
                 alt=""
               />
@@ -136,6 +146,23 @@
     <el-dialog v-model="openCreateModal" title="" width="500">
       <scholars-add-scholar @done="fetchScholars" />
     </el-dialog>
+
+    <common-action-dialog
+      dialogTitle="Deactivate this scholar?"
+      dialogMessage="Deactivating this scholar means you will lose all performance report and scholar will not be able to learn again on Xplorer."
+      :openModal="openDeleteDialog"
+      confirmButtonText="Delete"
+      confirmButtonColor="#F43F5E"
+      :onConfirm="handleDelete"
+      :onCancel="handleCancel"
+    >
+      <template #icon>
+        <div class="bg-red-50  rounded-full flex items-center justify-center font-bold text-base h-12 w-12">
+          <img src="../../../assets/images/icons/delete.svg" alt="" />
+        </div>
+        
+      </template>
+    </common-action-dialog>
   </div>
 </template>
 
@@ -152,6 +179,8 @@ const search = ref("");
 const page = ref(1);
 const per_page = ref(10);
 const loading = ref(false);
+const openDeleteDialog = ref(false);
+const openEditDialog = ref(false);
 const openCreateModal = ref(false);
 const { handleError } = useErrorHandler();
 
@@ -163,6 +192,24 @@ const tableData = computed(() => {
     date: formatDate(scholar.created_at),
   }));
 });
+
+const handleDelete = () => {
+  console.log('Deleting...');
+  openDeleteDialog.value = false;
+};
+
+const handleCancel = () => {
+  console.log('Cancel action triggered');
+  openDeleteDialog.value = false;
+};
+
+const editScholar = (row: any) => {
+  openEditDialog.value = true;
+  addScholarHandler()
+};
+const deleteScholar = (row: any) => {
+  openDeleteDialog.value = true;
+};
 
 const addScholarHandler = () => {
   if (!paymentStore.getCanAddScholar) {
@@ -181,7 +228,6 @@ const fetchScholars = async () => {
     };
     await scholarStore.getAllScholar(payload);
     await paymentStore.checkIfCanAddScholars();
-
   } catch (error) {
     handleError(error);
   } finally {
@@ -190,8 +236,8 @@ const fetchScholars = async () => {
 };
 
 const goToSingle = () => {
-  navigateTo('/dashboard/scholars/1')
-}
+  navigateTo("/dashboard/scholars/1");
+};
 
 fetchScholars();
 definePageMeta({

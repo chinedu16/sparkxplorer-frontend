@@ -44,7 +44,11 @@
         <span class="capitalize text-primary">{{ activeName }}</span>
       </div>
       <div class="flex space-x-3">
-        <base-button styles="w-full font-bold" type="primary">
+        <base-button
+          @click="showPerformanceTokenModal = true"
+          styles="w-full font-bold"
+          type="primary"
+        >
           <div class="flex items-center space-x-2">
             <svg
               width="20"
@@ -69,6 +73,7 @@
           bgColor="#FFF1F2"
           textColor="#F43F5E"
           borderColor="#F43F5E"
+          @click="deactivateScholar"
         >
           <div class="flex items-center space-x-2">
             <svg
@@ -96,10 +101,54 @@
           <scholars-performance />
         </el-tab-pane>
         <el-tab-pane label="Scholar’s Details" name="scholar's details">
+          <scholars-scholar-details />
         </el-tab-pane>
-        <el-tab-pane label="Requests" name="requests"> </el-tab-pane>
+        <el-tab-pane label="Requests" name="requests"><scholars-request></scholars-request> </el-tab-pane>
       </el-tabs>
     </div>
+
+    <common-action-dialog
+      dialogTitle="Deactivate this scholar?"
+      dialogMessage="Deactivating this scholar means you will lose all performance report and scholar will not be able to learn again on Xplorer."
+      :openModal="openDeleteDialog"
+      confirmButtonText="Delete"
+      confirmButtonColor="#F43F5E"
+      :onConfirm="handleDelete"
+      :onCancel="handleCancel"
+    >
+      <template #icon>
+        <div
+          class="bg-red-50 rounded-full flex items-center justify-center font-bold text-base h-12 w-12"
+        >
+          <img src="../../../assets/images/icons/delete.svg" alt="" />
+        </div>
+      </template>
+    </common-action-dialog>
+
+    <!-- Assign performance token -->
+    <el-dialog v-model="showPerformanceTokenModal" title="" width="700">
+      <div>
+        <scholars-assign-performance-token @done=""></scholars-assign-performance-token>
+      </div>
+    </el-dialog>
+
+    <common-action-dialog
+      dialogTitle="Performance Token Successfully Created"
+      dialogMessage="Deleting this scholar means you will lose all performance report and scholar will not be able to learn again on Xplorer."
+      :openModal="openSuccessDialog"
+      confirmButtonText="Delete"
+      confirmButtonColor="#F43F5E"
+      :onConfirm="handleDelete"
+      :onCancel="handleCancel"
+    >
+      <template #icon>
+        <div
+          class="bg-red-50 rounded-full flex items-center justify-center font-bold text-base h-12 w-12"
+        >
+          <img src="../../../assets/images/icons/delete.svg" alt="" />
+        </div>
+      </template>
+    </common-action-dialog>
   </div>
 </template>
 
@@ -109,6 +158,24 @@ const activeName = ref("performance");
 definePageMeta({
   layout: "dashboard",
 });
+
+const openDeleteDialog = ref(false);
+const openSuccessDialog = ref(false)
+
+const showPerformanceTokenModal = ref(false);
+const handleDelete = () => {
+  console.log("Deleting...");
+  openDeleteDialog.value = false;
+};
+
+const handleCancel = () => {
+  console.log("Cancel action triggered");
+  openDeleteDialog.value = false;
+};
+
+const deactivateScholar = () => {
+  openDeleteDialog.value = true;
+};
 </script>
 
 <style scoped></style>

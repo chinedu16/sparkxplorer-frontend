@@ -5,7 +5,7 @@
         <h2 class="font-bold text-xl">Performance Token</h2>
         <p class="text-gray-one">You can manage Performance Token here</p>
       </div>
-      <base-button styles="w-full font-bold" size="large" type="primary">
+      <base-button @click="showPerformanceTokenModal = true" styles="w-full font-bold" size="large" type="primary">
         <div class="flex items-center space-x-2">
           <svg
             width="20"
@@ -305,6 +305,12 @@
         </div>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="showPerformanceTokenModal" title="" width="700">
+      <div>
+        <scholars-assign-performance-token @done=""></scholars-assign-performance-token>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -350,6 +356,7 @@ const tableData = [
 
 const dialogVisible = ref(false);
 const showDelete = ref(false);
+const showPerformanceTokenModal = ref(false)
 const selectedRow = ref<any>(null);
 const formData = ref({
   reward: "",
