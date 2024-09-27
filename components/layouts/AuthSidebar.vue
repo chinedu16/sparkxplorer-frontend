@@ -1,61 +1,65 @@
 <template>
-  <aside class="flex flex-col px-4 py-8 h-full">
-    <img class="w-28" src="~/assets/images/icons/logo-white.svg" alt="" />
-    <div class="my-8">
-      <base-input
-        v-model="search"
-        name="username"
-        label=""
-        placeholder="Search"
-        type="text"
-        iconPrefix="search"
-        variant="transparent"
-      />
+  <aside class=" ">
+    <div class="bg-gray-three h-24 flex items-center justify-center">
+      <img class="" src="~/assets/images/icons/logo-blue.svg" alt="" />
     </div>
-    <nav>
-      <ul class="space-y-3">
-        <li v-for="(item, index) in filteredNavLinks" :key="index">
-          <nuxt-link
-            :to="`/dashboard${item.url}`"
-            active-class="active-link"
-            class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-full"
-          >
-            <img :src="`/icons/${item.icon}.svg`" alt="" />
-            <span class="font-bold">{{ item.name }}</span>
-          </nuxt-link>
-          <!-- Render sub-items if they exist -->
-          <ul v-if="item.children" class="space-y-1 ml-6">
-            <li v-for="child in item.children" :key="child.url">
-              <nuxt-link
-                :to="`/dashboard${child.url}`"
-                active-class="active-link"
-                class="hover:text-white p-2 text-blue-six flex items-center space-x-3 rounded-lg"
-              >
-                <span class="font-semibold">{{ child.name }}</span>
-              </nuxt-link>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
+    <div class="flex flex-col px-4 py-8 h-full">
+      <div class="my-8">
+        <base-input
+          v-model="search"
+          name="username"
+          label=""
+          placeholder="Search"
+          type="text"
+          iconPrefix="search"
+          variant="transparent"
+        />
+      </div>
+      <nav>
+        <ul class="space-y-3">
+          <li v-for="(item, index) in filteredNavLinks" :key="index">
+            <nuxt-link
+              :to="`/dashboard${item.url}`"
+              active-class="active-link"
+              class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-full"
+            >
+              <img :src="`/icons/${item.icon}.svg`" alt="" />
+              <span class="font-bold">{{ item.name }}</span>
+            </nuxt-link>
+            <!-- Render sub-items if they exist -->
+            <ul v-if="item.children" class="space-y-1 ml-6">
+              <li v-for="child in item.children" :key="child.url">
+                <nuxt-link
+                  :to="`/dashboard${child.url}`"
+                  active-class="active-link"
+                  class="hover:text-white p-2 text-blue-six flex items-center space-x-3 rounded-lg"
+                >
+                  <span class="font-semibold">{{ child.name }}</span>
+                </nuxt-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
 
-    <!-- Bottom Links -->
-    <div class="mt-auto space-y-6 border-t border-white pt-6">
-      <div class="flex justify-between items-center">
-        <div class="flex space-x-2">
-          <div
-            class="bg-purple-one uppercase text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
-          >
-            {{ currentUser?.name[0] }}{{ currentUser?.name[1] }}
+      <!-- Bottom Links -->
+      <div class="mt-auto space-y-6 border-t border-white pt-6">
+        <div class="flex justify-between items-center">
+          <div class="flex space-x-2">
+            <div
+              class="bg-purple-one uppercase text-primary rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
+            >
+              {{ currentUser?.name[0] }}{{ currentUser?.name[1] }}
+            </div>
+            <div>
+              <h4 class="font-bold">{{ currentUser?.name }}</h4>
+              <p class="text-purple-one capitalize">
+                {{ currentUser?.primary_role }}
+              </p>
+            </div>
           </div>
-          <div>
-            <h4 class="font-bold">{{ currentUser?.name }}</h4>
-            <p class="text-purple-one capitalize">
-              {{ currentUser?.primary_role }}
-            </p>
-          </div>
+          <img class="w-8 h-8" src="/icons/sign-out.svg" alt="" />
         </div>
-        <img class="w-8 h-8" src="/icons/sign-out.svg" alt="" />
       </div>
     </div>
   </aside>

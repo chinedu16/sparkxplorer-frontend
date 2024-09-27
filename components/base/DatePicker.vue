@@ -39,13 +39,17 @@ const { value: field, errorMessage } = useField(props.name);
 
 const internalValue = ref(props.modelValue);
 
+// Watch for changes to the prop 'modelValue' and update internalValue
 watch(
   () => props.modelValue,
   (newValue) => {
-    internalValue.value = newValue;
+    if (newValue !== internalValue.value) {
+      internalValue.value = newValue;
+    }
   }
 );
 
+// Handle date picker change
 const handleChange = (value: string | null) => {
   emit("update:modelValue", value);
   field.value = value;
@@ -55,7 +59,6 @@ const handleChange = (value: string | null) => {
 <style>
 .custom-base-date-picker .el-input__wrapper {
   border-radius: 123px !important;
-
   width: 100%;
   border: 1px solid #475569;
   box-shadow: none;

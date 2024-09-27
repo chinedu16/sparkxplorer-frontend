@@ -23,7 +23,21 @@ export function useDateFormatter() {
     return new Intl.DateTimeFormat(locale, options).format(parsedDate);
   };
 
+  /**
+   * Function to convert ISO date string to 'YYYY-MM-DD' format
+   * @param {string} date - The ISO date string
+   * @returns {string} - The formatted date string in 'YYYY-MM-DD' format
+   */
+  const formatToISODate = (date: string) => {
+    const parsedDate = new Date(date);
+    const year = parsedDate.getFullYear();
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
+  };
+
   return {
     formatDate,
+    formatToISODate,
   };
 }

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-3xl font-extrabold">Add a Scholar</h1>
+    <h1 class="text-3xl font-extrabold">
+      {{ scholarActionType === "edit" ? "Edit the" : "Add a" }} Scholar
+    </h1>
     <p class="mt-2 text-gray-one">
       We’ll fine tune our features to be personalized for you.
     </p>
@@ -56,13 +58,13 @@
         />
       </div>
     </div>
-
     <div class="mt-8">
       <base-button
         @click.prevent="onSubmit"
         styles="w-full font-bold"
         size="large"
         type="primary"
+        :disabled="loading"
         :loading="loading"
       >
         Add Scholar
@@ -80,6 +82,11 @@ const { handleError } = useErrorHandler();
 import { useScholarStore } from "@/store/scholar";
 const emit = defineEmits(["done"]);
 
+const props = defineProps<{
+  scholarActionType: string;
+  selectedRow: any;
+}>();
+
 const scholarStore = useScholarStore();
 
 const base64File = ref("");
@@ -96,6 +103,7 @@ const handleFileListUpdate = (fileList: any) => {
 const loading = ref(false);
 
 const formData = ref({
+  id: "",
   firstname: "",
   lastname: "",
   email: "",
@@ -139,26 +147,62 @@ const validationSchema = yup.object({
     .required(),
 });
 
-const { handleSubmit } = useForm({
+const { handleSubmit, resetForm, setFieldValue } = useForm({
   validationSchema,
   initialValues: formData.value,
 });
 
-const onSubmit = handleSubmit(async () => {
+onMounted(() => {
+  console.log('dhksjvghbj')
+})
+
+
+onMounted(async () => {
+  if (props.scholarActionType === "edit") {
+    const user = props.selectedRow;
+    const fullName = user.name;
+    const [firstName, lastName] = fullName.split(" ");
+    setFieldValue("firstname", firstName);
+    setFieldValue("lastname", lastName);
+    setFieldValue("email", user.email);
+    setFieldValue("grade", user.grade);
+    setFieldValue("date_of_birth", "2024/09/23");
+    setFieldValue("uploaded_files", [user.picture_url]);
+    formData.value.picture_url = user.picture_url;
+    formData.value.id = user.id;
+    formData.value.grade = user.grade;
+    formData.value.date_of_birth = user.unformattedDate;
+  }
+});
+
+const onSubmit = handleSubmit(async (values) => {
   const payload = {
-    first_name: formData.value.firstname,
-    last_name: formData.value.lastname,
-    email: formData.value.email,
-    date_of_birth: formData.value.date_of_birth,
-    grade_id: formData.value.grade,
+    first_name: values.firstname,
+    last_name: values.lastname,
+    email: values.email,
+    date_of_birth: values.date_of_birth,
+    grade_id: values.grade,
     picture_url: base64File.value || formData.value.picture_url,
   };
 
   try {
     loading.value = true;
     const response = await scholarStore.createScholar(payload);
-    if (response?.data.success) {
-      emit("done");
+
+    if (response) {
+      const { data, error } = response;
+
+      if (error) {
+        handleError(error);
+        return false;
+      }
+
+      if (data.success) {
+        emit("done");
+
+        resetForm();
+        base64File.value = "";
+      }
     }
   } catch (error) {
     handleError(error);
@@ -167,6 +211,7 @@ const onSubmit = handleSubmit(async () => {
     loading.value = false;
   }
 });
+
 </script>
 
 <style scoped></style>

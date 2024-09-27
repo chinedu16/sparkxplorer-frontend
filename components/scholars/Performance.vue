@@ -3,7 +3,7 @@
     <div class="flex space-x-6">
       <img src="../../assets/images/illustrations/avatar-male.png" alt="" />
       <div>
-        <h2 class="font-bold text-xl">Amanda Cortez</h2>
+        <h2 class="font-bold text-xl">{{ scholarStore.getOneScholar.first_name }} {{ scholarStore.getOneScholar.last_name }} </h2>
         <p class="text-gray-one text-sm">Grade 2</p>
       </div>
     </div>
@@ -134,6 +134,16 @@ ChartJS.register(
 // Define your chart data
 const chartData = ref(null);
 const chartDataPie = ref(null);
+
+import { useScholarStore } from "@/store/scholar";
+
+const { formatDate, formatToISODate } = useDateFormatter();
+const { handleError } = useErrorHandler();
+
+
+const scholarStore = useScholarStore();
+const route = useRoute();
+
 
 onMounted(() => {
   chartData.value = {

@@ -197,7 +197,6 @@ const nextForm = async () => {
           navigateTo("/auth/subscription");
         }
 
-        console.log(response)
       } catch (error) {
         handleError(error);
         return false;

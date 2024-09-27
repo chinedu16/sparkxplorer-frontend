@@ -73,7 +73,7 @@
         :data="tableData"
         v-loading="loading"
         style="width: 100%"
-        @row-click="goToSingle()"
+        @row-click="handleRowClick"
       >
         <el-table-column prop="name" label="Scholar Name">
           <template #default="scope">
@@ -120,6 +120,7 @@
               />
             </el-button>
             <el-button
+              v-if="scope.row.is_active"
               @click.stop="deleteScholar(scope.row)"
               link
               type="primary"
@@ -143,8 +144,12 @@
       </div>
     </div>
 
-    <el-dialog v-model="openCreateModal" title="" width="500">
-      <scholars-add-scholar @done="fetchScholars" />
+    <el-dialog @close="handleClose" v-model="openCreateModal" title="" width="500">
+      <scholars-add-scholar
+        @done="closeAddScholarModal"
+        :scholarActionType="scholarActionType"
+        :selectedRow="selectedRow"
+      />
     </el-dialog>
 
     <common-action-dialog
@@ -157,10 +162,11 @@
       :onCancel="handleCancel"
     >
       <template #icon>
-        <div class="bg-red-50  rounded-full flex items-center justify-center font-bold text-base h-12 w-12">
-          <img src="../../../assets/images/icons/delete.svg" alt="" />
+        <div
+          class="bg-red-50 rounded-full flex items-center justify-center font-bold text-base h-12 w-12"
+        >
+          <img src="@/assets/images/icons/delete.svg" alt="" />
         </div>
-        
       </template>
     </common-action-dialog>
   </div>
@@ -171,7 +177,7 @@ import { useScholarStore } from "@/store/scholar";
 import { usePaymentStore } from "@/store/payment";
 
 const emit = defineEmits(["done"]);
-const { formatDate } = useDateFormatter();
+const { formatDate, formatToISODate } = useDateFormatter();
 
 const paymentStore = usePaymentStore();
 const scholarStore = useScholarStore();
@@ -181,33 +187,68 @@ const per_page = ref(10);
 const loading = ref(false);
 const openDeleteDialog = ref(false);
 const openEditDialog = ref(false);
+const scholarActionType = ref("");
 const openCreateModal = ref(false);
+const selectedRow = ref();
 const { handleError } = useErrorHandler();
 
 const tableData = computed(() => {
   return scholarStore.getScholars.map((scholar: any) => ({
+    id: scholar.id,
+    email: scholar.email,
     name: `${scholar.first_name} ${scholar.last_name}`,
     grade: scholar.grade.name,
     status: scholar.is_active,
+    picture_url: scholar.picture_url,
+    is_active: scholar.is_active,
     date: formatDate(scholar.created_at),
+    unformattedDate: formatToISODate(scholar.created_at),
   }));
 });
 
-const handleDelete = () => {
-  console.log('Deleting...');
-  openDeleteDialog.value = false;
+const handleDelete = async () => {
+  try {
+    loading.value = true;
+    const response = await scholarStore.deactivateScholar(selectedRow.value);
+    if (response) {
+      const { data, error } = response;
+      if (error) {
+        handleError(error);
+        return false;
+      }
+      if (data) {
+        openDeleteDialog.value = false;
+        fetchScholars();
+      }
+    }
+  } catch (error) {
+    handleError(error);
+    return false;
+  } finally {
+    loading.value = false;
+  }
+};
+
+const handleClose = () => {
+  console.log('Dialog closed');
+  selectedRow.value = null;
+  scholarActionType.value = '';
+  
+  // Any additional logic when the dialog is closed
 };
 
 const handleCancel = () => {
-  console.log('Cancel action triggered');
   openDeleteDialog.value = false;
 };
 
 const editScholar = (row: any) => {
-  openEditDialog.value = true;
-  addScholarHandler()
+  selectedRow.value = row
+  scholarActionType.value = "edit";
+  scholarStore.setEditScholarDetails(row);
+  openCreateModal.value = true;
 };
 const deleteScholar = (row: any) => {
+  selectedRow.value = row.id;
   openDeleteDialog.value = true;
 };
 
@@ -217,6 +258,11 @@ const addScholarHandler = () => {
   } else {
     openCreateModal.value = true;
   }
+};
+
+const closeAddScholarModal = () => {
+  openCreateModal.value = false;
+  fetchScholars();
 };
 
 const fetchScholars = async () => {
@@ -235,8 +281,8 @@ const fetchScholars = async () => {
   }
 };
 
-const goToSingle = () => {
-  navigateTo("/dashboard/scholars/1");
+const handleRowClick = (row: any) => {
+  navigateTo(`/dashboard/scholars/${row.id}`);
 };
 
 fetchScholars();

@@ -5,10 +5,12 @@ const { handleError } = useErrorHandler();
 export const useScholarStore = defineStore("scholar-store", {
   state: () => ({
     scholars: [] as ScholarInfo | any,
+    oneScholar: {} as any,
     total: 0,
     grades: null as GradeInfo | null,
   }),
   actions: {
+    
     async createScholar(payload: any) {
       try {
         const { data, error } = await useApiPost("/scholars", payload);
@@ -17,10 +19,35 @@ export const useScholarStore = defineStore("scholar-store", {
         handleError(error);
       }
     },
+    async deactivateScholar(id: any) {
+      try {
+        const { data, error } = await useApiPut(
+          `/scholars/${id}/deactivate`,
+          {}
+        );
+        return { data, error };
+      } catch (error) {
+        handleError(error);
+      }
+    },
+    async getSingleScholar(id: number) {
+      try {
+        const { data, error } = await useApiGet(`/scholars/${id}`);
+        if (data && !error) {
+          this.oneScholar = data.data;
+        }
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
+
     async getAllScholar(payload: any) {
       try {
-        const { page, per_page } = payload
-        const { data, error } = await useApiGet(`/scholars?page=${page}&per_page=${per_page}`);
+        const { page, per_page } = payload;
+        const { data, error } = await useApiGet(
+          `/scholars?page=${page}&per_page=${per_page}`
+        );
         if (data && !error) {
           this.scholars = data.data.results;
           this.total = data.data.total;
@@ -40,10 +67,11 @@ export const useScholarStore = defineStore("scholar-store", {
       } catch (error) {
         return { error };
       }
-    }
+    },
   },
   getters: {
     getScholars: (state) => state.scholars,
+    getOneScholar: (state) => state.oneScholar,
     getTotal: (state) => state.total,
     getGrades: (state) => state.grades,
   },
@@ -55,6 +83,5 @@ interface GradeInfo {
 }
 
 interface ScholarInfo {
-  name: string,
-
+  name: string;
 }

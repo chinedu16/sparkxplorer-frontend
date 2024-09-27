@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="flex justify-between items-center">
+    <div v-if="loading" class="container">
+      <div class="spinner-big"></div>
+    </div>
+    <div v-else class="flex justify-between items-center">
       <div class="space-x-3 font-bold text-gray-one flex items-center">
         <svg
           width="16"
@@ -154,10 +157,31 @@
 
 <script setup lang="ts">
 const activeName = ref("performance");
+import { useScholarStore } from "@/store/scholar";
+
+const { handleError } = useErrorHandler();
+const scholarStore = useScholarStore();
+const route = useRoute();
+
+const loading = ref(false)
 
 definePageMeta({
   layout: "dashboard",
 });
+
+const fetchSingleScholar = async () => {
+  const id = route.params.id as number
+  try {
+    loading.value = true;
+    await scholarStore.getSingleScholar(id);
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+fetchSingleScholar()
 
 const openDeleteDialog = ref(false);
 const openSuccessDialog = ref(false)
