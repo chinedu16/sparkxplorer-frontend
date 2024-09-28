@@ -10,7 +10,6 @@ export const useScholarStore = defineStore("scholar-store", {
     grades: null as GradeInfo | null,
   }),
   actions: {
-    
     async createScholar(payload: any) {
       try {
         const { data, error } = await useApiPost("/scholars", payload);

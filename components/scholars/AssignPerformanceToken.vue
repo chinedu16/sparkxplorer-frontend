@@ -6,49 +6,47 @@
     </p>
     <div class="mt-8 h-3/6 space-y-6">
       <base-input
-        name="firstname"
+        name="performanceTitle"
         label="Title (e.g. Get 80% in Maths question in June)"
         type="text"
         placeholder="Performance token title"
-        icon-prefix="user"
         v-model:value="formData.performanceTitle"
       />
       <base-input
-        name="lastname"
+        name="description"
         label="Description"
         type="text"
         placeholder="Describe what this token is for and what the scholar needs to achieve to redeem it."
-        icon-prefix="user"
         v-model:value="formData.description"
       />
 
       <base-select
         v-model="formData.tokenRewards"
-        name="grade"
-        :options="tokenAwards"
+        name="tokenRewards"
+        :options="rewardTokens"
         label="Token Reward"
         placeholder="Select Token Reward"
       />
 
       <base-select
         v-model="formData.subjects"
-        name="grade"
-        :options="tokenAwards"
+        name="subjects"
+        :options="allSubjects"
         label="Subject"
         placeholder="Select Subject"
       />
 
       <base-select
         v-model="formData.performanceConditions"
-        name="grade"
-        :options="tokenAwards"
+        name="performanceConditions"
+        :options="performanceConditions"
         label="Performance Conditions"
         placeholder="Select Performance Conditions"
       />
 
       <base-date-picker
         v-model="formData.rewardDeadline"
-        name="date_of_birth"
+        name="rewardDeadline"
         label="Reward Deadline"
         placeholder="Select Reward Deadline"
         type="date"
@@ -70,15 +68,18 @@
 </template>
 
 <script setup lang="ts">
+import { useScholarStore } from "@/store/scholar";
+import { usePerformanceStore } from "@/store/performance";
 import { ref, onMounted } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 
 const { handleError } = useErrorHandler();
-import { useScholarStore } from "@/store/scholar";
+
 const emit = defineEmits(["done"]);
 
 const scholarStore = useScholarStore();
+const performanceStore = usePerformanceStore();
 
 const loading = ref(false);
 
@@ -92,46 +93,79 @@ const formData = ref({
 });
 
 onMounted(async () => {
+  loading.value = true;
   await scholarStore.getAllGrades();
+  await performanceStore.getPerformanceReward();
+  await performanceStore.getPerformanceGrade();
+  await performanceStore.getAllSubjects();
+  loading.value = false;
 });
 
-const tokenAwards = ref([
+const rewardTokens = computed(() => {
+  return performanceStore.getRewardsData?.map(
+    (grade: { id: number; name: string }) => ({
+      value: grade.id,
+      label: grade.name,
+    })
+  );
+});
+
+const performanceConditions = computed(() => {
+  return performanceStore.getPerformersData?.map(
+    (grade: { id: number; min: number; max: number }) => ({
+      value: grade.id,
+      label: `${grade.min}%-${grade.max}% Grade`,
+    })
+  );
+});
+
+const subjectList = computed(() => {
+  return performanceStore.getSubjectsData?.map(
+    (grade: { id: number; name: string }) => ({
+      value: grade.id,
+      label: grade.name,
+    })
+  );
+});
+
+const allSubjects = ref([
   {
-    value: "Movie Night - A special movie night with the family.",
-    label: "Movie Night - A special movie night with the family.",
+    value: 1,
+    label: "Mathematics",
   },
   {
-    value: "Movie Night - A special movie night with the family.",
-    label: "Movie Night - A special movie night with the family.",
+    value: 2,
+    label: "Science",
   },
   {
-    value: "Movie Night - A special movie night with the family.",
-    label: "Movie Night - A special movie night with the family.",
+    value: 3,
+    label: "Language Art",
+  },
+  {
+    value: 4,
+    label: "Social Studies",
+  },
+  {
+    value: 5,
+    label: "All subjects",
   },
 ]);
 
-
 const validationSchema = yup.object({
-  firstname: yup
+  performanceTitle: yup
     .string()
-    .required("First Name is required")
-    .min(2, "First Name must be at least 2 characters")
-    .max(50, "First Name cannot exceed 50 characters"),
-  lastname: yup
+    .required("Title is required")
+    .min(2, "Title must be at least 2 characters")
+    .max(50, "Title cannot exceed 50 characters"),
+  description: yup
     .string()
-    .required("Last Name is required")
-    .min(2, "Last Name must be at least 2 characters")
-    .max(50, "Last Name cannot exceed 50 characters"),
-  email: yup
-    .string()
-    .required("Email is required")
-    .email("Enter a valid email address"),
-  grade: yup.string().required("Grade is required"),
-  date_of_birth: yup.string().required("Date of birth is required"),
-  uploaded_files: yup
-    .array()
-    .min(1, "At least one file is required")
-    .required(),
+    .required("Description is required")
+    .min(2, "Description must be at least 2 characters")
+    .max(225, "Description cannot exceed 50 characters"),
+  tokenRewards: yup.string().required("Reward Token is required"),
+  rewardDeadline: yup.string().required("Deadline is required"),
+  performanceConditions: yup.string().required("Conditions is required"),
+  subjects: yup.string().required("Subjects is required"),
 });
 
 const { handleSubmit } = useForm({
@@ -139,12 +173,19 @@ const { handleSubmit } = useForm({
   initialValues: formData.value,
 });
 
-const onSubmit = handleSubmit(async () => {
-  const payload = {};
-
+const onSubmit = handleSubmit(async (values) => {
+  const payload = {
+    title: "Food",
+    description: "Food",
+    subjects: [1, 2],
+    scholar_ids: [1, 2],
+    performance_grade_id: 1,
+    performance_reward_id: 1,
+    expected_fulfilment_date: "2025-09-01",
+  };
   try {
     loading.value = true;
-    const response = await scholarStore.createScholar(payload);
+    const response = await performanceStore.createPerformanceToken(payload);
     if (response?.data.success) {
       emit("done");
     }
