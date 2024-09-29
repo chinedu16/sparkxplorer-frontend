@@ -31,7 +31,7 @@
       <base-select
         v-model="formData.subjects"
         name="subjects"
-        :options="allSubjects"
+        :options="subjectList"
         label="Subject"
         placeholder="Select Subject"
       />
@@ -78,6 +78,7 @@ const { handleError } = useErrorHandler();
 
 const emit = defineEmits(["done"]);
 
+const route = useRoute();
 const scholarStore = useScholarStore();
 const performanceStore = usePerformanceStore();
 
@@ -128,29 +129,6 @@ const subjectList = computed(() => {
   );
 });
 
-const allSubjects = ref([
-  {
-    value: 1,
-    label: "Mathematics",
-  },
-  {
-    value: 2,
-    label: "Science",
-  },
-  {
-    value: 3,
-    label: "Language Art",
-  },
-  {
-    value: 4,
-    label: "Social Studies",
-  },
-  {
-    value: 5,
-    label: "All subjects",
-  },
-]);
-
 const validationSchema = yup.object({
   performanceTitle: yup
     .string()
@@ -163,8 +141,10 @@ const validationSchema = yup.object({
     .min(2, "Description must be at least 2 characters")
     .max(225, "Description cannot exceed 50 characters"),
   tokenRewards: yup.string().required("Reward Token is required"),
-  rewardDeadline: yup.string().required("Deadline is required"),
-  performanceConditions: yup.string().required("Conditions is required"),
+  rewardDeadline: yup.string().required("Reward Deadline is required"),
+  performanceConditions: yup
+    .string()
+    .required("Performance Conditions is required"),
   subjects: yup.string().required("Subjects is required"),
 });
 
@@ -174,19 +154,27 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values) => {
+  console.log(values);
+  console.log(route);
+  const scholarId = Number(route.params.id);
   const payload = {
-    title: "Food",
-    description: "Food",
-    subjects: [1, 2],
-    scholar_ids: [1, 2],
-    performance_grade_id: 1,
-    performance_reward_id: 1,
-    expected_fulfilment_date: "2025-09-01",
+    title: values.performanceTitle,
+    description: values.description,
+    subjects: [values.subjects],
+    scholar_ids: [scholarId],
+    performance_grade_id: values.performanceConditions,
+    performance_reward_id: values.tokenRewards,
+    expected_fulfilment_date: values.rewardDeadline,
   };
   try {
     loading.value = true;
     const response = await performanceStore.createPerformanceToken(payload);
     if (response?.data.success) {
+      ElNotification({
+        title: "Success",
+        message: `Performance token was created successfully`,
+        type: "success",
+      });
       emit("done");
     }
   } catch (error) {

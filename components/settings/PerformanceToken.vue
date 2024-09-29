@@ -5,7 +5,12 @@
         <h2 class="font-bold text-xl">Performance Token</h2>
         <p class="text-gray-one">You can manage Performance Token here</p>
       </div>
-      <base-button @click="showPerformanceTokenModal = true" styles="w-full font-bold" size="large" type="primary">
+      <!-- <base-button
+        @click="showPerformanceTokenModal = true"
+        styles="w-full font-bold"
+        size="large"
+        type="primary"
+      >
         <div class="flex items-center space-x-2">
           <svg
             width="20"
@@ -23,7 +28,7 @@
 
           Create New Performance Token
         </div>
-      </base-button>
+      </base-button> -->
     </div>
     <div class="border mt-8 rounded-3xl">
       <el-table
@@ -41,7 +46,7 @@
                 class="text-sm py-1 mb-2 px-2 w-fit font-semibold text-primary bg-purple-one rounded-full"
                 v-for="i in scope.row.subjects"
               >
-                {{ i }}
+                {{ i.id }}
               </div>
             </div>
           </template>
@@ -77,7 +82,14 @@
         <el-table-column prop="date" label="Due Date" />
         <el-table-column prop="scholar" label="Scholar">
           <template #default="scope">
-            <img class="w-10 h-10" :src="scope.row.scholar" alt="" />
+            <div
+              
+              v-for="i in scope.row.scholar"
+            >
+              
+              <img class="w-10 h-10" :src="i.id" alt="" />
+            </div>
+           
           </template>
         </el-table-column>
         <el-table-column prop="action" label="Fulfilment">
@@ -122,7 +134,7 @@
                 'fulfilled',
               ].includes(selectedRow?.action),
             }"
-            class="capitalize border text-sm py-1 mb-4 px-2 w-fit font-semibold rounded-full"
+            class="capitalize border text-sm py-2 mb-4 px-2 w-fit font-semibold rounded-full"
           >
             {{ selectedRow?.action }}
           </div>
@@ -204,7 +216,11 @@
           <div v-else>
             <div class="text-sm font-bold mb-2">Evidence</div>
             <div class="p-2 border rounded-2xl">
-                <img class="rounded-2xl h-24 " src="../../assets/images/illustrations/login-screen-1.png" alt="">
+              <img
+                class="rounded-2xl h-24"
+                src="../../assets/images/illustrations/login-screen-1.png"
+                alt=""
+              />
             </div>
           </div>
         </div>
@@ -212,7 +228,11 @@
       <template #footer>
         <div class="dialog-footer">
           <div class="mt-8 flex space-x-2">
-            <div :class="`${selectedRow?.status === 'achieved' ? 'w-full' : 'w-1/2'}`" >
+            <div
+              :class="`${
+                selectedRow?.status === 'achieved' ? 'w-full' : 'w-1/2'
+              }`"
+            >
               <base-button
                 styles="w-full font-bold bg-white text-primary"
                 type="primary"
@@ -308,55 +328,29 @@
 
     <el-dialog v-model="showPerformanceTokenModal" title="" width="700">
       <div>
-        <scholars-assign-performance-token @done=""></scholars-assign-performance-token>
+        <scholars-assign-performance-token
+          @done="handlePerformanceCreationModal"
+        ></scholars-assign-performance-token>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-const tableData = [
-  {
-    file: "Mathematic Challenge - July",
-    subjects: ["Mathematics", "Science", "Social Studies"],
-    target: "90-100%",
-    status: "pending",
-    date: "2025/18/16",
-    scholar: "/icons/avatar.png",
-    action: "unfulfilled",
-  },
-  {
-    file: "Mathematic Challenge - July",
-    subjects: ["Social Studies"],
-    target: "90-100%",
-    status: "achieved",
-    date: "2025/18/16",
-    scholar: "/icons/avatar.png",
-    action: "unfulfilled",
-  },
-  {
-    file: "Mathematic Challenge - July",
-    subjects: ["All"],
-    target: "90-100%",
-    status: "missed",
-    date: "2025/18/16",
-    scholar: "/icons/avatar.png",
-    action: "",
-  },
-  {
-    file: "Mathematic Challenge - July",
-    subjects: ["Social Studies"],
-    target: "90-100%",
-    status: "achieved",
-    date: "2025/18/16",
-    scholar: "/icons/avatar.png",
-    action: "fulfilled",
-  },
-];
+const { handleError } = useErrorHandler();
+import { usePerformanceStore } from "@/store/performance";
+const { formatDate, formatToISODate } = useDateFormatter();
 
+const performanceStore = usePerformanceStore();
+
+
+
+const page = ref(1);
+const per_page = ref(10);
+const loading = ref(false);
 const dialogVisible = ref(false);
 const showDelete = ref(false);
-const showPerformanceTokenModal = ref(false)
+const showPerformanceTokenModal = ref(false);
 const selectedRow = ref<any>(null);
 const formData = ref({
   reward: "",
@@ -366,6 +360,24 @@ const formData = ref({
   description: "",
   challenge: "",
 });
+
+const tableData = computed(() => {
+  return performanceStore.getPerformanceToken.map((token: any) => ({
+    id: token.id,
+    file: token.title,
+    status: token.fulfilment_status,
+    target: token.performance_grade_id,
+    action: token.fulfilled_at ? "fulfilled" : "unfulfilled",
+    date: formatDate(token.expected_fulfilment_date),
+    subjects: token.subjects,
+    scholar: token.scholars,
+  }));
+});
+
+const handlePerformanceCreationModal = async () => {
+  await fetchPerformanceToken()
+  showPerformanceTokenModal.value = false
+}
 
 const handleRowClick = (row: any) => {
   selectedRow.value = row;
@@ -379,6 +391,23 @@ const handleClose = () => {
 const tableRowClassName = () => {
   return "table-row";
 };
+
+const fetchPerformanceToken = async () => {
+  try {
+    loading.value = true;
+    const payload = {
+      page: page.value,
+      per_page: per_page.value,
+    };
+    await performanceStore.getAllPerformanceToken(payload);
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+fetchPerformanceToken();
 </script>
 
 <style scoped>

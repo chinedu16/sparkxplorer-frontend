@@ -131,7 +131,7 @@
     <!-- Assign performance token -->
     <el-dialog v-model="showPerformanceTokenModal" title="" width="700">
       <div>
-        <scholars-assign-performance-token @done=""></scholars-assign-performance-token>
+        <scholars-assign-performance-token @done="handlePerformanceCreationModal"></scholars-assign-performance-token>
       </div>
     </el-dialog>
 
@@ -200,6 +200,11 @@ const handleCancel = () => {
 const deactivateScholar = () => {
   openDeleteDialog.value = true;
 };
+
+const handlePerformanceCreationModal = async () => {
+  await fetchSingleScholar()
+  showPerformanceTokenModal.value = false
+}
 </script>
 
 <style scoped></style>

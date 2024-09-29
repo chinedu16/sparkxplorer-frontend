@@ -4,6 +4,7 @@ const { handleError } = useErrorHandler();
 
 export const usePerformanceStore = defineStore("performance-store", {
   state: () => ({
+    performanceToken: [] as any,
     rewardData: [] as any,
     performersData: [] as any,
     subjectData: [] as any,
@@ -24,6 +25,22 @@ export const usePerformanceStore = defineStore("performance-store", {
       }
     },
 
+    async getAllPerformanceToken(payload: any) {
+      try {
+        const { page, per_page } = payload;
+        const { data, error } = await useApiGet(
+          `/performance-tokens?page=${page}&per_page=${per_page}`
+        );
+        if (data && !error) {
+          this.performanceToken = data.data.results;
+          this.total = data.data.total;
+        }
+        return { data, error };
+      } catch (error) {
+        handleError(error);
+      }
+    },
+
     async getPerformanceGrade() {
       try {
         const { data, error } = await useApiGet(
@@ -40,7 +57,7 @@ export const usePerformanceStore = defineStore("performance-store", {
 
     async getAllSubjects() {
       try {
-        const { data, error } = await useApiGet(`scholars/subjects`);
+        const { data, error } = await useApiGet(`performance-tokens/subjects`);
         if (data && !error) {
           this.subjectData = data.data;
         }
@@ -63,5 +80,6 @@ export const usePerformanceStore = defineStore("performance-store", {
     getRewardsData: (state) => state.rewardData,
     getPerformersData: (state) => state.performersData,
     getSubjectsData: (state) => state.subjectData,
+    getPerformanceToken: (state) => state.performanceToken,
   },
 });
