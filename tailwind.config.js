@@ -16,7 +16,20 @@ export default {
         700: '700px'
       },
       colors: {
-        'primary': '#4F46E5',
+        'blue-violet': {
+          '50': '#efeeff',
+          '100': '#E0E7FF',
+          '200': '#cac7fe',
+          '300': '#aaa5fc',
+          '400': '#8881f8',
+          '500': '#6b63f1',
+          '600': '#4f46e5',
+          '700': '#4038ca',
+          '800': '#3730a3',
+          '900': '#332e81',
+          '950': '#1e1b4b',
+        },
+        'primary-foreground': '#190634',
         'purple-one': "#EEF2FF",
         'gray-one': '#475569',
         'gray-two': '#1E293B',
@@ -36,7 +49,7 @@ export default {
       },
     },
   },
-  
+
   plugins: [],
 }
 

@@ -3,78 +3,39 @@
     <div class="w-full">
       <div v-if="label" class="mb-2 text-sm font-medium">{{ label }}</div>
       <div v-if="type === 'phone'" class="flex custom-select">
-        <el-select
-          class="phone-code custom-input"
-          v-model="selectedCountryCode"
-          placeholder="Code"
-          @change="emitPhoneCode"
-        >
-          <el-option
-            v-for="option in countryCodes"
-            :key="option.code"
-            :label="option.label"
-            :value="option.code"
-          >
+        <el-select class="phone-code custom-input" v-model="selectedCountryCode" placeholder="Code"
+          @change="emitPhoneCode">
+          <el-option v-for="option in countryCodes" :key="option.code" :label="option.label" :value="option.code">
             <span>{{ option.label }}</span>
           </el-option>
         </el-select>
-        <el-input
-          v-model="internalValue"
-          :type="type"
-          :placeholder="placeholder"
-          :class="[
-            'custom-input phone',
-            inputClass,
-            variantClass,
-            { 'is-focused': isFocused },
-          ]"
-          size="large"
-          @focus="handleFocus"
-          @blur="handleBlur"
-        >
+        <el-input v-model="internalValue" :type="type" :placeholder="placeholder" :class="[
+          'custom-input phone',
+          inputClass,
+          variantClass,
+          { 'is-focused': isFocused },
+        ]" size="large" @focus="handleFocus" @blur="handleBlur">
         </el-input>
       </div>
-      <el-input
-        v-else
-        v-model="internalValue"
-        :disabled="disabled"
-        :type="passwordVisible ? 'text' : type"
-        :rows="row"
-        :placeholder="placeholder"
-        :class="[
+      <el-input v-else v-model="internalValue" :disabled="disabled" :type="passwordVisible ? 'text' : type" :rows="row"
+        :placeholder="placeholder" :class="[
           'custom-input',
           inputClass,
           variantClass,
           { 'is-focused': isFocused },
-        ]"
-        size="large"
-        @focus="handleFocus"
-        @blur="handleBlur"
-      >
+        ]" size="large" @focus="handleFocus" @blur="handleBlur">
         <!-- Prefix Icon -->
         <template v-if="iconPrefix" #prefix>
-          <img
-            :src="`/icons/${iconPrefix}.svg`"
-            alt="prefix-icon"
-            class="icon-prefix"
-          />
+          <img :src="`/icons/${iconPrefix}.svg`" alt="prefix-icon" class="icon-prefix" />
         </template>
 
         <!-- Suffix Icon -->
         <template v-if="type === 'password'" #suffix>
-          <img
-            :src="passwordVisible ? '/icons/eye-off.svg' : '/icons/eye-off.svg'"
-            alt="toggle-password-visibility"
-            class="icon-suffix"
-            @click="togglePasswordVisibility"
-          />
+          <img :src="passwordVisible ? '/icons/eye-off.svg' : '/icons/eye-off.svg'" alt="toggle-password-visibility"
+            class="icon-suffix" @click="togglePasswordVisibility" />
         </template>
         <template v-else-if="iconSuffix" #suffix>
-          <img
-            :src="`/icons/${iconSuffix}.svg`"
-            alt="suffix-icon"
-            class="icon-suffix"
-          />
+          <img :src="`/icons/${iconSuffix}.svg`" alt="suffix-icon" class="icon-suffix" />
         </template>
       </el-input>
     </div>
@@ -87,8 +48,8 @@ import { ref, watch, computed } from "vue";
 
 const props = defineProps({
   name: { type: String, required: true },
-  label: { type: String, required: true },
-  disabled: {type: Boolean, required: false },
+  label: { type: String, default: '' },
+  disabled: { type: Boolean, required: false },
   placeholder: { type: String, required: true },
   type: {
     type: String as () =>
