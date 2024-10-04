@@ -88,7 +88,7 @@ import { ref, watch, computed } from "vue";
 const props = defineProps({
   modelValue: { type: [String, Number], required: true }, // Use modelValue for v-model
   name: { type: String, required: true },
-  label: { type: String, required: true },
+  label: { type: String, default: "" },
   disabled: { type: Boolean, required: false },
   placeholder: { type: String, required: true },
   type: {
