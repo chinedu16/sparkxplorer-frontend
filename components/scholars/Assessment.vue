@@ -5,8 +5,6 @@
         Assessment performance
       </p>
   
-     
-  
       <!-- Expectations Table -->
       <div class="border rounded-xl mt-8 mb-6">
         <el-table

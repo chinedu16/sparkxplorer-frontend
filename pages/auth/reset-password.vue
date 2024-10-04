@@ -32,7 +32,7 @@
                 type="password"
                 placeholder="Enter password"
                 icon-prefix="password"
-                v-model:value="formData.password"
+                v-model="formData.password"
               />
               <base-input
                 name="confirm_password"
@@ -40,7 +40,7 @@
                 type="password"
                 placeholder="Enter Confirm password"
                 icon-prefix="password"
-                v-model:value="formData.confirm_password"
+                v-model="formData.confirm_password"
               />
 
               <base-button

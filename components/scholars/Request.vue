@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%" :loading="loading" border>
+    <el-table :data="tableData" style="width: 100%" v-loading="loading" border>
       <el-table-column prop="tutor" label="Tutors" />
       <el-table-column prop="subject" label="Subject" />
       <el-table-column label="Type">

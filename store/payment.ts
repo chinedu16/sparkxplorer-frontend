@@ -51,6 +51,25 @@ export const usePaymentStore = defineStore("payment-store", {
         return { error };
       }
     },
+
+    async cancelSub(id: number) {
+      try {
+        const response = await useApiPut(`payments/subscriptions/${id}/cancel`, {} );
+        return response;
+      } catch (error) {
+        handleError(error);
+      }
+    },
+
+    async renewSub(payload: any) {
+      try {
+        const response = await useApiPost(`payments/generate-renewal-url`, payload );
+        return response;
+      } catch (error) {
+        handleError(error);
+      }
+    },
+    
   },
   getters: {
     getGrades: (state) => state.grades,

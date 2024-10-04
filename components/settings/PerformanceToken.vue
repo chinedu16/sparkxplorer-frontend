@@ -5,38 +5,15 @@
         <h2 class="font-bold text-xl">Performance Token</h2>
         <p class="text-gray-one">You can manage Performance Token here</p>
       </div>
-      <!-- <base-button
-        @click="showPerformanceTokenModal = true"
-        styles="w-full font-bold"
-        size="large"
-        type="primary"
-      >
-        <div class="flex items-center space-x-2">
-          <svg
-            width="20"
-            height="21"
-            class="mr-2"
-            viewBox="0 0 20 21"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M16.357 5.20859C14.6937 4.37656 12.5 3.9375 10 3.9375C7.5 3.9375 5.30625 4.37656 3.64297 5.20859C1.92344 6.06797 0.9375 7.31328 0.9375 8.625V12.375C0.9375 13.6867 1.92344 14.932 3.64297 15.7914C5.30625 16.6234 7.50391 17.0625 10 17.0625C12.4961 17.0625 14.6937 16.6234 16.357 15.7914C18.0758 14.932 19.0625 13.6867 19.0625 12.375V8.625C19.0625 7.31328 18.0766 6.06797 16.357 5.20859ZM4.48203 6.88516C5.86562 6.19375 7.825 5.8125 10 5.8125C12.175 5.8125 14.1344 6.19375 15.518 6.88516C16.5477 7.4 17.1875 8.06719 17.1875 8.625C17.1875 9.18281 16.5477 9.85 15.518 10.3648C14.1344 11.0562 12.175 11.4375 10 11.4375C7.825 11.4375 5.86562 11.0562 4.48203 10.3648C3.45234 9.85 2.8125 9.18281 2.8125 8.625C2.8125 8.06719 3.45234 7.4 4.48203 6.88516ZM14.0625 14.6703C13.0426 14.9511 11.9943 15.1162 10.9375 15.1625V13.2875C11.9906 13.2445 13.037 13.1004 14.0625 12.857V14.6703ZM5.9375 12.8609C6.96296 13.1043 8.00944 13.2484 9.0625 13.2914V15.1664C8.00566 15.1202 6.95739 14.9551 5.9375 14.6742V12.8609ZM2.8125 12.375V11.5578C3.07853 11.7369 3.35594 11.8984 3.64297 12.0414C3.77891 12.1094 3.91953 12.1742 4.0625 12.2367V13.8828C3.28125 13.4094 2.8125 12.8523 2.8125 12.375ZM15.9375 13.8828V12.2367C16.0805 12.1742 16.2211 12.1094 16.357 12.0414C16.6441 11.8984 16.9215 11.7369 17.1875 11.5578V12.375C17.1875 12.8523 16.7188 13.4094 15.9375 13.8828Z"
-              fill="white"
-            />
-          </svg>
-
-          Create New Performance Token
-        </div>
-      </base-button> -->
     </div>
     <div class="border mt-8 rounded-3xl">
       <el-table
-        class="border-r rounded-3xl"
+        class="border-r rounded-3xl cursor-pointer"
         :data="tableData"
         style="width: 100%"
         @row-click="handleRowClick"
         :row-class-name="tableRowClassName"
+        v-loading="loading"
       >
         <el-table-column prop="file" label="File Name" />
         <el-table-column prop="subjects" label="Subjects">
@@ -46,7 +23,7 @@
                 class="text-sm py-1 mb-2 px-2 w-fit font-semibold text-primary bg-purple-one rounded-full"
                 v-for="i in scope.row.subjects"
               >
-                {{ i.id }}
+                {{ i.subject.name }}
               </div>
             </div>
           </template>
@@ -57,7 +34,7 @@
               <div
                 class="text-sm py-1 mb-2 px-2 w-fit font-semibold text-primary bg-purple-one rounded-full"
               >
-                {{ scope.row.target }}
+                {{ scope.row.min }} - {{ scope.row.max }}%
               </div>
             </div>
           </template>
@@ -67,9 +44,9 @@
             <div
               :class="{
                 'bg-yellow-400': scope.row.status === 'pending',
-                'bg-green-400': scope.row.status === 'achieved',
+                'bg-green-400': scope.row.status === 'fulfilled',
                 'bg-red-400': scope.row.status === 'missed',
-                'bg-gray-300': !['pending', 'achieved', 'missed'].includes(
+                'bg-gray-300': !['pending', 'fulfilled', 'missed'].includes(
                   scope.row.status
                 ), // Default or unknown status
               }"
@@ -82,14 +59,15 @@
         <el-table-column prop="date" label="Due Date" />
         <el-table-column prop="scholar" label="Scholar">
           <template #default="scope">
-            <div
-              
-              v-for="i in scope.row.scholar"
-            >
-              
-              <img class="w-10 h-10" :src="i.id" alt="" />
+            <div v-for="i in scope.row.scholar">
+              <nuxt-link :to="`/dashboard/scholars/${i.scholar_id}`">
+                <img
+                  class="w-10 h-10"
+                  src="../../assets/images/illustrations/avatar.png"
+                  alt=""
+                />
+              </nuxt-link>
             </div>
-           
           </template>
         </el-table-column>
         <el-table-column prop="action" label="Fulfilment">
@@ -113,7 +91,14 @@
         </el-table-column>
       </el-table>
       <div class="px-8 flex justify-end py-6">
-        <el-pagination background layout="prev, pager, next" :total="1000" />
+        <el-pagination
+          background
+          layout="total, prev, pager, next"
+          :page-size="per_page"
+          v-model:current-page="page"
+          :total="performanceStore.getTotal"
+          @current-change="handleCurrentChange"
+        />
       </div>
     </div>
 
@@ -144,12 +129,12 @@
               'border-yellow-400 bg-yellow-50 text-yellow-400':
                 selectedRow?.status === 'pending',
               'border-green-400  bg-green-50 text-green-400':
-                selectedRow?.status === 'achieved',
+                selectedRow?.status === 'fulfilled',
               'border-red-400  bg-red-50 text-red-400':
                 selectedRow?.status === 'missed',
               'border-gray-300  bg-gray-50 text-gray-300': ![
                 'pending',
-                'achieved',
+                'fulfilled',
                 'missed',
               ].includes(selectedRow?.status),
             }"
@@ -157,69 +142,75 @@
           >
             {{
               selectedRow?.status === "pending"
-                ? "Amanda cortez is yet to meet the target set."
-                : selectedRow?.status === "achieved"
-                ? "Amanda cortez has met the target. And performance token provided"
-                : "Amanda cortez has met the target. Please fulfil your performance token"
+                ? `${selectedRow.scholarFirstName} ${selectedRow.scholarLastName} is yet to meet the target set.`
+                : selectedRow?.status === "fulfilled"
+                ? `${selectedRow.scholarFirstName} ${selectedRow.scholarLastName} has met the target. And performance token provided`
+                : `${selectedRow.scholarFirstName} ${selectedRow.scholarLastName} has met the target. Please fulfil your performance token`
             }}
           </div>
-          <div v-if="selectedRow.status !== 'achieved'">
+          <div v-if="selectedRow.status !== 'fulfilled'">
             <base-input
               name="firstname"
               label="Title (e.g. Get 80% in Maths question in June)"
               type="text"
               placeholder="Mathematic Challenge - July"
-              icon-prefix="user"
-              v-model:value="formData.challenge"
+              v-model="formData.challenge"
             />
             <base-input
               name="description"
               label="Description"
               type="textarea"
               placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "
-              icon-prefix="user"
-              v-model:value="formData.description"
+              v-model="formData.description"
             />
             <base-input
               name="token"
               label="Token Reward"
               type="text"
               placeholder="Movie Night - A special movie night with the family."
-              icon-prefix="user"
-              v-model:value="formData.token"
+              v-model="formData.token"
             />
             <base-input
               name="firstname"
               label="All subjects"
               type="text"
               placeholder="All subjects"
-              icon-prefix="user"
-              v-model:value="formData.subjects"
+              v-model="formData.subjects"
             />
             <base-input
               name="performance"
               label="Performance Conditions"
               type="text"
               placeholder="90%-100% Grade"
-              icon-prefix="user"
-              v-model:value="formData.performance"
+              v-model="formData.performance"
             />
             <base-input
               name="reward"
               label="Reward Deadline"
               type="text"
               placeholder="07 / 10 / 2024"
-              icon-prefix="user"
-              v-model:value="formData.reward"
+              v-model="formData.reward"
             />
           </div>
           <div v-else>
             <div class="text-sm font-bold mb-2">Evidence</div>
-            <div class="p-2 border rounded-2xl">
+            <div class="p-2 border rounded-2xl space-x-3 flex">
               <img
-                class="rounded-2xl h-24"
-                src="../../assets/images/illustrations/login-screen-1.png"
+                v-for="image in selectedRow.fulfilment_evidence"
+                class="rounded-2xl h-24 w-20"
+                :src="image"
+                @click="selectedImage = image"
                 alt=""
+              />
+            </div>
+
+            <!-- Display the selected image at the bottom -->
+            <div v-if="selectedImage" class="mt-4">
+              <h3 class="text-lg font-semibold">Selected Evidence:</h3>
+              <img
+                :src="selectedImage"
+                alt="Selected Evidence"
+                class="rounded-2xl mt-3 object-cover w-full max-h-60"
               />
             </div>
           </div>
@@ -230,7 +221,7 @@
           <div class="mt-8 flex space-x-2">
             <div
               :class="`${
-                selectedRow?.status === 'achieved' ? 'w-full' : 'w-1/2'
+                selectedRow?.status === 'fulfilled' ? 'w-full' : 'w-1/2'
               }`"
             >
               <base-button
@@ -244,9 +235,9 @@
                 Delete Performance Token
               </base-button>
             </div>
-            <div v-if="selectedRow?.status !== 'achieved'" class="w-1/2">
+            <div class="w-1/2" v-if="selectedRow?.status !== 'fulfilled'">
               <base-button
-                @click="showDelete = false"
+                @click="showFufillmentEvidenceModal = true"
                 styles="w-full font-bold"
                 type="primary"
               >
@@ -280,15 +271,14 @@
           Delete performance token?
         </h3>
         <p class="text-gray-one">
-          Lorem ipsum dolor sit amet consectetur. Tempor iaculis enim ridiculus
-          facilisis mattis id ante. Porttitor leo tellus ut dolor in ac. Tempor
-          sollicitudin ipsum duis arcu id id sagittis.
+          Are you sure you want to delete the performance token?
         </p>
       </div>
       <template #footer>
         <div class="dialog-footer">
           <div class="mt-8 justify-end flex space-x-2">
             <base-button
+              @click="showDelete = false"
               styles="w-full font-bold bg-white text-primary"
               type="primary"
               bgColor="#FFFFFF"
@@ -298,11 +288,12 @@
               Cancel
             </base-button>
             <base-button
-              @click="showDelete = false"
               styles="w-fit font-bold"
               type="primary"
               bgColor="#F43F5E"
               textColor="#ffffff"
+              :loading="isDeleting"
+              @click="handleDeletePerformanceToken"
               borderColor="#F43F5E"
             >
               <svg
@@ -333,25 +324,70 @@
         ></scholars-assign-performance-token>
       </div>
     </el-dialog>
+
+    <el-dialog v-model="showFufillmentEvidenceModal" title="" width="700">
+      <div class="">
+        <h3 class="text-3xl font-black text-gray-two mb-4">
+          Evidence of fullfilment
+        </h3>
+        <div>
+          <base-file-upload
+            name="uploaded_files"
+            @uploadedUrl="handleUploadedUrl"
+          />
+        </div>
+      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <div class="mt-8 justify-end flex space-x-2">
+            <base-button
+              @click="showDelete = false"
+              styles="w-full font-bold bg-white text-primary"
+              type="primary"
+              bgColor="#FFFFFF"
+              textColor="#475569"
+              borderColor="#CBD5E1"
+            >
+              Cancel
+            </base-button>
+            <base-button
+              styles="w-fit font-bold"
+              type="primary"
+              bgColor="#4F46E5"
+              textColor="#ffffff"
+              :loading="isFufilling"
+              @click="handleFufillingPerformanceToken"
+              borderColor="#4F46E5"
+            >
+              Submit
+            </base-button>
+          </div>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 const { handleError } = useErrorHandler();
 import { usePerformanceStore } from "@/store/performance";
-const { formatDate, formatToISODate } = useDateFormatter();
+const { formatDate } = useDateFormatter();
 
 const performanceStore = usePerformanceStore();
 
-
-
 const page = ref(1);
 const per_page = ref(10);
-const loading = ref(false);
+const loading = ref(true);
 const dialogVisible = ref(false);
 const showDelete = ref(false);
+const isFufilling = ref(false);
+const showFufillmentEvidenceModal = ref(false);
+const isDeleting = ref(false);
 const showPerformanceTokenModal = ref(false);
 const selectedRow = ref<any>(null);
+const base64File = ref<string[]>([]);
+const selectedImage = ref<string | null>(null);
+
 const formData = ref({
   reward: "",
   performance: "",
@@ -362,30 +398,108 @@ const formData = ref({
 });
 
 const tableData = computed(() => {
-  return performanceStore.getPerformanceToken.map((token: any) => ({
+  // Start with the original mapped data
+  const data = performanceStore.getPerformanceToken.map((token: any) => ({
+    ...token,
     id: token.id,
     file: token.title,
     status: token.fulfilment_status,
     target: token.performance_grade_id,
+    min: token.grade.min,
+    max: token.grade.max,
     action: token.fulfilled_at ? "fulfilled" : "unfulfilled",
     date: formatDate(token.expected_fulfilment_date),
     subjects: token.subjects,
     scholar: token.scholars,
+    scholarFirstName: token.scholars[0].scholar.first_name,
+    scholarLastName: token.scholars[0].scholar.last_name,
   }));
+
+  // Create the additional object
+  const additionalObject = {
+    id: "custom-id", // You can set a unique ID or generate one
+    file: "Custom Token",
+    status: "fulfilled",
+    target: "Custom Target", // Set this as needed
+    min: 0, // Set as appropriate
+    max: 100, // Set as appropriate
+    action: "fulfilled",
+    date: "September 20. 2025", // Set as appropriate
+    subjects: [], // Add any required subjects
+    scholar: [], // Add any required scholars
+    scholarFirstName: "John", // Set as needed
+    scholarLastName: "Doe", // Set as needed
+  };
+
+  // Return the concatenated array
+  return [...data, additionalObject];
 });
 
 const handlePerformanceCreationModal = async () => {
-  await fetchPerformanceToken()
-  showPerformanceTokenModal.value = false
-}
+  await fetchPerformanceToken();
+  showPerformanceTokenModal.value = false;
+};
+
+const handleDeletePerformanceToken = async () => {
+  try {
+    isDeleting.value = true;
+    const response = await performanceStore.deletePerformanceToken(
+      selectedRow.value.id
+    );
+    if (!response?.error) {
+      showDelete.value = false;
+      dialogVisible.value = false;
+      fetchPerformanceToken();
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isDeleting.value = false;
+  }
+};
+
+const handleFufillingPerformanceToken = async () => {
+  try {
+    const payload = {
+      fulfilment_evidence: base64File.value,
+    };
+    isFufilling.value = true;
+    const response = await performanceStore.fufilPerformanceToken(
+      selectedRow.value.id,
+      payload
+    );
+    if (!response?.error) {
+      showFufillmentEvidenceModal.value = false;
+      dialogVisible.value = false;
+      fetchPerformanceToken();
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    isFufilling.value = false;
+  }
+};
+
+const handleUploadedUrl = (url: string) => {
+  isFufilling.value = true;
+  base64File.value.push(url);
+  isFufilling.value = false;
+};
 
 const handleRowClick = (row: any) => {
   selectedRow.value = row;
   dialogVisible.value = true;
-};
-
-const handleClose = () => {
-  dialogVisible.value = false;
+  console.log(row);
+  formData.value = {
+    reward: row.date,
+    performance: `${row.min} - ${row.max}%`,
+    subjects: row.subjects.map((items: any) => {
+      return items.subject.name;
+    }),
+    token: row.reward.name,
+    description: row.description,
+    challenge: row.file,
+  };
 };
 
 const tableRowClassName = () => {
@@ -405,6 +519,11 @@ const fetchPerformanceToken = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const handleCurrentChange = (currentPage: number) => {
+  page.value = currentPage;
+  fetchPerformanceToken();
 };
 
 fetchPerformanceToken();

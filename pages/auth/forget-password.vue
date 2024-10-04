@@ -22,7 +22,7 @@
             type="email"
             placeholder="Enter Email Address"
             icon-prefix="email"
-            v-model:value="formData.email"
+            v-model="formData.email"
           />
 
           <base-button

@@ -14,7 +14,7 @@
               type="textarea"
               placeholder="What’s on your mind right now?"
               icon-prefix="password"
-              v-model:value="formData.feed"
+              v-model="formData.feed"
             />
             <div class="mt-2 mb-4 flex justify-end">
               <base-button

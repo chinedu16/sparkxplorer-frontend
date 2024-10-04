@@ -22,7 +22,7 @@
             type="text"
             placeholder="Enter first name"
             icon-prefix="user"
-            v-model:value="formData.firstname"
+            v-model="formData.firstname"
           />
           <base-input
             name="lastname"
@@ -30,7 +30,7 @@
             type="text"
             placeholder="Enter last name"
             icon-prefix="user"
-            v-model:value="formData.lastname"
+            v-model="formData.lastname"
           />
           <base-input
             name="email"
@@ -38,14 +38,14 @@
             type="email"
             placeholder="Enter Email Address"
             icon-prefix="email"
-            v-model:value="formData.email"
+            v-model="formData.email"
           />
           <base-input
             name="phone"
             label="Phone Number"
             type="phone"
             placeholder="Enter Phone Number"
-            v-model:value="formData.phone"
+            v-model="formData.phone"
             v-model:phoneCode="formData.phoneCode"
           />
           <base-input
@@ -54,7 +54,7 @@
             type="password"
             placeholder="Enter password"
             icon-prefix="password"
-            v-model:value="formData.password"
+            v-model="formData.password"
           />
 
           <el-checkbox v-model="formData.checked" size="large">

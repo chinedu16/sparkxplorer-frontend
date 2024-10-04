@@ -13,7 +13,7 @@
         type="text"
         placeholder="Enter first name"
         icon-prefix="user"
-        v-model:value="formData.firstname"
+        v-model="formData.firstname"
       />
       <base-input
         name="lastname"
@@ -21,7 +21,7 @@
         type="text"
         placeholder="Enter last name"
         icon-prefix="user"
-        v-model:value="formData.lastname"
+        v-model="formData.lastname"
       />
 
       <base-input
@@ -30,7 +30,7 @@
         type="email"
         placeholder="Enter Email Address"
         icon-prefix="email"
-        v-model:value="formData.email"
+        v-model="formData.email"
       />
 
       <base-select
@@ -141,10 +141,7 @@ const validationSchema = yup.object({
     .email("Enter a valid email address"),
   grade: yup.string().required("Grade is required"),
   date_of_birth: yup.string().required("Date of birth is required"),
-  uploaded_files: yup
-    .array()
-    .min(1, "At least one file is required")
-    .required(),
+  uploaded_files: yup.array().min(1, "At least one file is required").required('scholar image is required'),
 });
 
 const { handleSubmit, resetForm, setFieldValue } = useForm({

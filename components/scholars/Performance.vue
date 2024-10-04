@@ -4,7 +4,7 @@
       <img src="../../assets/images/illustrations/avatar-male.png" alt="" />
       <div>
         <h2 class="font-bold text-xl">{{ scholarStore.getOneScholar.first_name }} {{ scholarStore.getOneScholar.last_name }} </h2>
-        <p class="text-gray-one text-sm">Grade 2</p>
+        <p class="text-gray-one text-sm">{{ scholarStore.getOneScholar.is_active ? 'Active': 'Inactive' }}</p>
       </div>
     </div>
     <DashboardStatisticsCard />

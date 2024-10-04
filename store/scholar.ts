@@ -41,11 +41,23 @@ export const useScholarStore = defineStore("scholar-store", {
       }
     },
 
+    async getSingleScholarDetails(id: number) {
+      try {
+        const { data, error } = await useApiGet(`/scholars/${id}/details`);
+        if (data && !error) {
+          this.oneScholar = data.data;
+        }
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
+
     async getAllScholar(payload: any) {
       try {
-        const { page, per_page } = payload;
+        const { page, per_page, search_query } = payload;
         const { data, error } = await useApiGet(
-          `/scholars?page=${page}&per_page=${per_page}`
+          `/scholars?page=${page}&per_page=${per_page}&search_query=${search_query}`
         );
         if (data && !error) {
           this.scholars = data.data.results;

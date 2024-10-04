@@ -22,7 +22,7 @@
             type="email"
             placeholder="Enter Email Address"
             icon-prefix="email"
-            v-model:value="formData.email"
+            v-model="formData.email"
           />
 
           <base-input
@@ -31,7 +31,7 @@
             type="password"
             placeholder="Enter password"
             icon-prefix="password"
-            v-model:value="formData.password"
+            v-model="formData.password"
           />
 
           <div class="flex justify-between items-center">

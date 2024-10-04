@@ -8,7 +8,7 @@
         <el-tab-pane label="General" name="first">
           <settings-general />
         </el-tab-pane>
-        <el-tab-pane label="Performance Token" name="second">
+        <el-tab-pane v-if="currentUser.primary_role !== 'scholar'" label="Performance Token" name="second">
           <settings-performance-token />
         </el-tab-pane>
         <el-tab-pane label="Security" name="third">
@@ -21,6 +21,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from "@/store/user";
+
+const userStore = useUserStore();
+const currentUser = computed(() => userStore.getUserInfo);
 
 const activeName = ref("first");
 

@@ -1,14 +1,11 @@
 <template>
-  <div v-if="loading" class="container">
-    <div class="spinner-big"></div>
-  </div>
-  <div v-else>
+  <div v-loading="loading">
     <div class="flex justify-between mb-6">
       <h2 class="font-extrabold text-gray-two text-3xl">Subscription</h2>
     </div>
     <div class="mb-10">
       <div>
-        <h4 class="font-semibold">Scholar Plan</h4>
+        <h4 class="font-semibold">Scholar Plans</h4>
         <div class="mt-4 grid grid-cols-3 gap-8">
           <div
             v-for="sub in subscriptions"
@@ -36,8 +33,6 @@
                 <li>Billed {{ sub.plans }}</li>
                 <li>Next Payment: {{ formatDate(sub.end_date) }}</li>
               </ul>
-
-              <!-- <p class="text-primary">Switch to monthly plan</p> -->
             </div>
             <div class="mt-3 flex justify-between items-center">
               <h4 class="font-black text-4xl uppercase">
@@ -54,7 +49,7 @@
                 size="large"
                 type="primary"
                 bgColor="#FFF1F2"
-                @click="cancelOrRenew('cancel')"
+                @click="cancelSubscription(sub.id)"
                 textColor="#F43F5E"
                 borderColor="#FFF1F2"
               >
@@ -76,10 +71,9 @@
                 </div>
               </base-button>
               <base-button
-                v-if="isExpired(sub.end_date)"
                 styles="w-full font-bold"
                 size="large"
-                @click="cancelOrRenew('renew')"
+                @click="renewSubscription(sub)"
                 type="primary"
               >
                 <div class="flex items-center space-x-2">
@@ -103,100 +97,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="mt-8">
-        <h4 class="font-semibold">Tutors</h4>
-        <div class="mt-4 grid grid-cols-2 gap-8">
-          <div v-for="i in 2" class="border rounded-3xl py-4 px-6 shadow-md">
-            <div class="mb-10 flex space-x-2 items-center">
-              <img
-                src="../../assets/images/illustrations/avatar-male.png"
-                alt=""
-              />
-              <h1 class="font-bold text-2xl text-gray-one">Matt Gregory</h1>
-            </div>
-            <div class="text-sm flex font-bold justify-between items-center">
-              <ul class="space-y-2 text-gray-one">
-                <li>Mathematics</li>
-                <li>Billed annually</li>
-                <li>Next Payment: June 29th, 2025</li>
-              </ul>
-
-              <p class="text-primary">Switch to monthly plan</p>
-            </div>
-            <div class="mt-3 flex justify-between items-center">
-              <h4 class="font-black text-4xl">$30</h4>
-              <img
-                src="../../assets/images/illustrations/avatar-icon-2.png"
-                alt=""
-              />
-            </div>
-            <div class="flex w-full mt-6 space-x-3">
-              <base-button
-                styles="w-full font-bold"
-                size="large"
-                type="primary"
-              >
-                <div class="flex items-center space-x-2">
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 17 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.3125 2.2508V6.0008C16.3125 6.24944 16.2137 6.4879 16.0379 6.66372C15.8621 6.83953 15.6236 6.9383 15.375 6.9383H11.625C11.3764 6.9383 11.1379 6.83953 10.9621 6.66372C10.7863 6.4879 10.6875 6.24944 10.6875 6.0008C10.6875 5.75216 10.7863 5.51371 10.9621 5.33789C11.1379 5.16208 11.3764 5.0633 11.625 5.0633H13.1094L12.5 4.45393C11.3967 3.34519 9.89849 2.71971 8.33437 2.71487H8.30078C6.75063 2.71147 5.26146 3.31853 4.15547 4.40471C3.97769 4.57855 3.73814 4.67465 3.4895 4.67187C3.24087 4.66908 3.00353 4.56764 2.82969 4.38987C2.65585 4.21209 2.55975 3.97253 2.56253 3.7239C2.56531 3.47527 2.66675 3.23793 2.84453 3.06409C4.30095 1.63397 6.26196 0.834917 8.30313 0.839867H8.34375C10.4029 0.845481 12.3756 1.66855 13.8281 3.12815L14.4375 3.73518V2.2508C14.4375 2.00216 14.5363 1.76371 14.7121 1.58789C14.8879 1.41208 15.1264 1.3133 15.375 1.3133C15.6236 1.3133 15.8621 1.41208 16.0379 1.58789C16.2137 1.76371 16.3125 2.00216 16.3125 2.2508ZM12.8445 12.5969C11.738 13.6836 10.2478 14.2907 8.69688 14.2867H8.66328C7.09916 14.2819 5.60092 13.6564 4.49766 12.5477L3.89062 11.9383H5.375C5.62364 11.9383 5.8621 11.8395 6.03791 11.6637C6.21373 11.4879 6.3125 11.2494 6.3125 11.0008C6.3125 10.7522 6.21373 10.5137 6.03791 10.3379C5.8621 10.1621 5.62364 10.0633 5.375 10.0633H1.625C1.37636 10.0633 1.1379 10.1621 0.962087 10.3379C0.786272 10.5137 0.6875 10.7522 0.6875 11.0008V14.7508C0.6875 14.9994 0.786272 15.2379 0.962087 15.4137C1.1379 15.5895 1.37636 15.6883 1.625 15.6883C1.87364 15.6883 2.1121 15.5895 2.28791 15.4137C2.46373 15.2379 2.5625 14.9994 2.5625 14.7508V13.2664L3.17188 13.8758C4.62478 15.3345 6.59741 16.1567 8.65625 16.1617H8.7C10.7412 16.1667 12.7022 15.3676 14.1586 13.9375C14.2466 13.8514 14.3168 13.7489 14.3652 13.6357C14.4136 13.5224 14.4392 13.4008 14.4406 13.2777C14.442 13.1546 14.4191 13.0324 14.3733 12.9182C14.3274 12.8039 14.2595 12.6998 14.1734 12.6117C14.0874 12.5237 13.9848 12.4535 13.8716 12.4051C13.7584 12.3567 13.6367 12.3311 13.5136 12.3297C13.3905 12.3284 13.2683 12.3512 13.1541 12.3971C13.0398 12.4429 12.9357 12.5108 12.8477 12.5969H12.8445Z"
-                      fill="white"
-                    />
-                  </svg>
-
-                  <span>Renew now</span>
-                </div>
-              </base-button>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
-
-    <!-- <el-dialog v-model="openSuccessReset" title="" width="500">
-      <div class="">
-        <div
-          class="bg-purple-one text-primary rounded-full flex items-center justify-center font-bold text-base h-12 w-12"
-        >
-          <svg
-            width="22"
-            height="16"
-            viewBox="0 0 22 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M20 0.125H2C1.70163 0.125 1.41548 0.243526 1.2045 0.454505C0.993526 0.665483 0.875 0.951631 0.875 1.25V14C0.875 14.4973 1.07254 14.9742 1.42417 15.3258C1.77581 15.6775 2.25272 15.875 2.75 15.875H19.25C19.7473 15.875 20.2242 15.6775 20.5758 15.3258C20.9275 14.9742 21.125 14.4973 21.125 14V1.25C21.125 0.951631 21.0065 0.665483 20.7955 0.454505C20.5845 0.243526 20.2984 0.125 20 0.125ZM17.1078 2.375L11 7.97375L4.89219 2.375H17.1078ZM3.125 13.625V3.8075L10.2397 10.3297C10.4472 10.52 10.7185 10.6255 11 10.6255C11.2815 10.6255 11.5528 10.52 11.7603 10.3297L18.875 3.8075V13.625H3.125Z"
-              fill="#4F46E5"
-            />
-          </svg>
-        </div>
-        <h3 class="mt-6 font-bold text-lg text-gray-two">Check your inbox</h3>
-        <p class="text-gray-one">
-          A password reset link has been sent to he***@mymail.com
-        </p>
-      </div>
-      <template #footer>
-        <div class="dialog-footer">
-          <div class="mt-8">
-            <base-button
-              @click="openSuccessReset = false"
-              styles="w-fit font-bold"
-              size="large"
-              type="primary"
-            >
-              Okay
-            </base-button>
-          </div>
-        </div>
-      </template>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -211,33 +112,10 @@ definePageMeta({
   layout: "dashboard",
 });
 const loading = ref(true);
-const numberOfScholar = ref(1);
 
 const subscriptions = computed(() => {
   return paymentStore.getAllSubscription;
 });
-
-const isExpired = (dateString: string): boolean => {
-  if (!dateString) return false;
-
-  const today = new Date();
-  const dateToCheck = new Date(dateString);
-  return dateToCheck < today;
-};
-
-const cancelOrRenew = (params: string) => {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-    ElNotification({
-    title: "Success",
-    message: `Payment has been ${params}`,
-    type: "success",
-  });
-  }, 5000);
-
-  
-};
 
 const getSubscription = async () => {
   try {
@@ -250,13 +128,41 @@ const getSubscription = async () => {
   }
 };
 
+const cancelSubscription = async (subId: number) => {
+  try {
+    loading.value = true;
+    await paymentStore.cancelSub(subId);
+    ElNotification({
+      title: "Success",
+      message: `Payment has been cancelled`,
+      type: "success",
+    });
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const renewSubscription = async (sub: { scholar_id: number; id: number }) => {
+  try {
+    const payload = {
+      plan_id: sub.id,
+      scholar_id: sub.scholar_id,
+    };
+    loading.value = true;
+    const response = await paymentStore.renewSub(payload);
+    console.log(response)
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
   getSubscription();
 });
-
-const handleChange = (value: number) => {
-  numberOfScholar.value = value;
-};
 </script>
 
 <style>

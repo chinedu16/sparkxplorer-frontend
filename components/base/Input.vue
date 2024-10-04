@@ -86,9 +86,10 @@ import { useField } from "vee-validate";
 import { ref, watch, computed } from "vue";
 
 const props = defineProps({
+  modelValue: { type: [String, Number], required: true }, // Use modelValue for v-model
   name: { type: String, required: true },
   label: { type: String, required: true },
-  disabled: {type: Boolean, required: false },
+  disabled: { type: Boolean, required: false },
   placeholder: { type: String, required: true },
   type: {
     type: String as () =>
@@ -107,12 +108,10 @@ const props = defineProps({
   variant: { type: String, default: "default" },
 });
 
-const emit = defineEmits(["update:phoneCode"]);
+const emit = defineEmits(["update:modelValue", "update:phoneCode"]); // Emit modelValue
 
 const { value, errorMessage } = useField(props.name);
-const internalValue = ref<string | number | undefined>(
-  value.value as string | number
-);
+const internalValue = ref<string | number | undefined>(props.modelValue);
 const isFocused = ref(false);
 const passwordVisible = ref(false);
 const selectedCountryCode = ref("+1");
@@ -124,18 +123,21 @@ const countryCodes = ref([
 ]);
 
 watch(internalValue, (newVal) => {
-  value.value = newVal;
+  emit("update:modelValue", newVal); // Emit updated value
+  value.value = newVal; // Update vee-validate field value
 });
 
-watch(value, (newVal) => {
-  internalValue.value = newVal as string | number;
-});
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    internalValue.value = newVal; // Update internal value when prop changes
+  }
+);
 
 const variantClass = computed(() => {
-  if (props.variant === "transparent") {
-    return "bg-transparent border-blue-500";
-  }
-  return "";
+  return props.variant === "transparent"
+    ? "bg-transparent border-blue-500"
+    : "";
 });
 
 const handleFocus = () => {

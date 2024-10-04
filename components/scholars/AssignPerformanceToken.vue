@@ -10,14 +10,14 @@
         label="Title (e.g. Get 80% in Maths question in June)"
         type="text"
         placeholder="Performance token title"
-        v-model:value="formData.performanceTitle"
+        v-model="formData.performanceTitle"
       />
       <base-input
         name="description"
         label="Description"
         type="text"
         placeholder="Describe what this token is for and what the scholar needs to achieve to redeem it."
-        v-model:value="formData.description"
+        v-model="formData.description"
       />
 
       <base-select

@@ -25,7 +25,7 @@
             type="password"
             placeholder="Enter change password"
             icon-prefix="password"
-            v-model:value="formData.password"
+            v-model="formData.password"
           />
         </div>
       </div>
@@ -38,7 +38,7 @@
             type="password"
             placeholder="Enter change password"
             icon-prefix="password"
-            v-model:value="formData.confirm_password"
+            v-model="formData.confirm_password"
           />
         </div>
       </div>

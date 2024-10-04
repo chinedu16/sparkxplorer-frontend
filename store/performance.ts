@@ -75,11 +75,30 @@ export const usePerformanceStore = defineStore("performance-store", {
         handleError(error);
       }
     },
+
+    async deletePerformanceToken(id: string) {
+      try {
+        const response = await useApiDelete(`performance-tokens/${id}` );
+        return response;
+      } catch (error) {
+        handleError(error);
+      }
+    },
+
+    async fufilPerformanceToken(id: string, payload: any) {
+      try {
+        const response = await useApiPut(`performance-tokens/${id}/fulfil`, payload );
+        return response;
+      } catch (error) {
+        handleError(error);
+      }
+    },
   },
   getters: {
     getRewardsData: (state) => state.rewardData,
     getPerformersData: (state) => state.performersData,
     getSubjectsData: (state) => state.subjectData,
     getPerformanceToken: (state) => state.performanceToken,
+    getTotal: (state) => state.total,
   },
 });

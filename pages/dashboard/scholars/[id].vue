@@ -106,7 +106,7 @@
         <el-tab-pane label="Scholar’s Details" name="scholar's details">
           <scholars-scholar-details />
         </el-tab-pane>
-        <el-tab-pane label="Requests" name="requests"><scholars-request></scholars-request> </el-tab-pane>
+        <!-- <el-tab-pane label="Requests" name="requests"><scholars-request></scholars-request> </el-tab-pane> -->
       </el-tabs>
     </div>
 
@@ -170,10 +170,10 @@ definePageMeta({
 });
 
 const fetchSingleScholar = async () => {
-  const id = route.params.id as number
+  const id = route.params.id
   try {
     loading.value = true;
-    await scholarStore.getSingleScholar(id);
+    await scholarStore.getSingleScholarDetails(Number(id));
   } catch (error) {
     handleError(error);
   } finally {

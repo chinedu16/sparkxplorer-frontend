@@ -14,7 +14,7 @@
             type="text"
             placeholder="Enter first name"
             icon-prefix="user"
-            v-model:value="formData.firstname"
+            v-model="formData.firstname"
           />
         </div>
       </div>
@@ -27,7 +27,7 @@
             type="text"
             placeholder="Enter last name"
             icon-prefix="user"
-            v-model:value="formData.lastname"
+            v-model="formData.lastname"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@
             label=""
             type="phone"
             placeholder="Enter Phone Number"
-            v-model:value="formData.phone"
+            v-model="formData.phone"
             v-model:phoneCode="formData.phoneCode"
           />
         </div>
@@ -57,7 +57,7 @@
             :disabled="true"
             placeholder="Enter email address"
             icon-prefix=""
-            v-model:value="formData.email"
+            v-model="formData.email"
           />
         </div>
       </div>

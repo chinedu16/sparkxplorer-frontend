@@ -56,10 +56,10 @@
         </base-button> -->
         <base-input
           v-model="search"
-          name="username"
           style="margin-bottom: 0 !important"
+          name="search"
           label=""
-          placeholder="Find scholar"
+          placeholder="Search..."
           type="text"
           icon-suffix="search-gray"
           variant="transparent"
@@ -247,6 +247,7 @@ const editScholar = (row: any) => {
   scholarStore.setEditScholarDetails(row);
   openCreateModal.value = true;
 };
+
 const deleteScholar = (row: any) => {
   selectedRow.value = row.id;
   openDeleteDialog.value = true;
@@ -271,6 +272,7 @@ const fetchScholars = async () => {
     const payload = {
       page: page.value,
       per_page: per_page.value,
+      search_query: search.value
     };
     await scholarStore.getAllScholar(payload);
     await paymentStore.checkIfCanAddScholars();
@@ -284,6 +286,10 @@ const fetchScholars = async () => {
 const handleRowClick = (row: any) => {
   navigateTo(`/dashboard/scholars/${row.id}`);
 };
+
+watch(() => search.value, (newValue, oldValue) => {
+  fetchScholars()
+})
 
 fetchScholars();
 definePageMeta({
