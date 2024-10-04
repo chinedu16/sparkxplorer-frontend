@@ -1,10 +1,10 @@
 <template>
-  <aside class=" ">
+  <aside class="h-screen flex flex-col">
     <div class="bg-gray-three h-24 flex items-center justify-center">
-      <img class="" src="~/assets/images/icons/logo-blue.svg" alt="" />
+      <img src="~/assets/images/icons/logo-blue.svg" alt="" />
     </div>
-    <div class="flex flex-col px-4 py-8 h-full">
-      <div class="my-8">
+    <div class="flex bg-[#4F46E5] flex-col justify-between px-4 py-8 flex-grow">
+      <div class="my-8 overflow-y-auto">
         <base-input
           v-model="search"
           name="username"
@@ -14,33 +14,32 @@
           iconPrefix="search"
           variant="transparent"
         />
+        <nav>
+          <ul class="space-y-3">
+            <li v-for="(item, index) in filteredNavLinks" :key="index">
+              <nuxt-link
+                :to="`/dashboard${item.url}`"
+                active-class="active-link"
+                class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-full"
+              >
+                <img :src="`/icons/${item.icon}.svg`" alt="" />
+                <span class="font-bold">{{ item.name }}</span>
+              </nuxt-link>
+              <ul v-if="item.children" class="space-y-1 ml-6">
+                <li v-for="child in item.children" :key="child.url">
+                  <nuxt-link
+                    :to="`/dashboard${child.url}`"
+                    active-class="active-link"
+                    class="hover:text-white p-2 text-blue-six flex items-center space-x-3 rounded-lg"
+                  >
+                    <span class="font-semibold">{{ child.name }}</span>
+                  </nuxt-link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
       </div>
-      <nav>
-        <ul class="space-y-3">
-          <li v-for="(item, index) in filteredNavLinks" :key="index">
-            <nuxt-link
-              :to="`/dashboard${item.url}`"
-              active-class="active-link"
-              class="hover:text-white p-3 text-blue-six flex items-center space-x-3 rounded-full"
-            >
-              <img :src="`/icons/${item.icon}.svg`" alt="" />
-              <span class="font-bold">{{ item.name }}</span>
-            </nuxt-link>
-            <!-- Render sub-items if they exist -->
-            <ul v-if="item.children" class="space-y-1 ml-6">
-              <li v-for="child in item.children" :key="child.url">
-                <nuxt-link
-                  :to="`/dashboard${child.url}`"
-                  active-class="active-link"
-                  class="hover:text-white p-2 text-blue-six flex items-center space-x-3 rounded-lg"
-                >
-                  <span class="font-semibold">{{ child.name }}</span>
-                </nuxt-link>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
 
       <!-- Bottom Links -->
       <div class="mt-auto space-y-6 border-t border-white pt-6">

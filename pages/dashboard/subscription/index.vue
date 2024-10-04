@@ -144,15 +144,20 @@ const cancelSubscription = async (subId: number) => {
   }
 };
 
-const renewSubscription = async (sub: { scholar_id: number; id: number }) => {
+const renewSubscription = async (sub: {
+  scholar_id: number;
+  id: number;
+  plan: any;
+}) => {
   try {
     const payload = {
-      plan_id: sub.id,
+      plan_id: sub.plan.id,
       scholar_id: sub.scholar_id,
     };
     loading.value = true;
     const response = await paymentStore.renewSub(payload);
-    console.log(response)
+    console.log(response?.data.data);
+    window.location.href = response?.data.data.url;
   } catch (error) {
     handleError(error);
   } finally {
