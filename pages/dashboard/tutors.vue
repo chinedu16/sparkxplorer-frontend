@@ -101,7 +101,7 @@ let ixlTab: Window | null = null;
 onMounted(() => {
   // Show loading spinner for 5 seconds
   setTimeout(() => {
-    ixlTab = window.open("https://leo.tutor.com/auth/login", "_blank");
+    ixlTab = window.open("https://www.tutor.com/sparkxplorer/", "_blank");
     loading.value = false;
     showButtons.value = true;
   }, 4000);
