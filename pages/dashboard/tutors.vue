@@ -124,7 +124,7 @@ const reconnect = () => {
   loading.value = true;
   sessionEnded.value = false;
   showButtons.value = false;
-  ixlTab = window.open("https://leo.tutor.com/auth/login", "_blank");
+  ixlTab = window.open("https://www.tutor.com/sparkxplorer/", "_blank");
 
   // Reset loading state
   setTimeout(() => {
