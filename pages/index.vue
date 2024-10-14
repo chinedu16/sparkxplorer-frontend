@@ -1,10 +1,9 @@
 <template>
   <HomeHeader />
-  <section class="bg-primary-600/90 relative">
+  <section class="bg-primary/90 relative">
     <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
       :style="{ backgroundImage: `url(${LayeredLogo})` }"></div>
-    <div
-      class="max-w-5xl w-full mx-auto grid pt-16 px-5 md:px-0 md:pt-24 text-primary-100 place-items-center relative z-[1]">
+    <div class="max-w-5xl w-full mx-auto grid pt-16 px-5 md:px-0 md:pt-24 text-white place-items-center relative z-[1]">
       <h1 class="text-3xl sm:text-5xl text-center mb-4 font-bold max-w-2xl">
         Unlock Academic Success with Spark Xplorer
       </h1>
@@ -12,9 +11,11 @@
         Empowering K-12 students to excel academically And
         secure scholarships to top US universities.
       </p>
-      <nuxt-link href="/auth/signup"
-        class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary p-2.5 text-sm md:text-base w-full border border-primary-600 text-primary-600 bg-primary-100 hover:bg-primary-100/50 max-w-xs focus-visible:ring-offset-2">Join
-        Now &rarr;</nuxt-link>
+      <ui-button as-child variant="outline" size="lg"
+        class="w-full border border-primary hover:border-primary-hover bg-primary-light max-w-xs text-primary hover:text-primary hover:bg-primary-light/90">
+        <nuxt-link href="/auth/signup">Join Now
+          &rarr;</nuxt-link>
+      </ui-button>
       <div class="mt-8 relative">
         <img :src="TutorsCard" alt="Hero Image" class="absolute top-0 hidden md:block left-8">
         <img :src="ScholarCard" alt="Hero Image" class="absolute top-8 right-12 hidden md:block">
@@ -24,7 +25,7 @@
       </div>
     </div>
   </section>
-  <section id="programs" class="bg-primary-100 space-y-8 py-8 px-4 grid place-items-center">
+  <section id="programs" class="bg-primary-light space-y-8 py-8 px-4 grid place-items-center">
     <span class="max-w-4xl block font-bold text-center mx-auto">
       Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor
       status using US-based curricula supported by On-Demand Tutoring and personalized learning.
@@ -36,26 +37,28 @@
         <p class="text-sm">{{ feature.text }}</p>
       </div>
     </div>
-    <nuxt-link href="/auth/signup"
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors mt-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary p-2.5 text-sm md:text-base w-full border text-primary-100 bg-primary-600 hover:bg-primary-600/90 max-w-xs focus-visible:ring-offset-2">Sign
-      up &rarr;</nuxt-link>
+    <ui-button as-child size="lg" class="w-full max-w-xs">
+      <nuxt-link href="/auth/signup">Sign
+        up &rarr;</nuxt-link>
+    </ui-button>
   </section>
   <section id="key-features" class="py-12 md:grid md:grid-cols-5 gap-4">
     <div class="col-span-3 flex flex-col justify-center gap-y-8">
       <div class="w-full lg:w-5/6 space-y-5 px-4 lg:px-0 ml-auto">
-        <h1 class="font-bold text-primary-600 text-xl">KEY FEATURES</h1>
+        <h1 class="font-bold text-primary text-xl">KEY FEATURES</h1>
         <div v-for="(feature, i) in keyFeatures" :key="i" class="flex gap-4 items-center">
           <span
             class="w-6 lg:w-8 h-6 lg:h-8 rounded-full text-white bg-gradient-to-r from-[#00C4CC] text-sm shrink-0 flex items-center justify-center to-primary">{{
               i +
               1 }}</span>
-          <p class="text-sm lg:text-base"><span class="font-semibold text-primary-600">{{ feature.title }}</span>{{
+          <p class="text-sm lg:text-base"><span class="font-semibold text-primary">{{ feature.title }}</span>{{
             feature.text }}</p>
         </div>
         <div class="flex justify-center py-2">
-          <nuxt-link href="/auth/signup"
-            class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-sm md:text-base p-2.5 w-full border text-primary-100 bg-primary-600 hover:bg-primary-600/90 max-w-xs focus-visible:ring-offset-2">Join
-            Now &rarr;</nuxt-link>
+          <ui-button as-child size="lg" class="w-full max-w-xs">
+            <nuxt-link href="/auth/signup">Join
+              Now &rarr;</nuxt-link>
+          </ui-button>
         </div>
       </div>
     </div>
@@ -63,36 +66,35 @@
       <img :src="KeyFeatures" alt="Spark xplorer dashboard image" class="">
     </div>
   </section>
-  <section id="package" class="py-12 bg-primary-100 px-4">
+  <section id="package" class="py-12 bg-primary-light px-4">
     <div class="grid place-items-center mx-auto sm:grid-cols-2 gap-6 max-w-3xl">
       <div class="space-y-4">
-        <h1 class="text-2xl font-bold text-primary-600">The Right Plan for Your Kid</h1>
-        <p class="text-sm text-primary-foreground">
+        <h1 class="text-2xl font-bold text-primary">The Right Plan for Your Kid</h1>
+        <p class="text-sm text-foreground">
           Choose a plan that fits your pace with our flexible eLearning
           Practice Sessions. Affordable pricing to level up your skills at
           your convenience.
         </p>
         <div class="bg-white p-4 rounded-2xl space-y-4">
           <div class="flex gap-2 items-center">
-            <span class="w-5 h-5 rounded-full bg-primary-600 grid text-primary-100 place-items-center">
-              <el-icon color="#fff" size="12">
-                <Check />
-              </el-icon>
+            <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
+              <Check size="12" color="white" />
             </span>
             <p class="text-sm">Free 1 month trial for new user</p>
           </div>
           <div class="flex gap-2 items-center">
-            <span class="w-5 h-5 rounded-full bg-primary-600 grid text-primary-100 place-items-center">
-              <el-icon color="#fff" size="12">
-                <Check />
-              </el-icon>
+            <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
+              <Check size="12" color="white" />
             </span>
             <p class="text-sm">Cancel anytime you want</p>
           </div>
         </div>
-        <nuxt-link href="/auth/signup"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary text-sm md:text-base p-2.5 w-full border text-primary-100 bg-primary-600 hover:bg-primary-600/90 focus-visible:ring-offset-2">Sign
-          Up &rarr;</nuxt-link>
+        <div class="w-full flex justify-center">
+          <ui-button as-child size="lg" class="w-full max-w-xs text-center">
+            <nuxt-link href="/auth/signup">Sign
+              up &rarr;</nuxt-link>
+          </ui-button>
+        </div>
       </div>
       <div class="">
         <HomeAccordion />
@@ -115,21 +117,21 @@
       <HomeFaqs />
     </div>
   </section>
-  <section class="py-16 px-4 md:px-6 bg-primary-100 text-[#696984]">
+  <section class="py-16 px-4 md:px-6 bg-primary-light text-[#696984]">
     <div class="max-w-screen-xl mx-auto">
-      <h1 class="text-primary-600 font-bold text-center text-2xl mb-4">Lastest News and Resources</h1>
+      <h1 class="text-primary font-bold text-center text-2xl mb-4">Lastest News and Resources</h1>
       <p class="text-center mb-4">See the developments that have occurred to TOTC in the world</p>
       <div class="grid md:grid-cols-5 gap-8 mt-16">
         <div class="md:col-span-2 space-y-4">
           <img :src="NewsImage" alt="featured news article image" class="rounded-xl">
           <span
-            class="bg-primary-600 rounded-full uppercase inline-block text-xs font-medium text-white px-4 py-1.5">news</span>
-          <h3 class="text-medium text-primary-foreground">Class adds $30 million to its balance sheet for a
+            class="bg-primary rounded-full uppercase inline-block text-xs font-medium text-white px-4 py-1.5">news</span>
+          <h3 class="text-medium text-foreground">Class adds $30 million to its balance sheet for a
             Zoom-friendly
             edtech solution</h3>
           <p class="text-sm">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates
             exclusively...</p>
-          <NuxtLink to="#" class="text-sm hover:text-primary-600 block underline">Read More</NuxtLink>
+          <NuxtLink to="#" class="text-sm hover:text-primary block underline">Read More</NuxtLink>
         </div>
         <div class="md:col-span-3 space-y-5">
           <HomeNewsList />
@@ -137,21 +139,17 @@
       </div>
     </div>
   </section>
-  <section class="bg-primary-100 mt-16 px-4 md:px-6">
+  <section class="bg-primary-light mt-16 px-4 md:px-6">
     <div class="max-w-5xl mx-auto grid gap-8 md:grid-cols-5">
       <div class="col-span-3 py-12 max-w-xl mx-auto md:max-w-none">
         <h1 class="font-bold text-2xl mb-7 max-w-[34rem]">
           Subscribe to get information, latest news and other interesting offer abour Spark Xplorer
         </h1>
-        <el-form class="w-full flex gap-3">
-          <base-input name="email" type="email" placeholder="Email Address" v-model:value="formData.email"
-            class="flex-1" />
-
-          <base-button styles="font-medium text-sm" size="large" :loading="loading" @click="handleSubscribeSubmit"
-            type="primary">
-            Subscribe &rarr;
-          </base-button>
-        </el-form>
+        <form class="w-full flex gap-3" @submit="handleSubscribeSubmit">
+          <ui-input v-model="formData.email" name="email" type="email" placeholder="Email Address"
+            class="rounded-full h-12 placeholder:text-center text-sm bg-white" />
+          <ui-button type="submit" size="lg" class="font-bold">Subscribe &rarr;</ui-button>
+        </form>
       </div>
       <div class="col-span-2 -mt-10 relative hidden md:block">
         <div class="absolute bottom-0 right-0 w-80 lg:w-[25rem]">
@@ -164,7 +162,7 @@
     <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
       :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"></div>
     <div class="mx-auto max-w-3xl">
-      <h1 class="text-primary-600 font-bold text-center text-2xl mb-4">Get in Touch</h1>
+      <h1 class="text-primary font-bold text-center text-2xl mb-4">Get in Touch</h1>
       <p class="text-center">Let&apos;s make something new, different and more meaningful or make thing more visual or
         conceptual</p>
       <HomeContactUs />
@@ -175,7 +173,7 @@
 <script setup lang="ts">
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { Check } from '@element-plus/icons-vue'
+import { Check } from 'lucide-vue-next'
 import HeroImage from '~/assets/images/illustrations/home/hero.png'
 import ScholarCard from '~/assets/images/illustrations/home/scholars.png'
 import SessionCard from '~/assets/images/illustrations/home/sessions.png'
@@ -255,7 +253,7 @@ const { handleSubmit } = useForm({
 });
 
 const handleSubscribeSubmit = handleSubmit(async (values) => {
-  console.log(values)
+  console.log('values: ', values)
 })
 </script>
 

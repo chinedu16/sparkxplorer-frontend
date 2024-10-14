@@ -1,3 +1,122 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Primary and Surface Palettes */
+/* :root {
+  --p-primary-50: var(--p-surface-50);
+  --p-primary-100: var(--p-surface-100);
+  --p-primary-200: var(--p-surface-200);
+  --p-primary-300: var(--p-surface-300);
+  --p-primary-400: var(--p-surface-400);
+  --p-primary-500: var(--p-surface-500);
+  --p-primary-600: var(--p-surface-600);
+  --p-primary-700: var(--p-surface-700);
+  --p-primary-800: var(--p-surface-800);
+  --p-primary-900: var(--p-surface-900);
+  --p-primary-950: var(--p-surface-950);
+  --p-surface-0: #ffffff;
+  --p-surface-50: #efeeff;
+  --p-surface-100: #E0E7FF;
+  --p-surface-200: #cac7fe;
+  --p-surface-300: #aaa5fc;
+  --p-surface-400: #8881f8;
+  --p-surface-500: #6b63f1;
+  --p-surface-600: #4f46e5;
+  --p-surface-700: #4038ca;
+  --p-surface-800: #3730a3;
+  --p-surface-900: #332e81;
+  --p-surface-950: #1e1b4b;
+  --p-content-border-radius: 6px;
+}
+
+:root {
+  --p-primary-color: var(--p-primary-600);
+  --p-primary-contrast-color: var(--p-surface-0);
+  --p-primary-hover-color: var(--p-primary-700);
+  --p-primary-active-color: var(--p-primary-800);
+  --p-content-border-color: var(--p-surface-200);
+  --p-content-hover-background: var(--p-surface-100);
+  --p-content-hover-color: var(--p-surface-800);
+  --p-highlight-background: var(--p-primary-50);
+  --p-highlight-color: var(--p-primary-700);
+  --p-highlight-focus-background: var(--p-primary-100);
+  --p-highlight-focus-color: var(--p-primary-800);
+  --p-text-color: var(--p-surface-700);
+  --p-text-hover-color: var(--p-surface-800);
+  --p-text-muted-color: var(--p-surface-500);
+  --p-text-hover-muted-color: var(--p-surface-600);
+} */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    /* slate-800 */
+    --foreground: 217 33% 17%;
+
+    /* slate-100 */
+    --muted: 210 40% 96.1%;
+    /* slate-200 */
+    --muted-hover: 214.3 31.8% 91.4%;
+    /* slate-500 */
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    /* slate-50 */
+    --popover-hover: 210 40% 98%;
+    /* slate-800, from 950 */
+    --popover-foreground: 217 33% 17%;
+
+    --card: 0 0% 100%;
+    /* slate-50 */
+    --card-hover: 210 40% 98%;
+    /* slate-800, from 950 */
+    --card-foreground: 217 33% 17%;
+
+    --primary: 243 75% 59%;
+    --primary-hover: 243 58% 51%;
+    --primary-light: 226 100% 94%;
+    /* slate-50 */
+    --primary-foreground: 210 40% 98%;
+
+    /* slate-100 */
+    --secondary: 210 40% 96.1%;
+    /* slate-200 */
+    --secondary-hover: 214.3 31.8% 91.4%;
+    /* slate-800, from 900 */
+    --secondary-foreground: 217 33% 17%;
+
+    --success: 142 71% 45%;
+    --success-hover: 142 76% 36%;
+    /* slate-50 */
+    --success-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 72% 51%;
+    /* slate-50 */
+    --destructive-foreground: 210 40% 98%;
+
+    /* slate-200 */
+    --border: 214.3 31.8% 91.4%;
+    /* slate-300 */
+    --border-hover: 214.3 31.8% 91.4%;
+    /* slate-200 */
+    --input: 214.3 31.8% 91.4%;
+    /* slate-300 */
+    --input-hover: 214.3 31.8% 91.4%;
+
+    --ring: 243 75% 59%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

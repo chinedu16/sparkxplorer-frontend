@@ -3,12 +3,12 @@
         <div class="w-[112px] lg:w-[168px] h-20 lg:h-[120px] rounded-xl relative">
             <img :src="item.image" :alt="item.title">
             <span
-                class="bg-primary-600 whitespace-nowrap rounded-full bottom-2 right-2 absolute uppercase text-xs font-medium text-white px-2 py-1"><small>{{
+                class="bg-primary whitespace-nowrap rounded-full bottom-2 right-2 absolute uppercase text-xs font-medium text-white px-2 py-1"><small>{{
                     item.tag
-                    }}</small></span>
+                }}</small></span>
         </div>
         <div class="space-y-4 flex-1">
-            <h3 class="text-medium text-primary-foreground">{{ item.title }}</h3>
+            <h3 class="text-medium text-foreground">{{ item.title }}</h3>
             <p class="text-sm">{{ item.title }}</p>
         </div>
     </div>

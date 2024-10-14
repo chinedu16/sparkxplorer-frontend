@@ -1,19 +1,14 @@
 <template>
-  <header class="bg-primary-100 w-full flex-shrink-0 px-4 md:px-6 xl:px-0 text-primary-foreground">
+  <header class="bg-primary-light w-full flex-shrink-0 px-4 md:px-6 xl:px-0 text-foreground">
     <div class="max-w-screen-xl flex items-center w-full h-16 mx-auto md:h-20 justify-between">
       <!-- Logo -->
       <NuxtLink href="/" class="flex items-center w-[137px]">
         <img :src="BrandLogo" alt="SparkXplorer logo" />
       </NuxtLink>
-      <button v-if="!isDrawerOpen"
-        class="lg:hidden inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 hover:bg-primary/10 focus-visible:ring-primary h-10 w-10 py-2"
-        @click="openMenu">
-        <span class="sr-only">Open main menu</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M1 1h15M1 7h15M1 13h15" />
-        </svg>
-      </button>
+      <ui-button v-if="!isDrawerOpen" size="icon" variant="ghost"
+        class="rounded-full hover:bg-primary/5 lg:hidden focus-visible:ring-primary" @click="openMenu">
+        <Menu :size="24" :stroke-width="3" />
+      </ui-button>
       <nav class="hidden items-center justify-end gap-4 lg:flex max-w-max order-1" id="navbar-cta">
         <ul class="flex font-semibold items-center group list-none">
           <li v-for="link in navLinks" :key="link.name">
@@ -22,12 +17,15 @@
                 link.name }}</a>
           </li>
         </ul>
-        <nuxt-link href="/auth/login"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary h-10 px-4 w-40 bg-primary-600 text-white hover:bg-primary-600/90 py-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-30">Log
-          in &rarr;</nuxt-link>
-        <nuxt-link href="/auth/signup"
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary h-10 px-4 w-40 border border-primary text-primary hover:bg-primary-600/10 py-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-30">Sign
-          up &rarr;</nuxt-link>
+        <ui-button as-child class="w-40">
+          <nuxt-link href="/auth/login">Log
+            in &rarr;</nuxt-link>
+        </ui-button>
+        <ui-button as-child variant="outline"
+          class="w-40 border border-primary hover:border-primary-hover bg-inherit text-primary hover:bg-primary-600/15">
+          <nuxt-link href="/auth/signup">Sign
+            in &rarr;</nuxt-link>
+        </ui-button>
       </nav>
     </div>
 
@@ -36,21 +34,17 @@
         <aside v-if="isDrawerOpen" class="fixed inset-0 z-30" tabindex="-1" aria-labelledby="drawer-navigation-label"
           @click="isDrawerOpen = false">
           <div
-            :class="['py-6 h-screen bg-primary-100 duration-500 ease-in-out z-40 relative w-72 transition-transform font-semibold', isDrawerOpen ? 'translate-x-0' : '-translate-x-full']">
+            :class="['py-6 h-screen bg-primary-light duration-500 ease-in-out z-40 relative w-72 transition-transform font-semibold', isDrawerOpen ? 'translate-x-0' : '-translate-x-full']">
             <NuxtLink href="/" class="flex items-center w-[137px] mx-6">
               <img :src="BrandLogo" alt="SparkXplorer logo" />
             </NuxtLink>
             <nav class="py-5 overflow-y-autofont-semibold">
-              <button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation"
-                class="bg-transparent hover:bg-primary-600/10 rounded-full w-10 h-10 absolute top-5 text-gray-500 z-40 end-5 inline-flex items-center justify-center"
-                @click="isDrawerOpen = false">
-                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                  viewBox="0 0 14 14">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
-                <span class="sr-only">Close menu</span>
-              </button>
+              <ui-button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation"
+                size="icon" variant="ghost"
+                class="rounded-full hover:bg-primary/5 text-muted-foreground absolute top-5 end-5 focus-visible:ring-primary"
+                @click="openMenu">
+                <X :size="24" />
+              </ui-button>
               <ul class="space-y-4 my-8">
                 <li v-for="link in navLinks" :key="link.name">
                   <a :href="link.href" class="flex items-center px-6 h-10 hover:text-primary group">
@@ -59,12 +53,15 @@
                 </li>
               </ul>
               <div class="space-y-4 px-6">
-                <nuxt-link href="/auth/login"
-                  class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary h-10 px-4 w-full bg-primary-600 text-white hover:bg-primary-600/90 py-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-30">Log
-                  in &rarr;</nuxt-link>
-                <nuxt-link href="/auth/signup"
-                  class="inline-flex items-center justify-center whitespace-nowrap rounded-full ring-offset-primary-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary h-10 px-4 w-full border border-primary text-primary hover:bg-primary-600/10 py-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-30">Sign
-                  up &rarr;</nuxt-link>
+                <ui-button as-child class="w-full">
+                  <nuxt-link href="/auth/login">Log
+                    in &rarr;</nuxt-link>
+                </ui-button>
+                <ui-button as-child variant="outline"
+                  class="w-full border border-primary hover:border-primary-hover bg-inherit text-primary hover:bg-primary-600/15">
+                  <nuxt-link href="/auth/signup">Sign
+                    in &rarr;</nuxt-link>
+                </ui-button>
               </div>
             </nav>
           </div>
@@ -75,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+import { Menu, X } from 'lucide-vue-next'
 import BrandLogo from '~/assets/images/illustrations/home/logo.png'
 
 const isDrawerOpen = ref(false)
@@ -86,7 +84,6 @@ const navLinks = [
 ]
 
 function openMenu() {
-  console.log('open menu')
   isDrawerOpen.value = true
 }
 </script>

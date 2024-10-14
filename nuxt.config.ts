@@ -1,19 +1,18 @@
+import path from "path";
+
 // nuxt.config.ts
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
-  css: [
-    '~/assets/css/tailwind.css',
-    '~/assets/css/custom-theme.css',
-  ],
+  css: ["~/assets/css/tailwind.css", "~/assets/css/custom-theme.css"],
 
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-swiper",
     "@element-plus/nuxt",
     "@pinia/nuxt",
-    '@nuxt/fonts',
-    '@nuxt/ui',
+    "@nuxt/fonts",
+    "@primevue/nuxt-module",
   ],
 
   tailwindcss: {
@@ -28,8 +27,20 @@ export default defineNuxtConfig({
   },
 
   imports: {
-    dirs: ['constants/**', 'composables/**', 'utils/helper/**', 'utils/services/**'],
+    dirs: [
+      "constants/**",
+      "composables/**",
+      "utils/helper/**",
+      "utils/services/**",
+    ],
   },
 
-  compatibilityDate: '2024-09-13',
+  primevue: {
+    options: {
+      unstyled: true,
+    },
+    importPT: { from: path.resolve(__dirname, "./presets/") },
+  },
+
+  compatibilityDate: "2024-09-13",
 });

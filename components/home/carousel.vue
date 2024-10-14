@@ -1,11 +1,11 @@
 <template>
   <div class="grid md:grid-cols-7 gap-4 text-[#696984] md:max-w-none max-w-sm mx-auto relative md:pb-48">
     <div class="col-span-4 space-y-5">
-      <h1 class="font-bold text-primary-600 text-xl">TESTIMONIAL</h1>
+      <h1 class="font-bold text-primary text-2xl">TESTIMONIAL</h1>
       <p class="text-base md:text-xl">
         Spark Xplorer has got more than 100k positive ratings from our users around the world.
       </p>
-      <p class="text-base md:text-xl">
+      <p class="text-base md:text-lg">
         Some of the scholars and teachers were greatly helped by the Skilline.
       </p>
     </div>
@@ -35,8 +35,8 @@
         </div>
       </div>
       <div
-        class="p-6 space-y-6 md:block absolute bottom-0 left-1/2 -translate-x-1/2 w-[28rem] hidden rounded-r-2xl rounded-l-md lg:bottom-8 bg-white border-l-8 border-primary-50 shadow-md">
-        <div class="pl-6 border-l border-primary-100">
+        class="p-6 space-y-6 md:block absolute bottom-0 left-1/2 -translate-x-1/2 w-[28rem] hidden rounded-r-2xl rounded-l-md lg:bottom-8 bg-white border-l-8 border-primary-light/30 shadow-md">
+        <div class="pl-6 border-l border-primary-light">
           <p>"Thank you so much for your help. It's exactly what I've been looking for. You
             won't regret it. It
             really saves me time and effort. Spark Xplorer is exactly what our kid has been lacking."</p>
@@ -59,13 +59,16 @@
         </div>
       </div>
     </div>
-    <UButton icon="i-heroicons-chevron-right" size="xl" color="white" :ui="{ rounded: 'rounded-full' }"
-      class="absolute top-1/2 xl:-right-8 right-0 -translate-y-1/2" />
+    <ui-button size="icon"
+      class="absolute top-1/2 xl:-right-8 right-0 -translate-y-1/2 bg-white shadow-lg md:w-14 md:h-14">
+      <ChevronRight class="w-6 md:w-8 h-6 md:h-8 text-primary" />
+    </ui-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { defineComponent, ref } from 'vue'
+import { ChevronRight } from 'lucide-vue-next'
 import Testimonial1 from '~/assets/images/illustrations/home/press-release.png'
 
 const activeName = ref('1')

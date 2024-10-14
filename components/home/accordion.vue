@@ -1,16 +1,12 @@
 <template>
   <div class="space-y-6">
     <div v-for="item in items" :key="item.id"
-      :class="[active === item.id ? 'bg-primary-600 text-white' : 'bg-white', 'rounded-2xl']">
+      :class="[active === item.id ? 'bg-primary text-white' : 'bg-white', 'rounded-2xl']">
       <button :class="['p-4 font-semibold text-lg w-full flex items-center justify-between']"
         @click="active = item.id">{{ item.title }}
         <span
-          :class="['w-5 h-5 rounded-full bg-primary-600/5 grid text-primary-600 place-items-center transition-transform', { 'rotate-180 text-white': active === item.id }]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 15 15">
-            <path fill="currentColor" fill-rule="evenodd"
-              d="M3.135 6.158a.5.5 0 0 1 .707-.023L7.5 9.565l3.658-3.43a.5.5 0 0 1 .684.73l-4 3.75a.5.5 0 0 1-.684 0l-4-3.75a.5.5 0 0 1-.023-.707"
-              clip-rule="evenodd" />
-          </svg>
+          :class="['w-5 h-5 rounded-full bg-primary/5 grid text-primary place-items-center transition-transform', { 'rotate-180 text-white': active === item.id }]">
+          <ChevronDown size="12" />
         </span></button>
       <div v-show="active === item.id" class="grid overflow-hidden transition-all duration-1000"
         :class="active ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'">
@@ -28,6 +24,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { ChevronDown } from 'lucide-vue-next'
 
 const active = ref(1)
 const items = [
