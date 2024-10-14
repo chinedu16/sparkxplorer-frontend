@@ -1,3 +1,5 @@
+import colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -50,6 +52,7 @@ export default {
           hover: "hsl(var(--primary-hover))",
           foreground: "hsl(var(--primary-foreground))",
           light: "hsl(var(--primary-light))",
+          ...colors.indigo
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
