@@ -1,7 +1,7 @@
 <template>
   <ui-dropdown-menu>
     <ui-dropdown-menu-trigger as-child>
-      <ui-button class="gap-2 capitalize">
+      <ui-button size="sm" class="gap-2 capitalize">
         <Check size="16" />
         Activate/Deactivate
       </ui-button>

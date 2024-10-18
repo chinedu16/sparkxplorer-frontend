@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@pinia/nuxt",
     "@nuxt/fonts",
-    "@primevue/nuxt-module",
   ],
 
   tailwindcss: {
@@ -33,13 +32,6 @@ export default defineNuxtConfig({
       "utils/helper/**",
       "utils/services/**",
     ],
-  },
-
-  primevue: {
-    options: {
-      unstyled: true,
-    },
-    importPT: { from: path.resolve(__dirname, "./presets/") },
   },
 
   compatibilityDate: "2024-09-13",
