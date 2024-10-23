@@ -117,7 +117,7 @@ import { useAuthStore } from "@/store/auth";
 
 const authStore = useAuthStore();
 
-const { handleError } = useErrorHandler();
+const { handleError, handleSuccess } = useErrorHandler();
 
 const loading = ref(false);
 const formData = ref({
@@ -173,7 +173,7 @@ const { handleSubmit, resetForm } = useForm({
 const onboardingSubmit = async () => {
   try {
     loading.value = true;
-    const { data, error } = await authStore.getGoogleAuthUrl('signup');
+    const { data, error } = await authStore.getGoogleAuthUrl("signup");
     if (data?.success) {
       window.location.href = data.data.url;
     } else if (error) {
@@ -193,7 +193,7 @@ const onSubmit = handleSubmit(async (values) => {
     email: values.email,
     password: values.password,
     mobile_number: values.phone,
-    mobile_code: formData.value.phoneCode,
+    mobile_code: formData.value.phoneCode.replace(/\+/g, ""),
     home_address: "",
     preferred_contact_method: "",
     find_out_channel: "",
@@ -202,10 +202,18 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     loading.value = true;
     const { data, error } = await authStore.registerUser(payload);
+
+    if (error) {
+      handleError(error);
+      return;
+    }
+
     if (data.success) {
       navigateTo("/auth/login");
+      handleSuccess(data.message);
+    } else {
+      handleError(new Error("Login failed, please try again."));
     }
-    
   } catch (error) {
     handleError(error);
   } finally {

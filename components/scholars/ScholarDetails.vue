@@ -210,10 +210,10 @@ const validationSchema = yup.object({
     // .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .matches(/[a-z]/, "Password must contain at least one lowercase letter")
     .matches(/[0-9]/, "Password must contain at least one number"),
-    // .matches(
-    //   /[!@#$%^&*(),.?":{}|<>]/,
-    //   "Password must contain at least one special character"
-    // ),
+  // .matches(
+  //   /[!@#$%^&*(),.?":{}|<>]/,
+  //   "Password must contain at least one special character"
+  // ),
 
   confirm_password: yup
     .string()
@@ -231,9 +231,9 @@ onMounted(async () => {
   if (data) {
     formData.value.email = data.user.email;
     formData.value.password = data.user.password;
-    formData.value.confirm_password = data.user.password,
-    formData.value.phone = data.user.phone
-    formData.value.picture_url = data.user.picture_url
+    (formData.value.confirm_password = data.user.password),
+      (formData.value.phone = data.user.phone);
+    formData.value.picture_url = data.user.picture_url;
   }
 });
 
@@ -256,7 +256,7 @@ const onSubmit = handleSubmit(async (values) => {
     first_name: values.firstname,
     last_name: values.lastname,
     email: values.email,
-    mobile_code: values.phoneCode,
+    mobile_code: values.phoneCode.replace(/\+/g, ""),
     mobile_number: values.phone,
     picture_url: base64File.value || formData.value.picture_url,
   };

@@ -88,11 +88,15 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useSparkStore } from "@/store/spark";
 
 definePageMeta({
   layout: "dashboard",
 });
 
+const { handleError } = useErrorHandler();
+
+const sparkStore = useSparkStore();
 const loading = ref(true);
 const sessionEnded = ref(false);
 const showButtons = ref(false);
@@ -100,12 +104,36 @@ let ixlTab: Window | null = null;
 
 onMounted(() => {
   // Show loading spinner for 5 seconds
-  setTimeout(() => {
-    ixlTab = window.open("https://www.tutor.com/sparkxplorer/", "_blank");
+  setTimeout(async () => {
+    await getIXLSSOLink();
+    // ixlTab = window.open("https://www.tutor.com/sparkxplorer/", "_blank");
     loading.value = false;
     showButtons.value = true;
   }, 4000);
 });
+
+const getIXLSSOLink = async () => {
+  try {
+    loading.value = true;
+    const { data, error } = await sparkStore.getSingleSignOnUrl();
+
+    if (error) {
+      handleError(error);
+      return;
+    }
+
+    if (data?.success) {
+      console.log(data);
+      ixlTab = window.open(data.data.tutor_dot_com);
+    } else {
+      handleError(new Error("Login failed, please try again."));
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 const continueSession = () => {
   if (ixlTab) {
