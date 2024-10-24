@@ -28,37 +28,42 @@
 import { ref } from 'vue'
 import { ChevronRight } from 'lucide-vue-next'
 
-const active = ref('1')
+const active = ref("1");
 
 const setActive = (id: string) => {
-  active.value = id
-}
+  active.value = id;
+};
 
 const faqs = [
   {
-    id: '1',
-    question: 'What is Spark Xplorer about?',
-    answer: 'Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.'
+    id: "1",
+    question: "What is Spark Xplorer about?",
+    answer:
+      "Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.",
   },
   {
-    id: '2',
-    question: 'Is Spark Xplorer Free',
-    answer: 'Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.'
+    id: "2",
+    question: "Is Spark Xplorer Free",
+    answer:
+      "Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.",
   },
   {
-    id: '3',
-    question: 'Enroll Now Page: Sign Up for Spark Xplorers dfddfdfdfdfdfdfdf',
-    answer: 'Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.'
+    id: "3",
+    question: "Enroll Now Page: Sign Up for Spark Xplorers",
+    answer:
+      "Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.",
   },
   {
-    id: '4',
-    question: 'Enroll Now Page: Sign Up for Spark Xplorers dfddfdfdfdfdfdfdf',
-    answer: 'Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.'
+    id: "4",
+    question: "Enroll Now Page: Sign Up for Spark Xplorers",
+    answer:
+      "Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.",
   },
   {
-    id: '5',
-    question: 'Enroll Now Page: Sign Up for Spark Xplorers dfddfdfdfdfdfdfdf',
-    answer: 'Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.'
+    id: "5",
+    question: "Enroll Now Page: Sign Up for Spark Xplorers",
+    answer:
+      "Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor status using US-based curricula supported by On-Demand Tutoring and personalized learning.",
   },
-]
+];
 </script>

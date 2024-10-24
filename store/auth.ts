@@ -127,5 +127,13 @@ export const useAuthStore = defineStore({
         return { error };
       }
     },
+    async getSSOAuthUrl(payload: any) {
+      try {
+        const { data, error } = await useApiPost(`/auth/sso/login`, payload);
+        return { data, error };
+      } catch (error) {
+        return { error };
+      }
+    },
   },
 });

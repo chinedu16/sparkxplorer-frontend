@@ -11,12 +11,14 @@
     </div>
     <div class="col-span-3 shadow-md rounded-xl">
       <div class="rounded-xl w-full">
-        <img :src="Testimonial1" alt="image of person with testimony" class="w-full">
+        <img :src="Testimonial1" alt="image of person with testimony" class="w-full" />
       </div>
       <div class="p-6 space-y-6 md:hidden">
-        <p>"Thank you so much for your help. It's exactly what I've been looking for. You
-          won't regret it. It
-          really saves me time and effort. Spark Xplorer is exactly what our kid has been lacking."</p>
+        <p>
+          "Thank you so much for your help. It's exactly what I've been looking
+          for. You won't regret it. It really saves me time and effort. Spark
+          Xplorer is exactly what our kid has been lacking."
+        </p>
         <div class="flex justify-between gap-4">
           <div class="max-w-40">
             <p class="font-medium text-sm">Gloria Rose</p>
@@ -71,25 +73,28 @@ import { defineComponent, ref } from 'vue'
 import { ChevronRight } from 'lucide-vue-next'
 import Testimonial1 from '~/assets/images/illustrations/home/press-release.png'
 
-const activeName = ref('1')
+const activeName = ref("1");
 const items = [
   {
-    title: 'Practice Sessions',
-    content: 'Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.',
-    monthlyCost: '$68',
-    yearlyCost: '$816',
+    title: "Practice Sessions",
+    content:
+      "Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.",
+    monthlyCost: "$68",
+    yearlyCost: "$816",
   },
   {
-    title: 'Tutoring Packages',
-    content: 'Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.',
-    monthlyCost: '$90',
-    yearlyCost: '$1080',
+    title: "Tutoring Packages",
+    content:
+      "Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.",
+    monthlyCost: "$90",
+    yearlyCost: "$1080",
   },
   {
-    title: 'Test Preparation',
-    content: 'Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.',
-    monthlyCost: '$150',
-    yearlyCost: '$1800',
+    title: "Test Preparation",
+    content:
+      "Custom Pricing for eLearning Practice Sessions: Learn at Your Pace. Tailored Pricing for eLearning Practice Sessions.",
+    monthlyCost: "$150",
+    yearlyCost: "$1800",
   },
-]
+];
 </script>

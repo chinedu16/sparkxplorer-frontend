@@ -56,7 +56,7 @@
         </div>
 
         <div class="w-full flex justify-center items-center">
-          <div class="w-8/12 space-x-8 flex">
+          <div class="w-11/12 space-x-8 flex">
             <div v-for="plan in plans" class="w-1/2 rounded-3xl border p-6">
               <div class="flex justify-between">
                 <span class="text-lg text-primary capitalize font-bold">{{
@@ -183,25 +183,23 @@ definePageMeta({
 
 const loading = ref(true);
 const isSubscribingPlan = ref(false);
-const numberOfScholar = ref(1)
+const numberOfScholar = ref(1);
 
 const plans = computed(() => {
   return paymentStore.getPaymentPlan;
 });
 
-
-const subscribePlan = async (plan: {id: number}) => {
+const subscribePlan = async (plan: { id: number }) => {
   try {
     isSubscribingPlan.value = true;
     const payload = {
       plan_id: plan.id,
       no_of_scholars: numberOfScholar.value,
     };
-    const {data, error} = await paymentStore.getPaymentStripeLink(payload);
+    const { data, error } = await paymentStore.getPaymentStripeLink(payload);
     if (data.success) {
       window.location.href = data.data.url;
     }
-    
   } catch (error) {
     handleError(error);
   } finally {
@@ -225,7 +223,7 @@ onMounted(() => {
 });
 
 const handleChange = (value: number) => {
-  numberOfScholar.value = value
+  numberOfScholar.value = value;
 };
 </script>
 

@@ -76,9 +76,9 @@ const search = ref("");
 const baseNavLinks = [
   { id: 1, url: "/", name: "Home", icon: "home" },
   { id: 2, url: "/scholars", name: "Scholars", icon: "scholar" },
-  { id: 3, url: "/tutors", name: "Tutors", icon: "tutor" },
-  { id: 4, url: "/feed", name: "Feed", icon: "feed" },
-  { id: 5, url: "/ixl-portal", name: "IXL Portal", icon: "ixl" },
+  // { id: 3, url: "/tutors", name: "Tutors", icon: "tutor" },
+  // { id: 4, url: "/feed", name: "Feed", icon: "feed" },
+  // { id: 5, url: "/ixl-portal", name: "IXL Portal", icon: "ixl" },
   { id: 6, url: "/subscription", name: "Subscription", icon: "subscription" },
   { id: 7, url: "/profile", name: "Profile", icon: "profile" },
   { id: 8, url: "/help-and-support", name: "Help & Support", icon: "help" },
@@ -88,18 +88,8 @@ const baseNavLinks = [
 const scholarNavLinks = [
   { id: 1, url: "/", name: "Home", icon: "home" },
   { id: 2, url: "/ixl-portal", name: "IXL Portal", icon: "ixl" },
-  // {
-  //   id: 3,
-  //   url: "/assessment",
-  //   name: "Assessment",
-  //   icon: "assessment",
-  //   children: [
-  //     { url: "/general-assessment", name: "General Assessment" },
-  //     { url: "/tutor-assessment", name: "Tutor Assessment" },
-  //   ],
-  // },
   { id: 4, url: "/tutors", name: "Tutors", icon: "tutor" },
-  { id: 5, url: "/feed", name: "Feed", icon: "feed" },
+  // { id: 5, url: "/feed", name: "Feed", icon: "feed" },
   { id: 6, url: "/profile", name: "Profile", icon: "profile" },
   { id: 7, url: "/help-and-support", name: "Help & Support", icon: "help" },
 ];

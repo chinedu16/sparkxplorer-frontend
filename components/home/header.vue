@@ -2,7 +2,7 @@
   <header class="bg-primary-light w-full flex-shrink-0 px-4 md:px-6 xl:px-0 text-foreground">
     <div class="max-w-screen-xl flex items-center w-full h-16 mx-auto md:h-20 justify-between">
       <!-- Logo -->
-      <NuxtLink href="/" class="flex items-center w-[137px]">
+      <NuxtLink href="/" class="flex items-center w-[100px]">
         <img :src="BrandLogo" alt="SparkXplorer logo" />
       </NuxtLink>
       <ui-button v-if="!isDrawerOpen" size="icon" variant="ghost"
@@ -12,9 +12,9 @@
       <nav class="hidden items-center justify-end gap-4 lg:flex max-w-max order-1" id="navbar-cta">
         <ul class="flex font-semibold items-center group list-none">
           <li v-for="link in navLinks" :key="link.name">
-            <a :href="link.href"
-              :class="['group inline-flex w-max items-center justify-center rounded-md px-4 py-2 text-sm transition-colors hover:text-primary focus:text-primary focus:outline-none']">{{
-                link.name }}</a>
+            <a :href="link.href" :class="[
+              'group inline-flex w-max items-center justify-center rounded-md px-4 py-2 text-sm transition-colors hover:text-primary focus:text-primary focus:outline-none',
+            ]">{{ link.name }}</a>
           </li>
         </ul>
         <ui-dropdown-menu>

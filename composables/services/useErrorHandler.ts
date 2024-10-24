@@ -16,7 +16,18 @@ export function useErrorHandler() {
     console.error("API Error:", error);
   };
 
+  const handleSuccess = (message: string) => {
+    ElNotification({
+      title: "Success",
+      message,
+      type: "success",
+    });
+
+    console.log("Success:", message);
+  };
+
   return {
     handleError,
+    handleSuccess,
   };
 }

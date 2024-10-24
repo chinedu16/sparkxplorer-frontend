@@ -260,7 +260,7 @@ const onSubmit = handleSubmit(async (values) => {
     first_name: values.firstname,
     last_name: values.lastname,
     email: values.email,
-    mobile_code: values.phoneCode,
+    mobile_code: values.phoneCode.replace(/\+/g, ""),
     mobile_number: values.phone,
     picture_url: base64File.value || formData.value.picture_url,
   };

@@ -8,8 +8,8 @@
         Unlock Academic Success with Spark Xplorer
       </h1>
       <p class="font-bold sm:text-xl mb-8 max-w-xl text-center">
-        Empowering K-12 students to excel academically And
-        secure scholarships to top US universities.
+        Empowering K-12 students to excel academically And secure scholarships
+        to top US universities.
       </p>
       <ui-button as-child variant="outline" size="lg"
         class="w-full border border-primary hover:border-primary-hover bg-primary-light max-w-xs text-primary hover:text-primary hover:bg-primary-light/90">
@@ -27,10 +27,11 @@
   </section>
   <section id="programs" class="bg-primary-light space-y-8 py-8 px-4 grid place-items-center">
     <span class="max-w-4xl block font-bold text-center mx-auto">
-      Spark Xplorers is an after-school practice and tutoring program designed to help K-12 students achieve A-honor
-      status using US-based curricula supported by On-Demand Tutoring and personalized learning.
+      Spark Xplorers is an after-school practice and tutoring program designed
+      to help K-12 students achieve A-honor status using US-based curricula
+      supported by On-Demand Tutoring and personalized learning.
     </span>
-    <div class="bg-white max-w-5xl p-6 rounded-md grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto">
+    <div class="bg-white max-w-screen-xl p-8 rounded-md grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mx-auto">
       <div v-for="(feature, i) in features" :key="i" class="space-y-3">
         <img :src="feature.icon" :alt="feature.title" class="w-20" />
         <h2 class="font-semibold">{{ feature.title }}</h2>
@@ -62,8 +63,8 @@
         </div>
       </div>
     </div>
-    <div class="col-span-2 max-w-md pt-4 md:pt-0 mx-auto">
-      <img :src="KeyFeatures" alt="Spark xplorer dashboard image" class="">
+    <div class="col-span-2 pt-4 md:pt-0 mx-auto">
+      <img :src="KeyFeatures" alt="Spark xplorer dashboard image" class="" />
     </div>
   </section>
   <section id="package" class="py-12 bg-primary-light px-4">
@@ -78,13 +79,13 @@
         <div class="bg-white p-4 rounded-2xl space-y-4">
           <div class="flex gap-2 items-center">
             <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
-              <Check size="12" color="white" />
+              <Check :size="12" color="white" />
             </span>
             <p class="text-sm">Free 1 month trial for new user</p>
           </div>
           <div class="flex gap-2 items-center">
             <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
-              <Check size="12" color="white" />
+              <Check :size="12" color="white" />
             </span>
             <p class="text-sm">Cancel anytime you want</p>
           </div>
@@ -101,18 +102,18 @@
       </div>
     </div>
   </section>
-  <section class="py-16 px-4 relative">
+  <section class="py-20 px-4 relative">
     <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
       :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"></div>
     <div class="max-w-5xl mx-auto">
       <HomeCarousel />
     </div>
   </section>
-  <section class="max-w-5xl py-12 px-4 mx-auto">
+  <section class="max-w-5xl py-20 px-4 mx-auto">
     <h1 class="font-bold text-2xl">Frequently Asked Questions</h1>
     <div class="flex gap-4 pt-8">
       <div class="w-64 h-fit sm:flex shrink-0 hidden">
-        <img :src="FAQImage" alt="FAQs Image" class="">
+        <img :src="FAQImage" alt="FAQs Image" class="" />
       </div>
       <HomeFaqs />
     </div>
@@ -123,7 +124,7 @@
       <p class="text-center mb-4">See the developments that have occurred to TOTC in the world</p>
       <div class="grid md:grid-cols-5 gap-8 mt-16">
         <div class="md:col-span-2 space-y-4">
-          <img :src="NewsImage" alt="featured news article image" class="rounded-xl">
+          <img :src="NewsImage" alt="featured news article image" class="rounded-xl" />
           <span
             class="bg-primary rounded-full uppercase inline-block text-xs font-medium text-white px-4 py-1.5">news</span>
           <h3 class="text-medium text-foreground">Class adds $30 million to its balance sheet for a
@@ -143,7 +144,8 @@
     <div class="max-w-5xl mx-auto grid gap-8 md:grid-cols-5">
       <div class="col-span-3 py-12 max-w-xl mx-auto md:max-w-none">
         <h1 class="font-bold text-2xl mb-7 max-w-[34rem]">
-          Subscribe to get information, latest news and other interesting offer abour Spark Xplorer
+          Subscribe to get information, latest news and other interesting offer
+          abour Spark Xplorer
         </h1>
         <form class="w-full flex gap-3" @submit="handleSubscribeSubmit">
           <ui-input v-model="formData.email" name="email" type="email" placeholder="Email Address"
@@ -153,7 +155,7 @@
       </div>
       <div class="col-span-2 -mt-10 relative hidden md:block">
         <div class="absolute bottom-0 right-0 w-80 lg:w-[25rem]">
-          <img :src="SubscribeImage" alt="two peolpe in a meeting" class="">
+          <img :src="SubscribeImage" alt="two peolpe in a meeting" class="" />
         </div>
       </div>
     </div>
@@ -171,6 +173,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { Check } from 'lucide-vue-next'
@@ -191,13 +194,13 @@ import SubscribeImage from '~/assets/images/illustrations/home/subscribe.png'
 
 useHead({
   htmlAttrs: {
-    class: 'scroll-smooth'
-  }
+    class: "scroll-smooth",
+  },
 });
 
 definePageMeta({
-  layout: 'home'
-})
+  layout: "home",
+});
 
 const loading = ref(false);
 const formData = ref({
@@ -205,40 +208,54 @@ const formData = ref({
 });
 
 const features = [
-  { icon: Practice, title: 'After-School Practice', text: 'Overview of how students engage with the Spark Xplorers platform for daily practice using IXL.com, with continuous tracking of their performance and progress.' },
-  { icon: Tutoring, title: 'Tutoring Services', text: 'Detailed description of the on-demand tutoring through Tutor.com, with benefits like 24/7 access, wide subject variety, and expert tutoring in core subjects.' },
   {
-    icon: Prep, title: 'Test Prep and Assessment Skill Plans', text: 'Spark Xplorers offers preparation tutorials for a variety of tests'
+    icon: Practice,
+    title: "After-School Practice",
+    text: "Overview of how students engage with the Spark Xplorers platform for daily practice using IXL.com, with continuous tracking of their performance and progress.",
   },
-  { icon: Pathways, title: 'Learning Pathways', text: 'Explanation of how personalized learning plans are developed based on individual student progress, ensuring they stay on track and reach their academic goals.' }
-]
+  {
+    icon: Tutoring,
+    title: "Tutoring Services",
+    text: "Detailed description of the on-demand tutoring through Tutor.com, with benefits like 24/7 access, wide subject variety, and expert tutoring in core subjects.",
+  },
+  {
+    icon: Prep,
+    title: "Test Prep and Assessment Skill Plans",
+    text: "Spark Xplorers offers preparation tutorials for a variety of tests",
+  },
+  {
+    icon: Pathways,
+    title: "Learning Pathways",
+    text: "Explanation of how personalized learning plans are developed based on individual student progress, ensuring they stay on track and reach their academic goals.",
+  },
+];
 
 const keyFeatures = [
   {
-    title: 'Expert Tutoring: ',
-    text: 'Access over 4,000 expert  tutors in 250+ subjects, from Math to Social Studies, through  Tutor.com.'
+    title: "Expert Tutoring: ",
+    text: "Access over 4,000 expert  tutors in 250+ subjects, from Math to Social Studies, through  Tutor.com.",
   },
   {
-    title: 'Peer-to-Peer Tutoring: ',
-    text: 'Foster collaborative  learning through peer-to-peer tutoring, allowing students to learn from and support each other.'
+    title: "Peer-to-Peer Tutoring: ",
+    text: "Foster collaborative  learning through peer-to-peer tutoring, allowing students to learn from and support each other.",
   },
   {
-    title: 'Personalized Learning Pathways: ',
-    text: 'Each student gets a custom learning plan tailored to their academic needs.'
+    title: "Personalized Learning Pathways: ",
+    text: "Each student gets a custom learning plan tailored to their academic needs.",
   },
   {
-    title: 'Real-Time Performance Tracking: ',
-    text: "Monitor your child's progress with real - time analytics and personalized feedback."
+    title: "Real-Time Performance Tracking: ",
+    text: "Monitor your child's progress with real - time analytics and personalized feedback.",
   },
   {
-    title: 'Test Prep and Assessment Skill Plans: ',
-    text: 'Prepare for a wide range of exams and assessments with practice tutorials and live tutoring support for tests like the SAT®, ACT®, GED®, PSAT®, STAAR, TSI Assessment 2.0, and many more.'
+    title: "Test Prep and Assessment Skill Plans: ",
+    text: "Prepare for a wide range of exams and assessments with practice tutorials and live tutoring support for tests like the SAT®, ACT®, GED®, PSAT®, STAAR, TSI Assessment 2.0, and many more.",
   },
   {
-    title: 'Motivational Rewards System: ',
-    text: 'Students are rewarded for  meeting goals, keeping learning fun and engaging.'
+    title: "Motivational Rewards System: ",
+    text: "Students are rewarded for  meeting goals, keeping learning fun and engaging.",
   },
-]
+];
 
 const validationSchema = yup.object({
   email: yup
