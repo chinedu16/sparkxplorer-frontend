@@ -75,13 +75,13 @@
                 </li>
               </ul>
               <div class="space-y-4 px-6">
-                <ui-button class="gap-4 w-full">
+                <ui-button as-child class="gap-4 w-full">
                   <a :href="ssoUrls?.spark_xplorer">
                     Login as scholar
                     <GradStudent class="w-4 h-4" />
                   </a>
                 </ui-button>
-                <ui-button class="gap-4 w-full">
+                <ui-button as-child class="gap-4 w-full">
                   <nuxt-link to="/auth/login">
                     Login as parent
                     <User2 class="w-4 h-4" />
