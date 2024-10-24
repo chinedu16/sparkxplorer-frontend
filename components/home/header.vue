@@ -75,9 +75,17 @@
                 </li>
               </ul>
               <div class="space-y-4 px-6">
-                <ui-button as-child class="w-full">
-                  <nuxt-link href="/auth/login">Log
-                    in &rarr;</nuxt-link>
+                <ui-button class="gap-4 w-full">
+                  <a :href="ssoUrls?.spark_xplorer">
+                    Login as scholar
+                    <GradStudent class="w-4 h-4" />
+                  </a>
+                </ui-button>
+                <ui-button class="gap-4 w-full">
+                  <nuxt-link to="/auth/login">
+                    Login as parent
+                    <User2 class="w-4 h-4" />
+                  </nuxt-link>
                 </ui-button>
                 <ui-button as-child variant="outline"
                   class="w-full border border-primary hover:border-primary-hover bg-inherit text-primary hover:bg-primary-600/15">
