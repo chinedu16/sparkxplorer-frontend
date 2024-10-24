@@ -17,10 +17,32 @@
                 link.name }}</a>
           </li>
         </ul>
-        <ui-button as-child class="w-40">
-          <nuxt-link href="/auth/login">Log
-            in &rarr;</nuxt-link>
-        </ui-button>
+        <ui-dropdown-menu>
+          <ui-dropdown-menu-trigger as-child>
+            <ui-button size="sm" class="gap-2 capitalize w-40">
+              Log
+              in &darr;
+            </ui-button>
+          </ui-dropdown-menu-trigger>
+          <ui-dropdown-menu-content class="w-48">
+            <ui-dropdown-menu-item class="p-0">
+              <ui-button as-child variant="ghost" size="sm" class="gap-4 w-full rounded-none">
+                <a :href="ssoUrls?.spark_xplorer">
+                  Login as scholar
+                  <GradStudent class="text-primary w-4 h-4" />
+                </a>
+              </ui-button>
+            </ui-dropdown-menu-item>
+            <ui-dropdown-menu-item class="p-0">
+              <ui-button as-child variant="ghost" size="sm" class="gap-4 w-full rounded-none">
+                <nuxt-link to="/auth/login">
+                  Login as parent
+                  <User2 class="text-primary w-4 h-4" />
+                </nuxt-link>
+              </ui-button>
+            </ui-dropdown-menu-item>
+          </ui-dropdown-menu-content>
+        </ui-dropdown-menu>
         <ui-button as-child variant="outline"
           class="w-40 border border-primary hover:border-primary-hover bg-inherit text-primary hover:bg-primary-600/15">
           <nuxt-link href="/auth/signup">Sign
@@ -72,20 +94,41 @@
 </template>
 
 <script setup lang="ts">
-import { Menu, X } from 'lucide-vue-next'
+import { Menu, User2, X } from 'lucide-vue-next'
 import BrandLogo from '~/assets/images/illustrations/home/logo.png'
+import { useAuthStore } from '~/store/auth';
+import GradStudent from '@/components/icons/grad-student.vue';
 
+const authStore = useAuthStore();
 const isDrawerOpen = ref(false)
+const loading = ref(false)
+
+const ssoUrls = computed(() => authStore.getSSOUrls)
+
+onMounted(() => {
+  fetchSSOUrls();
+});
+
+const fetchSSOUrls = async () => {
+  try {
+    loading.value = true;
+    await authStore.fetchSSOUrls();
+  } catch (error) {
+  } finally {
+    loading.value = false;
+  }
+};
+
+function openMenu() {
+  isDrawerOpen.value = true
+}
+
 const navLinks = [
   { name: 'Programs', href: '#programs' },
   { name: 'Key Features', href: '#key-features' },
   { name: 'Package', href: '#package' },
   { name: 'Contact Us', href: '#contact-us' },
 ]
-
-function openMenu() {
-  isDrawerOpen.value = true
-}
 </script>
 
 <style scoped>

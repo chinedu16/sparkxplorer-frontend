@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { User } from "~/types";
 const { handleError } = useErrorHandler();
 
 export const useUsersStore = defineStore({
@@ -36,14 +37,3 @@ export const useUsersStore = defineStore({
     getUsers: (state) => state.users,
   },
 });
-
-export interface User {
-  user_id: number;
-  picture_url: string;
-  name: string;
-  email: string;
-  is_active: boolean;
-  registered_at: string;
-  role_name: "parent" | "scholar" | "tutor" | "admin";
-  status: "activated" | "deactivated";
-}

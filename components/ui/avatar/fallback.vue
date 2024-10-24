@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import { AvatarFallback, type AvatarFallbackProps } from 'radix-vue'
+import { cn } from '~/lib/utils';
 
-const props = defineProps<AvatarFallbackProps>()
+const props = defineProps<AvatarFallbackProps & {
+  class?: HTMLAttributes['class']
+}>()
 </script>
 
 <template>
-  <AvatarFallback v-bind="props">
+  <AvatarFallback v-bind="props" :class="cn('text-base uppercase text-primary font-medium', props.class)">
     <slot />
   </AvatarFallback>
 </template>

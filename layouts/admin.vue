@@ -1,5 +1,5 @@
 <template>
-  <div v-loading.fullscreen.lock="loading" class="flex flex-col h-screen">
+  <div v-loading.fullscreen.lock="loading" class="flex flex-col h-screen text-foreground bg-background">
     <!-- Header -->
     <ui-header />
 
@@ -25,13 +25,6 @@ import { useUserStore } from "@/store/user";
 
 const route = useRoute();
 const userStore = useUserStore();
-
-const mainClassSpacing = computed(() => {
-  return route.name === "dashboard-feed" ? "" : "p-8";
-});
-const userGetStartedLayout = computed(() => {
-  return route.name === "dashboard-get-started" ? "hidden" : "";
-});
 
 const loading = ref(false);
 

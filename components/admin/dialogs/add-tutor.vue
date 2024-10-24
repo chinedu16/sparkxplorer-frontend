@@ -18,7 +18,7 @@
           Add a tutor
         </ui-dialog-title>
       </ui-dialog-header>
-      <AdminFormsAddTutor @addTutor="handleAddTutor" />
+      <AdminFormsAddTutor @addTutor="handleAssignTutor" />
     </ui-dialog-content>
   </ui-dialog>
 </template>

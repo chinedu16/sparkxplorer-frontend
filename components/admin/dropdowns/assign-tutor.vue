@@ -2,7 +2,7 @@
   <ui-dropdown-menu>
     <ui-dropdown-menu-trigger as-child>
       <ui-button size="sm" class="gap-2 capitalize">
-        <Users size="16" />
+        <Users :size="16" />
         Assign Tutor
       </ui-button>
     </ui-dropdown-menu-trigger>
@@ -10,14 +10,14 @@
       <ui-dropdown-menu-item as-child class="py-0">
         <ui-button variant="ghost" size="sm" class="gap-2 w-full font-normal rounded-none justify-start px-3"
           @click="openP2PAssignModal = true">
-          <UserCheck size="16" class="text-primary" />
+          <UserCheck :size="16" class="text-primary" />
           Peer-to-Peer
         </ui-button>
       </ui-dropdown-menu-item>
       <ui-dropdown-menu-item as-child class="py-0">
         <ui-button variant="ghost" size="sm" class="gap-2 w-full font-normal rounded-none justify-start px-3"
           @click="openProfAssignModal = true">
-          <Users size="16" class="text-primary" />
+          <Users :size="16" class="text-primary" />
           Professional
         </ui-button>
       </ui-dropdown-menu-item>

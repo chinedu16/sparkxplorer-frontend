@@ -9,7 +9,7 @@
           <li v-for="(item, index) in navLinks" :key="index">
             <nuxt-link :to="`/admin${item.url}`" active-class="active-link"
               class="hover:bg-[#6366f1] p-3 flex items-center space-x-3 rounded-full">
-              <component :is="item.icon" size="24" />
+              <component :is="item.icon" :size="24" />
               <!-- <img :src="`/icons/${item.icon}.svg`" alt="" /> -->
               <span class="font-bold">{{ item.name }}</span>
             </nuxt-link>
@@ -52,7 +52,7 @@ const search = ref("");
 
 const navLinks = [
   { id: 1, url: '', name: 'Home', icon: Home },
-  { id: 2, url: '/users', name: 'Users', icon: Users },
+  { id: 2, url: '/users?page=1&per_page=10', name: 'Users', icon: Users },
   { id: 3, url: '/ixl-checklist', name: 'IXL Checklist', icon: Check },
   { id: 4, url: "/ixl-portal", name: "IXL Portal", icon: BookOpen },
   { id: 5, url: '/performance', name: 'Performance', icon: ChartPie },
