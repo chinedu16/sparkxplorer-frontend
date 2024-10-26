@@ -147,7 +147,7 @@ const loginWithSSO = async (payload: any) => {
         } else if (response.data.data.primary_role === "scholar") {
           navigateTo("/dashboard");
         } else {
-          navigateTo("/admin/dashboard");
+          navigateTo("/admin");
         }
       }
     } else {
@@ -224,7 +224,7 @@ const onSubmit = handleSubmit(async (values) => {
       } else if (response.data.data.primary_role === "scholar") {
         navigateTo("/dashboard");
       } else {
-        navigateTo("/admin/dashboard");
+        navigateTo("/admin");
       }
     }
   } catch (error) {

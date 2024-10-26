@@ -196,6 +196,13 @@ useHead({
   htmlAttrs: {
     class: "scroll-smooth",
   },
+  title: "SparkXplorer - Home",
+  meta: [
+    {
+      name: "description",
+      content: "Equipping Young minds with the right tools to innovate.Sparkxplorer.com",
+    },
+  ],
 });
 
 definePageMeta({
@@ -273,5 +280,3 @@ const handleSubscribeSubmit = handleSubmit(async (values) => {
   console.log('values: ', values)
 })
 </script>
-
-<style scoped></style>
