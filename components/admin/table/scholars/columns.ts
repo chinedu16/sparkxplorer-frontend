@@ -1,13 +1,10 @@
 import { h } from "vue";
 import type { ColumnDef } from "@tanstack/vue-table";
-import { Trash } from "lucide-vue-next";
 
-import Button from "@/components/ui/button/index.vue";
-import Checkbox from "@/components/ui/checkbox.vue";
 import TableCellName from "@/components/admin/table/users/cells/name.vue";
-import TableCellStatus from "@/components/admin/table/users/cells/status.vue";
-import DataTableRowActionsAccept from "@/components/admin/dialogs/tutors/accept.vue";
-// import DataTableRowActionsReject from "@/components/admin/dialogs/tutors/reject.vue";
+import TableCellType from "@/components/admin/table/tutors/cells/type.vue";
+import DataTableRowActionsAccept from "@/components/admin/dialogs/scholars/accept.vue";
+import DataTableRowActionsReject from "@/components/admin/dialogs/scholars/reject.vue";
 
 export const columns: ColumnDef<Record<string, string | number>>[] = [
   {
@@ -32,20 +29,20 @@ export const columns: ColumnDef<Record<string, string | number>>[] = [
       h("div", { class: "max-w-[15rem] truncate" }, row.getValue("subject")),
   },
   {
-    accessorKey: "date",
-    header: "Date",
-  },
-  {
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
       const scholar = row.original;
       return h(
-        TableCellStatus,
-        { status: scholar.type as string },
+        TableCellType,
+        { type: scholar.type as string },
         row.getValue("type")
       );
     },
+  },
+  {
+    accessorKey: "date",
+    header: "Date",
   },
   {
     id: "actions",
@@ -59,16 +56,16 @@ export const columns: ColumnDef<Record<string, string | number>>[] = [
       });
     },
   },
-  // {
-  //   id: "actions",
-  //   enableHiding: false,
-  //   cell: ({ row }) => {
-  //     const user = row.original;
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const user = row.original;
 
-  //     return h(DataTableRowActionsReject, {
-  //       user,
-  //       onExpand: row.toggleExpanded,
-  //     });
-  //   },
-  // },
+      return h(DataTableRowActionsReject, {
+        user,
+        onExpand: row.toggleExpanded,
+      });
+    },
+  },
 ];

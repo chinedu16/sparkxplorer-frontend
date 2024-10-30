@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { useVueTable, getCoreRowModel } from "@tanstack/vue-table"
-import { columns } from "@/components/admin/table/tutors/columns"
+import { columns } from "@/components/admin/table/scholars/columns"
 
 const route = useRoute();
 

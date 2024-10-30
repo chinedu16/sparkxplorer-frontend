@@ -26,9 +26,8 @@
 
     <section class="py-4 px-8">
       <AdminUsersTutorsProfile v-if="active === 'profile'" :parent="{}" />
+      <AdminUsersTutorsRequests v-if="active === 'requests'" />
     </section>
-    <section v-if="active === 'calendar'" class=""></section>
-    <section v-if="active === 'requests'" class=""></section>
   </AdminLayout>
 </template>
 
@@ -54,9 +53,9 @@ const search = ref('')
 // const loading = ref(false);
 
 const tabs = [
-  { name: 'profile', to: `/admin/users/tutor/${userId}?tab=profile`, label: 'Profile' },
-  { name: 'calendar', to: `/admin/users/tutor/${userId}?tab=calendar`, label: 'Calendar' },
-  { name: 'requests', to: `/admin/users/tutor/${userId}?tab=requests`, label: 'Requests' }
+  { name: 'profile', to: `${route.path}?tab=profile`, label: 'Profile' },
+  { name: 'calendar', to: `${route.path}?tab=calendar`, label: 'Calendar' },
+  { name: 'requests', to: `${route.path}?tab=requests`, label: 'Requests' }
 ]
 
 onBeforeRouteUpdate(({ query }) => { active.value = query.tab })

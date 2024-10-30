@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@pinia/nuxt",
     "@nuxt/fonts",
+    "nuxt-og-image",
   ],
 
   tailwindcss: {

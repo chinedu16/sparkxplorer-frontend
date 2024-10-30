@@ -25,11 +25,11 @@
       <AdminTabsUsersParents :tabs="tabs" />
     </template>
 
-    <section v-if="active === 'profile'" class="">
-      <!-- <AdminSectionsParentProfile :user="user"></AdminSectionsParentProfile> -->
+    <section class="py-4 space-y-6">
+      <AdminUsersScholarsProfile v-if="active === 'profile'" />
+      <AdminUsersScholarsParent v-if="active === 'parent'" :parent="{}" />
+      <AdminUsersScholarsRequests v-if="active === 'requests'" />
     </section>
-    <section v-if="active === 'parent'" class=""></section>
-    <section v-if="active === 'requests'" class=""></section>
   </AdminLayout>
 </template>
 
@@ -44,22 +44,23 @@ definePageMeta({
 })
 
 const route = useRoute();
-const router = useRouter();
 const usersStore = useUsersStore();
 
 // const data = computed(() => usersStore.getUser);
 
 const userId = route.params.id
-const active = route.query.tab as string
+const active = ref(route.query.tab)
 const user = ref([])
 const search = ref('')
 // const loading = ref(false);
 
 const tabs = [
-  { name: 'profile', to: `/admin/users/scholar/${userId}?tab=profile`, label: 'Profile' },
-  { name: 'parent', to: `/admin/users/scholar/${userId}?tab=parent`, label: 'Parent Details' },
-  { name: 'requests', to: `/admin/users/scholar/${userId}?tab=requests`, label: 'Tutor Requests' }
+  { name: 'profile', to: `${route.path}?tab=profile`, label: 'Profile' },
+  { name: 'parent', to: `${route.path}?tab=parent`, label: 'Parent Details' },
+  { name: 'requests', to: `${route.path}?tab=requests`, label: 'Tutor Requests' }
 ]
+
+onBeforeRouteUpdate(({ query }) => { active.value = query.tab })
 
 // onMounted(() => {
 //   fetchUsersData();

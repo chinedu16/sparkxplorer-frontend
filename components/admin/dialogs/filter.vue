@@ -79,7 +79,7 @@ import { CalendarDate, DateFormatter, getLocalTimeZone, today } from '@internati
 import { toTypedSchema } from '@vee-validate/yup'
 import { Calendar as CalendarIcon, ListFilter } from 'lucide-vue-next'
 import { toDate } from 'radix-vue/dist/date'
-import { DateRange } from 'radix-vue'
+import type { DateRange } from 'radix-vue'
 
 type Status = 'activated' | 'deactivated'
 

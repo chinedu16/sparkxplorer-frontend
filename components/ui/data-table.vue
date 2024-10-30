@@ -1,62 +1,99 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { Row, Table } from '@tanstack/vue-table'
-import {
-  FlexRender,
-} from '@tanstack/vue-table'
-import type { Role, User } from '~/types';
+import { FlexRender, getCoreRowModel, useVueTable } from "@tanstack/vue-table";
+import type { ColumnDef, Row, TableOptions } from "@tanstack/vue-table";
+import { valueUpdater } from "~/lib/utils";
+import type { Role } from "~/types";
 
-const { table, rowCount, rowHref } = defineProps<{
-  table: Table<User>
-  rowCount: number
-  rowHref?: { path?: string; accessor: string; page?: 'user-types', query?: string };
+const selectedRows = defineModel("selectedRows");
+const pagination = defineModel("pagination");
 
-}>()
+const props = defineProps<{
+  data: TData[];
+  columns: ColumnDef<TData, TValue>[];
+  options?: Partial<TableOptions<TData>>;
+  rowHref?: {
+    path?: string;
+    accessor: string;
+    page?: "user-types";
+    query?: string;
+  };
+  // selectedRows: unknown
+  // table: Table<User>
+}>();
 
-const router = useRouter()
+const table = useVueTable({
+  get data() {
+    return props.data;
+  },
+  get columns() {
+    return props.columns;
+  },
+  getCoreRowModel: getCoreRowModel(),
+  onRowSelectionChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, selectedRows),
+  manualPagination: true,
+  ...props.options,
+});
 
-const navigateTopage = (row: Row<User>) => {
-  if (rowHref) {
-    const qs = rowHref.query ? '?' + rowHref.query : ''
+const router = useRouter();
 
-    if (rowHref?.page === 'user-types') {
-      const userRole = row.getValue<Role>('role_name')
-      const rolePath = userRole.includes('admin') ? 'admin' : userRole
+const navigateTopage = (row: Row<TData>) => {
+  if (props.rowHref) {
+    const qs = props.rowHref.query ? "?" + props.rowHref.query : "";
+
+    if (props.rowHref?.page === "user-types") {
+      const userRole = row.getValue<Role>("role_name");
+      const rolePath = userRole.includes("admin") ? "admin" : userRole;
 
       router.push(
-        `/admin/users/${rolePath}/${row.getValue(rowHref.accessor)}${qs}`
+        `/admin/users/${rolePath}/${row.getValue(props.rowHref.accessor)}${qs}`
       );
-      return
+      return;
     }
     router.push(
-      `${rowHref.path}/${row.getValue(rowHref.accessor)}${qs}`
+      `${props.rowHref.path}/${row.getValue(props.rowHref.accessor)}${qs}`
     );
   }
-}
+};
 </script>
 
 <template>
   <ui-table>
     <ui-table-header>
-      <ui-table-row v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
-        class="bg-muted hover:bg-muted">
+      <ui-table-row
+        v-for="headerGroup in table.getHeaderGroups()"
+        :key="headerGroup.id"
+        class="bg-muted hover:bg-muted"
+      >
         <ui-table-head v-for="header in headerGroup.headers" :key="header.id">
-          <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-            :props="header.getContext()" />
+          <FlexRender
+            v-if="!header.isPlaceholder"
+            :render="header.column.columnDef.header"
+            :props="header.getContext()"
+          />
         </ui-table-head>
       </ui-table-row>
     </ui-table-header>
     <ui-table-body>
       <template v-if="table.getRowModel().rows?.length">
-        <ui-table-row v-for="row in table.getRowModel().rows" :key="row.id" :class="{ 'cursor-pointer': rowHref }"
-          :data-state="row.getIsSelected() ? 'selected' : undefined" @click="() => navigateTopage(row)">
+        <ui-table-row
+          v-for="row in table.getRowModel().rows"
+          :key="row.id"
+          :class="{ 'cursor-pointer': rowHref }"
+          :data-state="row.getIsSelected() ? 'selected' : undefined"
+          @click="() => navigateTopage(row)"
+        >
           <ui-table-cell v-for="cell in row.getVisibleCells()" :key="cell.id">
-            <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+            <FlexRender
+              :render="cell.column.columnDef.cell"
+              :props="cell.getContext()"
+            />
           </ui-table-cell>
         </ui-table-row>
       </template>
       <template v-else>
         <ui-table-row>
-          <ui-table-cell :colspan="rowCount" class="h-24 text-center">
+          <ui-table-cell :colspan="table.getRowCount" class="h-24 text-center">
             No results.
           </ui-table-cell>
         </ui-table-row>
