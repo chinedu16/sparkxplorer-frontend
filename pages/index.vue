@@ -271,7 +271,7 @@ useHead({
     },
     {
       rel: "canonical",
-      href: "https://www.sparkxplorer.com/" + route.path,
+      href: "https://sparkxplorer.com/" + route.path,
     },
   ],
   meta: [
@@ -283,10 +283,10 @@ useHead({
 });
 
 useSeoMeta({
-  ogImage: "https://www.sparkxplorer.com/illustrations/home.png",
+  ogImage: "https://sparkxplorer.com/illustrations/home.png",
   twitterTitle: "SparkXplorer",
   twitterDescription: "Equipping Young minds with the right tools to innovate.",
-  twitterImage: "https://www.sparkxplorer.com/illustrations/home.png",
+  twitterImage: "https://sparkxplorer.com/illustrations/home.png",
   twitterCard: "summary",
 });
 
