@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@pinia/nuxt",
     "@nuxt/fonts",
-    "nuxt-og-image",
+    "@nuxtjs/seo",
   ],
 
   tailwindcss: {
@@ -33,6 +33,11 @@ export default defineNuxtConfig({
       "utils/helper/**",
       "utils/services/**",
     ],
+  },
+
+  site: {
+    url: "https://www.sparkxplorer.com/",
+    name: "SparkXplorer",
   },
 
   compatibilityDate: "2024-09-13",

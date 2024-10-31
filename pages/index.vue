@@ -1,9 +1,13 @@
 <template>
   <HomeHeader />
   <section class="bg-primary/90 relative">
-    <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
-      :style="{ backgroundImage: `url(${LayeredLogo})` }"></div>
-    <div class="max-w-5xl w-full mx-auto grid pt-16 px-5 md:px-0 md:pt-24 text-white place-items-center relative z-[1]">
+    <div
+      class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
+      :style="{ backgroundImage: `url(${LayeredLogo})` }"
+    ></div>
+    <div
+      class="max-w-5xl w-full mx-auto grid pt-16 px-5 md:px-0 md:pt-24 text-white place-items-center relative z-[1]"
+    >
       <h1 class="text-3xl sm:text-5xl text-center mb-4 font-bold max-w-2xl">
         Unlock Academic Success with Spark Xplorer
       </h1>
@@ -11,27 +15,47 @@
         Empowering K-12 students to excel academically And secure scholarships
         to top US universities.
       </p>
-      <ui-button as-child variant="outline" size="lg"
-        class="w-full border border-primary hover:border-primary-hover bg-primary-light max-w-xs text-primary hover:text-primary hover:bg-primary-light/90">
-        <nuxt-link href="/auth/signup">Join Now
-          &rarr;</nuxt-link>
+      <ui-button
+        as-child
+        variant="outline"
+        size="lg"
+        class="w-full border border-primary hover:border-primary-hover bg-primary-light max-w-xs text-primary hover:text-primary hover:bg-primary-light/90"
+      >
+        <nuxt-link href="/auth/signup">Join Now &rarr;</nuxt-link>
       </ui-button>
       <div class="mt-8 relative">
-        <img :src="TutorsCard" alt="Hero Image" class="absolute top-0 hidden md:block left-8">
-        <img :src="ScholarCard" alt="Hero Image" class="absolute top-8 right-12 hidden md:block">
-        <img :src="SessionCard" alt="Hero Image" width="200"
-          class="hidden lg:block absolute bottom-12 right-0 xl:-right-16">
-        <img :src="HeroImage" alt="Hero Image" class="">
+        <img
+          :src="TutorsCard"
+          alt="Hero Image"
+          class="absolute top-0 hidden md:block left-8"
+        />
+        <img
+          :src="ScholarCard"
+          alt="Hero Image"
+          class="absolute top-8 right-12 hidden md:block"
+        />
+        <img
+          :src="SessionCard"
+          alt="Hero Image"
+          width="200"
+          class="hidden lg:block absolute bottom-12 right-0 xl:-right-16"
+        />
+        <img :src="HeroImage" alt="Hero Image" class="" />
       </div>
     </div>
   </section>
-  <section id="programs" class="bg-primary-light space-y-8 py-8 px-4 grid place-items-center">
+  <section
+    id="programs"
+    class="bg-primary-light space-y-8 py-8 px-4 grid place-items-center"
+  >
     <span class="max-w-4xl block font-bold text-center mx-auto">
       Spark Xplorers is an after-school practice and tutoring program designed
       to help K-12 students achieve A-honor status using US-based curricula
       supported by On-Demand Tutoring and personalized learning.
     </span>
-    <div class="bg-white max-w-screen-xl p-8 rounded-md grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mx-auto">
+    <div
+      class="bg-white max-w-screen-xl p-8 rounded-md grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mx-auto"
+    >
       <div v-for="(feature, i) in features" :key="i" class="space-y-3">
         <img :src="feature.icon" :alt="feature.title" class="w-20" />
         <h2 class="font-semibold">{{ feature.title }}</h2>
@@ -39,26 +63,30 @@
       </div>
     </div>
     <ui-button as-child size="lg" class="w-full max-w-xs">
-      <nuxt-link href="/auth/signup">Sign
-        up &rarr;</nuxt-link>
+      <nuxt-link href="/auth/signup">Sign up &rarr;</nuxt-link>
     </ui-button>
   </section>
   <section id="key-features" class="py-12 md:grid md:grid-cols-5 gap-4">
     <div class="col-span-3 flex flex-col justify-center gap-y-8">
       <div class="w-full lg:w-5/6 space-y-5 px-4 lg:px-0 ml-auto">
         <h1 class="font-bold text-primary text-xl">KEY FEATURES</h1>
-        <div v-for="(feature, i) in keyFeatures" :key="i" class="flex gap-4 items-center">
+        <div
+          v-for="(feature, i) in keyFeatures"
+          :key="i"
+          class="flex gap-4 items-center"
+        >
           <span
-            class="w-6 lg:w-8 h-6 lg:h-8 rounded-full text-white bg-gradient-to-r from-[#00C4CC] text-sm shrink-0 flex items-center justify-center to-primary">{{
-              i +
-              1 }}</span>
-          <p class="text-sm lg:text-base"><span class="font-semibold text-primary">{{ feature.title }}</span>{{
-            feature.text }}</p>
+            class="w-6 lg:w-8 h-6 lg:h-8 rounded-full text-white bg-gradient-to-r from-[#00C4CC] text-sm shrink-0 flex items-center justify-center to-primary"
+            >{{ i + 1 }}</span
+          >
+          <p class="text-sm lg:text-base">
+            <span class="font-semibold text-primary">{{ feature.title }}</span
+            >{{ feature.text }}
+          </p>
         </div>
         <div class="flex justify-center py-2">
           <ui-button as-child size="lg" class="w-full max-w-xs">
-            <nuxt-link href="/auth/signup">Join
-              Now &rarr;</nuxt-link>
+            <nuxt-link href="/auth/signup">Join Now &rarr;</nuxt-link>
           </ui-button>
         </div>
       </div>
@@ -70,21 +98,27 @@
   <section id="package" class="py-12 bg-primary-light px-4">
     <div class="grid place-items-center mx-auto sm:grid-cols-2 gap-6 max-w-3xl">
       <div class="space-y-4">
-        <h1 class="text-2xl font-bold text-primary">The Right Plan for Your Kid</h1>
+        <h1 class="text-2xl font-bold text-primary">
+          The Right Plan for Your Kid
+        </h1>
         <p class="text-sm text-foreground">
-          Choose a plan that fits your pace with our flexible eLearning
-          Practice Sessions. Affordable pricing to level up your skills at
-          your convenience.
+          Choose a plan that fits your pace with our flexible eLearning Practice
+          Sessions. Affordable pricing to level up your skills at your
+          convenience.
         </p>
         <div class="bg-white p-4 rounded-2xl space-y-4">
           <div class="flex gap-2 items-center">
-            <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
+            <span
+              class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center"
+            >
               <Check :size="12" color="white" />
             </span>
             <p class="text-sm">Free 1 month trial for new user</p>
           </div>
           <div class="flex gap-2 items-center">
-            <span class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center">
+            <span
+              class="w-5 h-5 rounded-full bg-primary grid text-white place-items-center"
+            >
               <Check :size="12" color="white" />
             </span>
             <p class="text-sm">Cancel anytime you want</p>
@@ -92,8 +126,7 @@
         </div>
         <div class="w-full flex justify-center">
           <ui-button as-child size="lg" class="w-full max-w-xs text-center">
-            <nuxt-link href="/auth/signup">Sign
-              up &rarr;</nuxt-link>
+            <nuxt-link href="/auth/signup">Sign up &rarr;</nuxt-link>
           </ui-button>
         </div>
       </div>
@@ -103,8 +136,10 @@
     </div>
   </section>
   <section class="py-20 px-4 relative">
-    <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
-      :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"></div>
+    <div
+      class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
+      :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"
+    ></div>
     <div class="max-w-5xl mx-auto">
       <HomeCarousel />
     </div>
@@ -120,19 +155,34 @@
   </section>
   <section class="py-16 px-4 md:px-6 bg-primary-light text-[#696984]">
     <div class="max-w-screen-xl mx-auto">
-      <h1 class="text-primary font-bold text-center text-2xl mb-4">Lastest News and Resources</h1>
-      <p class="text-center mb-4">See the developments that have occurred to TOTC in the world</p>
+      <h1 class="text-primary font-bold text-center text-2xl mb-4">
+        Lastest News and Resources
+      </h1>
+      <p class="text-center mb-4">
+        See the developments that have occurred to TOTC in the world
+      </p>
       <div class="grid md:grid-cols-5 gap-8 mt-16">
         <div class="md:col-span-2 space-y-4">
-          <img :src="NewsImage" alt="featured news article image" class="rounded-xl" />
+          <img
+            :src="NewsImage"
+            alt="featured news article image"
+            class="rounded-xl"
+          />
           <span
-            class="bg-primary rounded-full uppercase inline-block text-xs font-medium text-white px-4 py-1.5">news</span>
-          <h3 class="text-medium text-foreground">Class adds $30 million to its balance sheet for a
-            Zoom-friendly
-            edtech solution</h3>
-          <p class="text-sm">Class, launched less than a year ago by Blackboard co-founder Michael Chasen, integrates
-            exclusively...</p>
-          <NuxtLink to="#" class="text-sm hover:text-primary block underline">Read More</NuxtLink>
+            class="bg-primary rounded-full uppercase inline-block text-xs font-medium text-white px-4 py-1.5"
+            >news</span
+          >
+          <h3 class="text-medium text-foreground">
+            Class adds $30 million to its balance sheet for a Zoom-friendly
+            edtech solution
+          </h3>
+          <p class="text-sm">
+            Class, launched less than a year ago by Blackboard co-founder
+            Michael Chasen, integrates exclusively...
+          </p>
+          <NuxtLink to="#" class="text-sm hover:text-primary block underline"
+            >Read More</NuxtLink
+          >
         </div>
         <div class="md:col-span-3 space-y-5">
           <HomeNewsList />
@@ -148,9 +198,16 @@
           abour Spark Xplorer
         </h1>
         <form class="w-full flex gap-3" @submit="handleSubscribeSubmit">
-          <ui-input v-model="formData.email" name="email" type="email" placeholder="Email Address"
-            class="rounded-full h-12 placeholder:text-center text-sm bg-white" />
-          <ui-button type="submit" size="lg" class="font-bold">Subscribe &rarr;</ui-button>
+          <ui-input
+            v-model="formData.email"
+            name="email"
+            type="email"
+            placeholder="Email Address"
+            class="rounded-full h-12 placeholder:text-center text-sm bg-white"
+          />
+          <ui-button type="submit" size="lg" class="font-bold"
+            >Subscribe &rarr;</ui-button
+          >
         </form>
       </div>
       <div class="col-span-2 -mt-10 relative hidden md:block">
@@ -161,46 +218,61 @@
     </div>
   </section>
   <section id="contact-us" class="py-12 px-4 md:px-6 relative">
-    <div class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
-      :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"></div>
+    <div
+      class="bg-cover bg-no-repeat max-w-lg absolute right-0 w-full top-0 bottom-0"
+      :style="{ backgroundImage: `url(${ColoredLayeredLogo})` }"
+    ></div>
     <div class="mx-auto max-w-3xl">
-      <h1 class="text-primary font-bold text-center text-2xl mb-4">Get in Touch</h1>
-      <p class="text-center">Let&apos;s make something new, different and more meaningful or make thing more visual or
-        conceptual</p>
+      <h1 class="text-primary font-bold text-center text-2xl mb-4">
+        Get in Touch
+      </h1>
+      <p class="text-center">
+        Let&apos;s make something new, different and more meaningful or make
+        thing more visual or conceptual
+      </p>
       <HomeContactUs />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
-import { Check } from 'lucide-vue-next'
-import HeroImage from '~/assets/images/illustrations/home/hero.png'
-import ScholarCard from '~/assets/images/illustrations/home/scholars.png'
-import SessionCard from '~/assets/images/illustrations/home/sessions.png'
-import TutorsCard from '~/assets/images/illustrations/home/tutors.png'
-import LayeredLogo from '~/assets/images/illustrations/home/layer-logo.png'
-import ColoredLayeredLogo from '~/assets/images/illustrations/home/colored-layer-logo.png'
-import Pathways from '~/assets/images/illustrations/home/pathways.png'
-import Prep from '~/assets/images/illustrations/home/prep.png'
-import Practice from '~/assets/images/illustrations/home/practice.png'
-import Tutoring from '~/assets/images/illustrations/home/tutoring.png'
-import KeyFeatures from '~/assets/images/illustrations/home/key-features.png'
-import FAQImage from '~/assets/images/illustrations/home/faqs.png'
-import NewsImage from '~/assets/images/illustrations/home/blog-1.png'
-import SubscribeImage from '~/assets/images/illustrations/home/subscribe.png'
+import { Check } from "lucide-vue-next";
+import HeroImage from "~/assets/images/illustrations/home/hero.png";
+import ScholarCard from "~/assets/images/illustrations/home/scholars.png";
+import SessionCard from "~/assets/images/illustrations/home/sessions.png";
+import TutorsCard from "~/assets/images/illustrations/home/tutors.png";
+import LayeredLogo from "~/assets/images/illustrations/home/layer-logo.png";
+import ColoredLayeredLogo from "~/assets/images/illustrations/home/colored-layer-logo.png";
+import Pathways from "~/assets/images/illustrations/home/pathways.png";
+import Prep from "~/assets/images/illustrations/home/prep.png";
+import Practice from "~/assets/images/illustrations/home/practice.png";
+import Tutoring from "~/assets/images/illustrations/home/tutoring.png";
+import KeyFeatures from "~/assets/images/illustrations/home/key-features.png";
+import FAQImage from "~/assets/images/illustrations/home/faqs.png";
+import NewsImage from "~/assets/images/illustrations/home/blog-1.png";
+import SubscribeImage from "~/assets/images/illustrations/home/subscribe.png";
+
+const route = useRoute();
 
 useHead({
   htmlAttrs: {
     class: "scroll-smooth",
   },
-  title: "SparkXplorer - Home",
+  title: "Home",
+  link: [
+    {
+      rel: "canonical",
+      href: "https://www.sparkxplorer.com/" + route.path,
+    },
+  ],
   meta: [
     {
       name: "description",
-      content: "Equipping Young minds with the right tools to innovate.Sparkxplorer.com",
+      content:
+        "Equipping Young minds with the right tools to innovate.Sparkxplorer.com",
     },
   ],
 });
@@ -277,6 +349,6 @@ const { handleSubmit } = useForm({
 });
 
 const handleSubscribeSubmit = handleSubmit(async (values) => {
-  console.log('values: ', values)
-})
+  console.log("values: ", values);
+});
 </script>

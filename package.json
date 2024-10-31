@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@nuxt/fonts": "^0.7.2",
+    "@nuxtjs/seo": "^2.0.0-rc.23",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.1",
     "@tanstack/vue-query": "^5.59.16",
@@ -25,7 +26,6 @@
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.451.0",
     "nuxt": "^3.11.2",
-    "nuxt-og-image": "^3.0.8",
     "nuxt-swiper": "^1.2.2",
     "primevue": "^4.1.0",
     "radix-vue": "^1.9.7",
