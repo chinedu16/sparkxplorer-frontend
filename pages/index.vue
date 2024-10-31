@@ -260,9 +260,15 @@ const route = useRoute();
 useHead({
   htmlAttrs: {
     class: "scroll-smooth",
+    lang: "en",
   },
   title: "Home",
   link: [
+    {
+      rel: "icon",
+      type: "image/png",
+      href: "/favicon.png",
+    },
     {
       rel: "canonical",
       href: "https://www.sparkxplorer.com/" + route.path,
@@ -274,6 +280,14 @@ useHead({
       content: "Equipping Young minds with the right tools to innovate.",
     },
   ],
+});
+
+useSeoMeta({
+  ogImage: "https://www.sparkxplorer.com/illustrations/home.png",
+  twitterTitle: "SparkXplorer",
+  twitterDescription: "Equipping Young minds with the right tools to innovate.",
+  twitterImage: "https://www.sparkxplorer.com/illustrations/home.png",
+  twitterCard: "summary",
 });
 
 definePageMeta({
