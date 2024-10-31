@@ -271,8 +271,7 @@ useHead({
   meta: [
     {
       name: "description",
-      content:
-        "Equipping Young minds with the right tools to innovate.Sparkxplorer.com",
+      content: "Equipping Young minds with the right tools to innovate.",
     },
   ],
 });

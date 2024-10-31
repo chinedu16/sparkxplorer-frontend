@@ -38,6 +38,24 @@ export default defineNuxtConfig({
   site: {
     url: "https://www.sparkxplorer.com/",
     name: "SparkXplorer",
+    urls: [
+      {
+        loc: "/",
+        images: [
+          {
+            loc: "https://www.sparkxplorer.com/illustrations/home.png",
+            caption: "SparkXplorer Homepage screenshot",
+            title: "SparkXplorer",
+          },
+        ],
+      },
+    ],
+    sitemaps: {
+      pages: {
+        includeAppSources: true,
+        exclude: ["/admin/**"],
+      },
+    },
   },
 
   compatibilityDate: "2024-09-13",
