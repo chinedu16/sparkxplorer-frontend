@@ -14,7 +14,7 @@ export interface User {
   status: Status;
 }
 
-export type UsersResponse = { results: User[]; totalDocs: number };
+export type UsersResponse = { results: User[]; total: number };
 
 export interface ApiResponse<T> {
   success: boolean;

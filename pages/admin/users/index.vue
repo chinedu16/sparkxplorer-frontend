@@ -2,7 +2,7 @@
   <AdminLayout title="All Users" active="all" :subheader="subheader">
     <template #actions>
       <AdminDropdownsActivate>
-        <ui-button size="sm" class="gap-2 capitalize" :disabled="!hasSelected">
+        <ui-button size="sm" class="gap-2 capitalize">
           <Check :size="16" />
           Activate/Deactivate
         </ui-button>
@@ -14,7 +14,6 @@
       <AdminDialogsFilter />
       <AdminSearchUsers />
     </template>
-    {{ selectedUsers }}
     <div
       class="relative w-full my-4 overflow-x-auto rounded-3xl shadow-[0px_4px_4px_0px_#00000040]"
     >
@@ -36,6 +35,7 @@
       <ui-data-table
         v-else
         v-model:selected-rows="selectedUsers"
+        v-model:pagination="pagination"
         :data="users"
         :columns="columns"
         :options="{
@@ -46,6 +46,7 @@
             },
           },
           state: {
+            pagination,
             get rowSelection() {
               return selectedUsers;
             },
@@ -56,6 +57,7 @@
           accessor: 'user_id',
           query: 'tab=profile',
         }"
+        :pages="users.length > 0"
       />
     </div>
   </AdminLayout>
@@ -64,13 +66,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import {
-  getCoreRowModel,
-  useVueTable,
+  type PaginationState,
   type RowSelectionState,
 } from "@tanstack/vue-table";
 import { Download, LoaderCircle, RefreshCw } from "lucide-vue-next";
 import { columns } from "~/components/admin/table/users/columns";
-import { toURLSearchParamsString, valueUpdater } from "~/lib/utils";
+import { toURLSearchParamsString } from "~/lib/utils";
 import type { ApiResponse, User, UsersResponse } from "~/types";
 
 definePageMeta({
@@ -81,15 +82,26 @@ const subheader = {
   title: "All Users",
   description: "You can manage all users here.",
 };
+const INITIAL_PAGE_INDEX = 0;
+const INITIAL_PAGE_SIZE = 10;
 
 const route = useRoute();
 
 const query = toURLSearchParamsString(route.query);
 
 const searchParams = ref(query);
-const page = ref(route.query.page || "1");
-const per_page = ref(route.query.per_page || "10");
+const page = ref(
+  route.query.page ? Number(route.query.page) - 1 : INITIAL_PAGE_INDEX
+);
+const per_page = ref(
+  route.query.per_page ? Number(route.query.per_page) : INITIAL_PAGE_SIZE
+);
 const selectedUsers = ref<RowSelectionState>({});
+
+const pagination = ref<PaginationState>({
+  pageIndex: Number(page.value),
+  pageSize: Number(per_page.value),
+});
 
 const url = computed(() => `/users?${searchParams.value}`);
 
@@ -100,52 +112,21 @@ const users = computed(() => {
   const response = data.value?.data;
   if (!response) return [];
 
-  return response.results?.map((user, index) => {
-    const currentPage = Number(page.value);
-    const perPage = Number(per_page.value);
-
-    return {
-      sn:
-        currentPage && perPage ? (currentPage - 1) * perPage + (index + 1) : 0,
-      ...user,
-    } as User;
-  });
+  return response.results?.map(
+    (user, index) =>
+      ({
+        sn: page.value * per_page.value + (index + 1),
+        ...user,
+      } as User)
+  );
 });
-const totalDocs = computed(() => data.value?.data?.totalDocs);
-
-// const table = useVueTable({
-//   get data() {
-//     return users;
-//   },
-//   get columns() {
-//     return columns;
-//   },
-//   getCoreRowModel: getCoreRowModel(),
-//   onRowSelectionChange: (updaterOrValue) =>
-//     valueUpdater(updaterOrValue, selectedUsers),
-//   manualPagination: true,
-//   rowCount: data.value?.data?.totalDocs,
-//   initialState: {
-//     columnVisibility: {
-//       user_id: false,
-//     },
-//   },
-//   state: {
-//     get rowSelection() {
-//       return selectedUsers.value;
-//     },
-//   },
-// });
-
-// const hasSelected = computed(() => {
-//   if (!users) return false;
-//   return selectedUsers.value.length > 0;
-// });
+const totalDocs = computed(() => data.value?.data?.total);
 
 watch(
   () => route.query,
   () => {
     searchParams.value = toURLSearchParamsString(route.query);
+    page.value = Number(route.query.page) - 1;
   }
 );
 </script>
