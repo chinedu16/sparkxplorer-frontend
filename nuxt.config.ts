@@ -2,6 +2,12 @@ import path from "path";
 
 // nuxt.config.ts
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      NUXT_PUBLIC_CLIENT_ID: process.env.NUXT_PUBLIC_CLIENT_ID,
+      NUXT_PUBLIC_CLIENT_SECRET: process.env.NUXT_PUBLIC_CLIENT_SECRET,
+    },
+  },
   devtools: { enabled: true },
 
   css: ["~/assets/css/tailwind.css", "~/assets/css/custom-theme.css"],

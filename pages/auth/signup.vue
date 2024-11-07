@@ -1,7 +1,11 @@
 <template>
-  <div class="flex justify-between h-screen">
-    <div class="w-1/2 h-screen overflow-scroll flex justify-center items-start">
-      <div class="w-4/6 flex items-center flex-col justify-center pt-10">
+  <div class="lg:flex justify-between h-screen">
+    <div
+      class="lg:w-1/2 lg:h-screen overflow-scroll flex justify-center items-start"
+    >
+      <div
+        class="w-full px-5 lg:px-0 mb-10 lg:mb-0 lg:w-4/6 flex items-center flex-col justify-center pt-10"
+      >
         <div class="mb-6 flex items-center justify-center">
           <img
             src="~/assets/images/icons/logomark-sparkexplorer.svg"
@@ -10,7 +14,9 @@
           />
         </div>
 
-        <h1 class="text-3xl font-extrabold">Let’s Create Your Account.</h1>
+        <h1 class="text-3xl text-center font-extrabold">
+          Let’s Create Your Account.
+        </h1>
         <p class="mt-2 text-gray-one">
           Sign up for free and get started quickly.
         </p>
@@ -58,15 +64,22 @@
           />
 
           <el-checkbox v-model="formData.checked" size="large">
-            <div class="font-semibold text-sm">
-              By signing up, I confirm I agree to the
-              <nuxt-link to="/terms-and-conditions"
-                ><span class="text-primary">Terms and Conditions</span>
-              </nuxt-link>
-              and
-              <nuxt-link to="/terms-and-conditions"
-                ><span class="text-primary">Privacy Policy</span></nuxt-link
+            <div class="font-semibold lg:flex hidden text-sm">
+              <div>By signing up, I confirm I agree to the</div>
+              <span>
+                <nuxt-link to="/terms-and-conditions"
+                  ><span class="text-primary">Terms and Conditions</span>
+                </nuxt-link></span
               >
+              <div>and</div>
+              <span
+                ><nuxt-link to="/terms-and-conditions"
+                  ><span class="text-primary">Privacy Policy</span></nuxt-link
+                ></span
+              >
+            </div>
+            <div class="font-semibold flex lg:hidden text-sm">
+              <div>I agree to the Terms and Conditions</div>
             </div>
           </el-checkbox>
 
@@ -104,7 +117,7 @@
         </el-form>
       </div>
     </div>
-    <div class="w-1/2 h-screen bg-purple-one relative">
+    <div class="lg:w-1/2 h-screen bg-purple-one relative">
       <CommonAuthCarousel></CommonAuthCarousel>
     </div>
   </div>
@@ -198,21 +211,19 @@ const onSubmit = handleSubmit(async (values) => {
     preferred_contact_method: "",
     find_out_channel: "",
   };
-
   try {
     loading.value = true;
     const { data, error } = await authStore.registerUser(payload);
 
     if (error) {
-      handleError(error);
+      handleError(error.message);
       return;
     }
-
     if (data.success) {
       navigateTo("/auth/login");
       handleSuccess(data.message);
     } else {
-      handleError(new Error("Login failed, please try again."));
+      handleError(new Error("Registration failed, please try again."));
     }
   } catch (error) {
     handleError(error);

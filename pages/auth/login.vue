@@ -1,7 +1,11 @@
 <template>
-  <div class="flex justify-between h-screen">
-    <div class="w-1/2 h-screen overflow-scroll flex justify-center items-start">
-      <div class="w-4/6 flex items-center flex-col justify-center pt-10">
+  <div class="lg:flex justify-between h-screen">
+    <div
+      class="lg:w-1/2 lg:h-screen overflow-scroll flex justify-center items-start"
+    >
+      <div
+        class="w-full px-5 lg:px-0 mb-10 lg:mb-0 lg:w-4/6 flex items-center flex-col justify-center pt-10"
+      >
         <div class="mb-6 flex items-center justify-center">
           <img
             src="~/assets/images/icons/logomark-sparkexplorer.svg"
@@ -10,7 +14,7 @@
           />
         </div>
 
-        <h1 class="text-3xl font-extrabold">Welcome Back.</h1>
+        <h1 class="text-3xl font-extrabold text-center">Welcome Back.</h1>
         <p class="mt-2 text-gray-one">
           Let’s sign in to your account and get started.
         </p>
@@ -79,7 +83,7 @@
         </el-form>
       </div>
     </div>
-    <div class="w-1/2 h-screen bg-purple-one relative">
+    <div class="lg:w-1/2 h-screen bg-purple-one relative">
       <CommonAuthCarousel></CommonAuthCarousel>
     </div>
   </div>
@@ -212,11 +216,14 @@ const loginWithGoogle = async () => {
 };
 
 const onSubmit = handleSubmit(async (values) => {
+  const config = useRuntimeConfig();
+  const clientSecret = config.public.NUXT_PUBLIC_CLIENT_SECRET;
+  const clientId = config.public.NUXT_PUBLIC_CLIENT_ID;
   const payload = {
     username: values.email,
     password: values.password,
-    client_id: "f7eb419e-5b4b-4765-9519-d5bfa9ddd04e",
-    client_secret: "2747cb665ae74155900e13c9072d1d28",
+    client_id: clientId,
+    client_secret: clientSecret,
     grant_type: "password",
   };
 
@@ -225,7 +232,7 @@ const onSubmit = handleSubmit(async (values) => {
     const { data, error } = await authStore.login(payload);
 
     if (error) {
-      handleError(error);
+      handleError(error.message);
       return;
     }
 

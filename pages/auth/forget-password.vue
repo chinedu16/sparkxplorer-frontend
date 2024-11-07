@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen">
+  <div class="px-5 flex flex-col min-h-screen">
     <div class="flex-grow flex justify-center items-center">
       <div class="flex flex-col items-center">
         <div class="mb-6 flex items-center justify-center">
@@ -92,14 +92,14 @@ definePageMeta({
 });
 
 const loading = ref(false);
-const openOptModal = ref(false);
+const openOptModal = ref(true);
 
 const formData = ref({
   email: "",
   otp: "",
 });
 
-const tempEmail = ref("")
+const tempEmail = ref("");
 
 const validationSchema = yup.object({
   email: yup
@@ -109,9 +109,9 @@ const validationSchema = yup.object({
 });
 
 const handleOtpSubmit = (otp: string) => {
-  formData.value.otp = otp
-  openOptModal.value = false
-  navigateTo(`/auth/reset-password?code=${otp}&email=${tempEmail.value}`)
+  formData.value.otp = otp;
+  openOptModal.value = false;
+  navigateTo(`/auth/reset-password?code=${otp}&email=${tempEmail.value}`);
 };
 
 const { handleSubmit } = useForm({
@@ -126,9 +126,8 @@ const onSubmit = handleSubmit(async (values) => {
       email: values.email,
     });
     if (data?.success) {
-      tempEmail.value = values.email
+      tempEmail.value = values.email;
       openOptModal.value = true;
-
     } else if (error) {
       handleError(error);
     }

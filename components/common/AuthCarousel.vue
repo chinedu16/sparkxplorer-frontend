@@ -1,7 +1,11 @@
 <template>
   <div class="relative h-full">
     <!-- Main Image -->
-    <img class="w-full object-cover h-full" :src="currentImage" alt="Main Image" />
+    <img
+      class="w-full object-cover h-full"
+      :src="currentImage"
+      alt="Main Image"
+    />
 
     <!-- Testimonial Overlay -->
     <div
@@ -12,7 +16,7 @@
         src="../../assets/images/icons/rating.svg"
         alt=""
       />
-      <h3 class="text-3xl text-white font-semibold mb-8">
+      <h3 class="text-xl lg:text-3xl text-white font-semibold mb-8">
         “{{ currentTestimonial.text }}”
       </h3>
       <div class="flex justify-between items-center">

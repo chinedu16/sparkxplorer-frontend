@@ -4,12 +4,12 @@ import { ElNotification } from "element-plus";
 export function useErrorHandler() {
   const handleError = (error: any) => {
     const message =
-      error.response?.data?.message || "An unexpected error occurred";
+      error.response?.data?.message || error || "An unexpected error occurred";
     const statusCode = error.response?.status || "Error";
 
     ElNotification({
       title: statusCode.toString(),
-      message,
+      message: message,
       type: "error",
     });
 
@@ -22,8 +22,6 @@ export function useErrorHandler() {
       message,
       type: "success",
     });
-
-    console.log("Success:", message);
   };
 
   return {

@@ -1,6 +1,12 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
 
 type RequestMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+
+interface ApiError {
+  message: string;
+  status?: number;
+  statusText?: string;
+}
 
 const axiosInstance = axios.create({
   baseURL: "https://api.sparkbridges.com/xplorer/api/v1/", // Replace this with your API base URL
@@ -28,7 +34,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      console.log(status)
+      console.log(status);
       if (status === 400) {
         ElNotification({
           title: "Bad Request",
@@ -94,12 +100,24 @@ export const useApiPost = async (
   url: string,
   payload: Record<string, any>,
   options?: AxiosRequestConfig
-) => {
+): Promise<{ data: any | null; error: ApiError | null }> => {
   try {
     const response = await useCommonAPI(url, "POST", payload, options);
     return { data: response, error: null };
   } catch (error) {
-    return { data: null, error };
+    const axiosError = error as AxiosError<ApiError>;
+    const errorMessage = axiosError.response
+      ? axiosError.response.data?.message || axiosError.message
+      : axiosError.message;
+
+    return {
+      data: null,
+      error: {
+        message: errorMessage,
+        status: axiosError.response?.status,
+        statusText: axiosError.response?.statusText,
+      },
+    };
   }
 };
 

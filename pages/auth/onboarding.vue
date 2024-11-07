@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="lg:flex min-h-screen">
     <!-- Left Section: Stagnant -->
-    <div class="w-1/2 h-screen fixed">
+    <div class="hidden lg:flex lg:w-1/2 h-screen fixed">
       <img
         src="~/assets/images/illustrations/onboarding-frame.png"
         class="w-full h-screen"
@@ -10,10 +10,10 @@
     </div>
 
     <!-- Right Section: Scrollable -->
-    <div class="w-1/2 ml-auto justify-between flex flex-col overflow-y-auto">
+    <div class="lg:w-1/2 ml-auto justify-between flex flex-col overflow-y-auto">
       <div class="flex-grow py-12 flex justify-center items-center">
         <!-- form one  -->
-        <div class="flex w-4/6 flex-col">
+        <div class="flex w-full px-5 lg:px-0 lg:w-4/6 flex-col">
           <div class="mb-6">
             <img
               src="~/assets/images/icons/spark-explorer-logo.svg"
@@ -93,6 +93,9 @@
                 >
                   Continue
                 </span>
+                <el-icon v-if="loading" class="is-loading">
+                  <Loading />
+                </el-icon>
               </div>
             </div>
           </el-form>
@@ -109,10 +112,12 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 const { handleError } = useErrorHandler();
 import { useScholarStore } from "@/store/scholar";
+import { Loading } from "@element-plus/icons-vue";
 
 const scholarStore = useScholarStore();
 
 const base64File = ref("");
+const loading = ref(false);
 
 const handleUploadedUrl = (url: string) => {
   formData.value.picture_url = url;
@@ -167,7 +172,7 @@ const validationSchema = yup.object({
     .email("Enter a valid email address"),
   grade: yup.string().required("Grade is required"),
   date_of_birth: yup.string().required("Date of birth is required"),
-  uploaded_files: yup.array().min(1, "At least one file is required").required('scholar image is required'),
+  // uploaded_files: yup.array().min(1, "At least one file is required").required('scholar image is required'),
 });
 
 const { handleSubmit, resetForm } = useForm({
@@ -179,13 +184,17 @@ const nextForm = async () => {
   if (formIndex.value === 1) {
     const isValid = await handleSubmit(async (formData) => {
       try {
+        loading.value = true;
         const payload = {
           first_name: formData.firstname,
           last_name: formData.lastname,
           email: formData.email,
           date_of_birth: formData.date_of_birth,
           grade_id: formData.grade,
-          picture_url: base64File.value || formData.picture_url,
+          picture_url:
+            base64File.value ||
+            formData.picture_url ||
+            "https://res.cloudinary.com/dk4pd3ju4/image/upload/v1730563728/images_ikbrdd.png",
         };
 
         const response = await scholarStore.createScholar(payload);
@@ -194,7 +203,7 @@ const nextForm = async () => {
           const { data, error } = response;
 
           if (error) {
-            handleError(error);
+            handleError(error.message);
             return false;
           }
 
@@ -205,10 +214,11 @@ const nextForm = async () => {
             base64File.value = "";
           }
         }
-       
       } catch (error) {
         handleError(error);
         return false;
+      } finally {
+        loading.value = false;
       }
     })().catch(() => false);
 

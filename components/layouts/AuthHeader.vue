@@ -6,45 +6,48 @@
           <h1 class="text-3xl text-gray-two font-extrabold">
             {{ userStore.getUserInfo?.name }}
           </h1>
-          <nav class="flex items-center space-x-5 font-semibold">
-            <div class="bg-gray-three rounded-full p-2">
-              <Bell class="text-black w-6 h-6" />
-            </div>
-            <el-dropdown trigger="click">
-              <span class="space-x-2 flex items-center el-dropdown-link">
-                <div
-                  class="bg-purple-one text-primary uppercase rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
-                >
-                  {{ userStore.getUserInfo?.name[0]
-                  }}{{ userStore.getUserInfo?.name[1] }}
-                </div>
-                <span>{{ userStore.getUserInfo?.name }}</span>
-                <el-icon class="el-icon--right"><arrow-down /></el-icon>
-              </span>
+          <div class="flex items-center space-x-3">
+            <nav class="flex items-center space-x-5 font-semibold">
+              <div class="bg-gray-three rounded-full p-2">
+                <Bell class="text-black w-6 h-6" />
+              </div>
+              <el-dropdown trigger="click">
+                <span class="space-x-2 flex items-center el-dropdown-link">
+                  <div
+                    class="bg-purple-one text-primary uppercase rounded-full flex items-center justify-center font-bold text-base h-10 w-10"
+                  >
+                    {{ userStore.getUserInfo?.name[0]
+                    }}{{ userStore.getUserInfo?.name[1] }}
+                  </div>
+                  <span>{{ userStore.getUserInfo?.name }}</span>
+                  <el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </span>
 
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item class="space-x-3" @click="goToProfile">
-                    <img
-                      src="@/assets/images/icons/user.svg"
-                      alt="Profile"
-                      class="icon"
-                    />
-                    <span>Profile</span>
-                  </el-dropdown-item>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item class="space-x-3" @click="goToProfile">
+                      <img
+                        src="@/assets/images/icons/user.svg"
+                        alt="Profile"
+                        class="icon"
+                      />
+                      <span class="font-semibold">Profile</span>
+                    </el-dropdown-item>
 
-                  <el-dropdown-item class="space-x-3" @click="logoutApp">
-                    <img
-                      src="@/assets/images/icons/user.svg"
-                      alt="Logout"
-                      class="icon"
-                    />
-                    <span>Logout</span>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </nav>
+                    <el-dropdown-item class="space-x-3" @click="logoutApp">
+                      <img
+                        src="@/assets/images/icons/user.svg"
+                        alt="Logout"
+                        class="icon"
+                      />
+                      <span class="font-semibold">Logout</span>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </nav>
+            <div v-if="loading" class="spinner"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,14 +56,32 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/store/user";
+import { useAuthStore } from "@/store/auth";
 import { Bell, ArrowDown, User, Setting, Plus } from "@element-plus/icons-vue";
 
 const userStore = useUserStore();
+const authStore = useAuthStore();
+const { handleError } = useErrorHandler();
+const loading = ref(false);
 
-const logoutApp = () => {
-  localStorage.removeItem("TOKEN");
-  localStorage.removeItem("USER");
-  navigateTo("/");
+const logoutApp = async () => {
+  loading.value = true;
+  try {
+    const { data, error } = await authStore.logout();
+    if (error) {
+      handleError(error);
+      return;
+    }
+    if (data?.success) {
+      localStorage.removeItem("TOKEN");
+      localStorage.removeItem("USER");
+      window.location.replace(data?.data.redirect_url);
+    }
+  } catch (error) {
+    handleError(error);
+  } finally {
+    loading.value = false;
+  }
 };
 
 const goToProfile = () => {
