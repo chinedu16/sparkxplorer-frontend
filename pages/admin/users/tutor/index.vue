@@ -8,113 +8,124 @@
         Export
       </ui-button>
       <AdminDialogsFilter />
-      <!-- TODO: Search -->
+      <!-- Search -->
+      <AdminSearchUsers />
     </template>
 
-    <div class="relative w-full my-4 overflow-x-auto rounded-3xl shadow-[0px_4px_4px_0px_#00000040]">
-      <ui-data-table :table="table" :row-count="columns.length"
-        :row-href="{ page: 'user-types', accessor: 'user_id', query: 'tab=profile' }" />
+    <div
+      class="relative w-full my-4 overflow-x-auto rounded-3xl shadow-[0px_4px_4px_0px_#00000040]"
+    >
+      <div v-if="status === 'pending'" class="min-h-96 grid place-items-center">
+        <LoaderCircle class="w-8 h-8 text-primary animate-spin" />
+      </div>
+      <div
+        v-else-if="status === 'error'"
+        class="min-h-96 grid place-items-center"
+      >
+        <div class="flex flex-col items-center gap-4">
+          <p class="font-medium max-w-md">Error: {{ error }}</p>
+          <ui-button class="gap-3" @click="execute()">
+            Retry
+            <RefreshCw :size="16" />
+          </ui-button>
+        </div>
+      </div>
+      <ui-data-table
+        v-else
+        v-model:selected-rows="selectedUsers"
+        v-model:pagination="pagination"
+        :data="users"
+        :columns="columns"
+        :options="{
+          rowCount: totalDocs,
+          initialState: {
+            columnVisibility: {
+              user_id: false,
+            },
+          },
+          state: {
+            pagination,
+            get rowSelection() {
+              return selectedUsers;
+            },
+          },
+        }"
+        :row-href="{
+          page: 'user-types',
+          accessor: 'user_id',
+          query: 'tab=profile',
+        }"
+        :pages="users.length > 0"
+      />
     </div>
   </AdminLayout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 import {
-  getCoreRowModel,
-  useVueTable,
-} from '@tanstack/vue-table'
-import { Download, Search } from 'lucide-vue-next'
-import { useUsersStore } from "@/store/users";
-import { columns } from '~/components/admin/table/users/columns';
-import { valueUpdater } from '~/lib/utils';
+  type PaginationState,
+  type RowSelectionState,
+} from "@tanstack/vue-table";
+import { Download, LoaderCircle, RefreshCw } from "lucide-vue-next";
+import { columns } from "~/components/admin/table/users/columns";
+import { toURLSearchParamsString } from "~/lib/utils";
+import type { ApiResponse, User, UsersResponse } from "~/types";
 
 definePageMeta({
-  layout: 'admin'
-})
-
-const subheader = {
-  title: 'Tutors',
-  description: 'You can manage all tutors here.'
-}
-
-const { handleError } = useErrorHandler();
-const route = useRoute();
-const router = useRouter();
-const usersStore = useUsersStore();
-
-const data = computed(() => usersStore.getUsers);
-
-const userType = route.params.type
-const page = ref(route.query.page || '1')
-const per_page = ref(route.query.per_page || '10')
-const search = ref(route.query.search_query || '')
-
-const loading = ref(false);
-const users = ref(data)
-const selectedUsers = ref({});
-
-const formatData = (users: typeof data) => users.value.map((user, index) => {
-  const currentPage = Number(page.value)
-  const perPage = Number(per_page.value)
-
-  return {
-    sn: currentPage && perPage ? (currentPage - 1) * perPage + (index + 1) : 0,
-    ...user
-  }
-})
-
-const table = useVueTable({
-  get data() { return formatData(users) },
-  get columns() { return columns },
-  getCoreRowModel: getCoreRowModel(),
-  onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, selectedUsers),
-  initialState: {
-    columnVisibility: {
-      user_id: false,
-    },
-  },
-  state: {
-    get rowSelection() { return selectedUsers.value },
-  }
-})
-
-onMounted(() => {
-  fetchUsersData();
+  layout: "admin",
 });
 
-const fetchUsersData = async () => {
-  try {
-    loading.value = true;
-    await usersStore.fetchUsers(`type=tutor&page=1&per_page=10`);
-  } catch (error) {
-  } finally {
-    loading.value = false;
+const subheader = {
+  title: "Tutors",
+  description: "You can manage all tutors here.",
+};
+
+const INITIAL_PAGE_INDEX = 0;
+const INITIAL_PAGE_SIZE = 10;
+
+const route = useRoute();
+
+const query = toURLSearchParamsString(route.query);
+
+const searchParams = ref(query);
+const page = ref(
+  route.query.page ? Number(route.query.page) - 1 : INITIAL_PAGE_INDEX
+);
+const per_page = ref(
+  route.query.per_page ? Number(route.query.per_page) : INITIAL_PAGE_SIZE
+);
+const selectedUsers = ref<RowSelectionState>({});
+
+const pagination = ref<PaginationState>({
+  pageIndex: Number(page.value),
+  pageSize: Number(per_page.value),
+});
+
+const url = computed(() => `/users?type=tutor&${searchParams.value}`);
+
+const { data, error, status, execute } =
+  useApiFetch<ApiResponse<UsersResponse>>(url);
+
+const users = computed(() => {
+  const response = data.value?.data;
+  if (!response) return [];
+
+  return response.results?.map(
+    (user, index) =>
+      ({
+        sn: page.value * per_page.value + (index + 1),
+        ...user,
+      } as User)
+  );
+});
+const totalDocs = computed(() => data.value?.data?.total);
+
+watch(
+  () => route.query,
+  () => {
+    searchParams.value = toURLSearchParamsString(route.query);
+    page.value = Number(route.query.page) - 1;
   }
-};
-
-const getFilters = () => {
-  const filter: Record<string, any> = {};
-  const end_date = route.query.endDate as string | undefined
-  const start_date = route.query.startDate as string | undefined
-  const status = route.query.orderStatus as string | undefined
-  const currentPage = page
-  const perPage = per_page
-  const searchQuery = search
-
-  if (start_date) filter.startDate = start_date;
-  if (end_date) filter.endDate = end_date;
-  if (status) filter.orderStatus = status;
-  if (perPage) filter.per_page = perPage;
-  if (searchQuery) filter.search_query = searchQuery;
-  filter.page = currentPage;
-
-  return filter;
-};
-
-const applyFilters = () => {
-  const params = getFilters()
-  const search = new URLSearchParams(params).toString();
-  router.replace(`/${route.path}?${search}`)
-}
+);
 </script>

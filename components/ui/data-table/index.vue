@@ -1,10 +1,15 @@
 <script setup lang="ts" generic="TData, TValue">
 import { FlexRender, getCoreRowModel, useVueTable } from "@tanstack/vue-table";
-import type { ColumnDef, Row, TableOptions } from "@tanstack/vue-table";
+import type {
+  ColumnDef,
+  Row,
+  RowSelectionState,
+  TableOptions,
+} from "@tanstack/vue-table";
 import { valueUpdater } from "~/lib/utils";
 import type { Role } from "~/types";
 
-const selectedRows = defineModel("selectedRows");
+const selectedRows = defineModel<RowSelectionState>("selectedRows");
 const pagination = defineModel("pagination");
 
 const props = defineProps<{
@@ -17,8 +22,7 @@ const props = defineProps<{
     page?: "user-types";
     query?: string;
   };
-  // selectedRows: unknown
-  // table: Table<User>
+  pages?: boolean;
 }>();
 
 const table = useVueTable({
@@ -31,11 +35,26 @@ const table = useVueTable({
   getCoreRowModel: getCoreRowModel(),
   onRowSelectionChange: (updaterOrValue) =>
     valueUpdater(updaterOrValue, selectedRows),
+  onPaginationChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, pagination),
   manualPagination: true,
   ...props.options,
 });
 
 const router = useRouter();
+
+const paginationDetails = {
+  hasPrevPage: table.getCanPreviousPage,
+  hasNextPage: table.getCanNextPage,
+  prevPage: table.previousPage,
+  nextPage: table.nextPage,
+  currentPage: table.getState().pagination.pageIndex + 1,
+  perPage: table.getState().pagination.pageSize,
+  firstPage: table.firstPage,
+  lastPage: table.lastPage,
+  totalPages: table.getPageCount,
+  setPage: table.setPageIndex,
+};
 
 const navigateTopage = (row: Row<TData>) => {
   if (props.rowHref) {
@@ -93,11 +112,12 @@ const navigateTopage = (row: Row<TData>) => {
       </template>
       <template v-else>
         <ui-table-row>
-          <ui-table-cell :colspan="table.getRowCount" class="h-24 text-center">
+          <ui-table-cell :colspan="columns.length" class="h-24 text-center">
             No results.
           </ui-table-cell>
         </ui-table-row>
       </template>
     </ui-table-body>
   </ui-table>
+  <ui-data-table-pagination v-if="pages" v-bind="paginationDetails" />
 </template>
